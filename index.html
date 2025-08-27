@@ -10,6 +10,7 @@
     margin: 0;
     background-color: #121212;
     color: #f5f5f5;
+    position: relative;
   }
   header {
     background: #1e1e1e;
@@ -28,8 +29,8 @@
     background: #1a1a1a;
     padding: 10px;
     gap: 10px;
-    scrollbar-width: none;
     overflow-x: auto;
+    scrollbar-width: none;
   }
   nav::-webkit-scrollbar {display: none;}
   nav button {
@@ -90,40 +91,81 @@
   }
   .item input[type=number] {
     width: 50px;
-    margin-top: 8px;
+    text-align: center;
     border-radius: 5px;
     border: none;
-    text-align: center;
   }
-  #cart {
+  .item .qty-controls {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+    margin-top:8px;
+  }
+  .item .qty-controls button {
+    background: #ff9800;
+    border: none;
+    color: #121212;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* سبد سفارش پایین صفحه */
+  #cartMini {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff9800;
+    color: #121212;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1000;
+  }
+
+  #cartPanel {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
     background: #1e1e1e;
-    padding: 15px;
-    margin: 20px;
+    color: #f5f5f5;
     border-radius: 12px;
+    padding: 15px;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    z-index: 1000;
   }
-  #cart h2 {
-    margin-top: 0;
+  #cartPanel h2 {
     color: #ff9800;
+    margin-top: 0;
   }
-  #cart table {
+  #cartPanel table {
     width: 100%;
     border-collapse: collapse;
   }
-  #cart th, #cart td {
-    padding: 8px;
+  #cartPanel th, #cartPanel td {
+    padding: 6px;
     text-align: center;
     border-bottom: 1px solid #333;
   }
-  #cart input[type=number] {
+  #cartPanel input[type=number] {
     width: 50px;
     text-align: center;
   }
-  #total {
-    text-align: center;
-    font-size: 20px;
+  #cartPanel button {
+    background: #ff9800;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 6px;
+    cursor: pointer;
+    color: #121212;
     font-weight: bold;
-    padding: 10px;
-    color: #ff9800;
   }
 </style>
 </head>
@@ -139,7 +181,8 @@
 </nav>
 <div class="menu" id="menu"></div>
 
-<div id="cart">
+<div id="cartMini" onclick="toggleCartPanel()">جمع سفارش: 0 تومان</div>
+<div id="cartPanel">
   <h2>سبد سفارش</h2>
   <table id="cartTable">
     <thead>
@@ -153,7 +196,6 @@
     </thead>
     <tbody></tbody>
   </table>
-  <div id="total">جمع کل: 0 تومان</div>
 </div>
 
 <script>
@@ -188,7 +230,11 @@ function showCategory(category) {
         <h3>${item.name}</h3>
         <p>${item.ingredients}</p>
         <span class="price">${item.price.toLocaleString()} تومان</span>
-        <input type="number" min="0" value="${cart[item.name] ? cart[item.name].qty : 0}" onchange="addToCart('${item.name}', ${item.price}, this.value)">
+        <div class="qty-controls">
+          <button onclick="changeQty('${item.name}', ${item.price}, -1)">-</button>
+          <input type="number" min="0" value="${cart[item.name] ? cart[item.name].qty : 0}" onchange="addToCart('${item.name}', ${item.price}, this.value)">
+          <button onclick="changeQty('${item.name}', ${item.price}, 1)">+</button>
+        </div>
       </div>`;
   });
 }
@@ -200,36 +246,47 @@ function addToCart(name, price, qty) {
   } else {
     delete cart[name];
   }
-  updateCartTable();
+  updateCart();
 }
 
-function updateCartTable() {
-  const tbody = document.querySelector("#cart tbody");
-  tbody.innerHTML = "";
-  let total = 0;
-  for(let item in cart) {
-    const sum = cart[item].price * cart[item].qty;
-    total += sum;
-    tbody.innerHTML += `
-      <tr>
-        <td>${item}</td>
-        <td><input type="number" min="0" value="${cart[item].qty}" onchange="addToCart('${item}', ${cart[item].price}, this.value)"></td>
-        <td>${cart[item].price.toLocaleString()} تومان</td>
-        <td>${sum.toLocaleString()} تومان</td>
-        <td><button onclick="removeItem('${item}')">❌</button></td>
-      </tr>`;
+function changeQty(name, price, delta) {
+  const input = Array.from(document.querySelectorAll(".menu .item")).find(itemDiv => 
+    itemDiv.querySelector("h3").textContent === name
+  ).querySelector("input");
+  let qty = parseInt(input.value) + delta;
+  if(qty < 0) qty = 0;
+  input.value = qty;
+  addToCart(name, price, qty);
+}
+
+function updateCart() {
+  // بروزرسانی جدول
+  const tbody = document.querySelector("#cart tbody") || document.querySelector("#cartPanel tbody");
+  if(tbody){
+    tbody.innerHTML = "";
+    let total = 0;
+    for(let item in cart) {
+      const sum = cart[item].price * cart[item].qty;
+      total += sum;
+      tbody.innerHTML += `
+        <tr>
+          <td>${item}</td>
+          <td>${cart[item].qty}</td>
+          <td>${cart[item].price.toLocaleString()} تومان</td>
+          <td>${sum.toLocaleString()} تومان</td>
+        </tr>`;
+    }
+    document.getElementById("cartMini").textContent = "جمع سفارش: " + total.toLocaleString() + " تومان";
+  } else {
+    let total = 0;
+    for(let item in cart) total += cart[item].price * cart[item].qty;
+    document.getElementById("cartMini").textContent = "جمع سفارش: " + total.toLocaleString() + " تومان";
   }
-  document.getElementById("total").textContent = "جمع کل: " + total.toLocaleString() + " تومان";
 }
 
-function removeItem(name) {
-  delete cart[name];
-  updateCartTable();
-  // بروز کردن تعداد در منو اگر دسته فعلی نمایش داده شده
-  document.querySelectorAll(".menu .item").forEach(itemDiv => {
-    const title = itemDiv.querySelector("h3").textContent;
-    if(title === name) itemDiv.querySelector("input").value = 0;
-  });
+function toggleCartPanel() {
+  const panel = document.getElementById("cartPanel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
 }
 
 showCategory("coffee");
