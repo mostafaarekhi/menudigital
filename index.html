@@ -11,23 +11,22 @@
     }
     *{box-sizing:border-box}
     body{font-family: "Vazirmatn", system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial; margin:0;background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);color:#111}
-    header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #eee;background:var(--card);position:sticky;top:0;z-index:10}
-    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#faf;#eee);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:var(--accent)}
+    header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #eee;background:var(--card);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+    .logo{width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
     .brand{display:flex;flex-direction:column}
     .brand .title{font-size:18px;font-weight:800}
     .brand .subtitle{font-size:12px;color:var(--muted)}
 
-    .container{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:18px;max-width:1200px;margin:18px auto}
-    @media (max-width:900px){.container{grid-template-columns:1fr;}.sidebar{order:2}.main{order:1}}
-
-    .sidebar{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
-    .category{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;margin-bottom:8px}
+    .categories-bar{display:flex;overflow-x:auto;gap:8px;padding:10px 0;border-bottom:1px solid #eee;margin-top:8px}
+    .category{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}
     .category:hover{background:#fbf7f6}
-    .category.active{background:linear-gradient(90deg,rgba(184,92,60,0.12),rgba(184,92,60,0.06));border-left:3px solid var(--accent)}
-    .cat-icon{width:44px;height:44px;border-radius:8px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .category.active{background:linear-gradient(90deg,rgba(184,92,60,0.12),rgba(184,92,60,0.06));border-bottom:2px solid var(--accent)}
+    .cat-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px}
+
+    .container{padding:18px;max-width:1200px;margin:18px auto}
 
     .main{display:flex;flex-direction:column;gap:12px}
-    .filters{display:flex;justify-content:space-between;align-items:center}
+    .filters{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
     .search{flex:1;margin-left:12px}
     input[type=search]{width:100%;padding:10px;border-radius:10px;border:1px solid #eee}
 
@@ -48,13 +47,11 @@
     .qty button{padding:6px 8px;background:#fff;border:0;cursor:pointer}
     .qty span{padding:6px 10px;min-width:28px;text-align:center}
 
-    /* cart summary */
-    .cart{position:sticky;bottom:18px;background:linear-gradient(180deg,#fff, #fff);border-radius:12px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .cart{position:sticky;bottom:18px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}
     .cart .list{max-height:140px;overflow:auto}
     .cart .total{font-weight:900;font-size:18px}
 
     footer.note{max-width:1200px;margin:8px auto;text-align:center;color:var(--muted);font-size:13px}
-
   </style>
 </head>
 <body>
@@ -64,29 +61,17 @@
       <div class="title">کافهٔ سنتی "کافه‌ک"</div>
       <div class="subtitle">منوی آنلاین — پیش‌نمایش</div>
     </div>
+    <div class="categories-bar" id="categories"></div>
   </header>
 
   <div class="container">
-    <aside class="sidebar">
-      <div style="font-weight:900;margin-bottom:10px">دسته‌بندی‌ها</div>
-      <div id="categories"></div>
-    </aside>
-
     <main class="main">
       <div class="filters">
-        <div style="display:flex;gap:12px;align-items:center">
-          <label style="font-weight:700">نمایش:</label>
-          <select id="viewCat">
-            <option value="all">همه</option>
-          </select>
-        </div>
         <div class="search">
           <input id="search" type="search" placeholder="جستجوی آیتم یا مواد..." />
         </div>
       </div>
-
       <section class="items" id="items"></section>
-
       <div class="cart" id="cart">
         <div style="display:flex;gap:12px;align-items:flex-start">
           <div style="font-weight:800">سبد خرید</div>
@@ -97,14 +82,12 @@
           <button id="clearCart" style="margin-top:8px;padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer">پاک کردن</button>
         </div>
       </div>
-
     </main>
   </div>
 
   <footer class="note">برای ویرایش آیتم‌ها، بخش <strong>itemsData</strong> در انتهای فایل را تغییر دهید.</footer>
 
   <script>
-    // داده‌های اولیه: 10 دسته با چند آیتم نمونه. برای اضافه/حذف آیتم‌ها این بخش را ویرایش کنید.
     const itemsData = [
       {catId:1, catName:'قهوه‌ها', icon:'☕', items:[
         {id:'c1',name:'اسپرسو',desc:'عصارهٔ قهوهٔ فشرده',price:40000},
@@ -123,28 +106,23 @@
 
     const categoriesEl = document.getElementById('categories');
     const itemsEl = document.getElementById('items');
-    const viewCat = document.getElementById('viewCat');
     const search = document.getElementById('search');
     const cartList = document.getElementById('cartList');
     const totalEl = document.getElementById('total');
     const clearCartBtn = document.getElementById('clearCart');
 
-    // state
-    let activeCat = 'all';
-    let cart = {}; // {id:{item,qty}}
+    let activeCat = itemsData[0].catId; // پیش‌فرض اولین دسته
+    let cart = {};
 
     function renderCategories(){
       categoriesEl.innerHTML='';
-      viewCat.innerHTML='<option value="all">همه</option>';
       itemsData.forEach(cat=>{
         const div=document.createElement('div');
         div.className='category';
         div.dataset.cat=cat.catId;
-        div.innerHTML=`<div class="cat-icon">${cat.icon}</div><div style="font-weight:800">${cat.catName}</div>`;
+        div.innerHTML=`<div class="cat-icon">${cat.icon}</div><div>${cat.catName}</div>`;
         div.addEventListener('click',()=>{setActive(cat.catId)});
         categoriesEl.appendChild(div);
-
-        const opt = document.createElement('option'); opt.value = cat.catId; opt.textContent = cat.catName; viewCat.appendChild(opt);
       });
     }
 
@@ -157,7 +135,7 @@
     function renderItems(){
       const q = search.value.trim().toLowerCase();
       itemsEl.innerHTML='';
-      const cats = activeCat==='all' ? itemsData : itemsData.filter(c=>c.catId==activeCat);
+      const cats = itemsData.filter(c=>c.catId==activeCat);
       cats.forEach(cat=>{
         cat.items.forEach(it=>{
           if(q){
@@ -185,7 +163,6 @@
               </div>
             </div>`;
 
-          // events
           card.querySelector('.add').addEventListener('click', ()=> addToCart(it));
           const inc = card.querySelector('.inc'); const dec = card.querySelector('.dec');
           inc.addEventListener('click', ()=> changeQty(it.id, 1));
@@ -194,8 +171,6 @@
           itemsEl.appendChild(card);
         })
       })
-
-      // update counts in UI
       updateUICounts();
     }
 
@@ -207,7 +182,6 @@
     }
     function changeQty(id, delta){
       if(!cart[id]){
-        // find item object and add
         const found = itemsData.flatMap(c=>c.items).find(x=>x.id===id);
         if(!found) return;
         cart[id] = {item:found, qty:0};
@@ -238,14 +212,11 @@
       });
     }
 
-    viewCat.addEventListener('change', ()=>{ setActive(viewCat.value); });
     search.addEventListener('input', ()=> renderItems());
     clearCartBtn.addEventListener('click', ()=>{ cart = {}; updateCart(); updateUICounts(); });
 
-    // init
-    function init(){ renderCategories(); renderItems(); }
+    function init(){ renderCategories(); setActive(activeCat); }
     init();
-
   </script>
 </body>
 </html>
