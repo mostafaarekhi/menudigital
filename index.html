@@ -138,35 +138,6 @@
     </button>
   </div>
 
-  <!-- Drawer -->
-  <aside class="drawer" id="drawer" aria-label="سبد سفارش">
-    <header>
-      <div class="head">
-        <strong>یادداشت سفارش برای سالن‌دار</strong>
-        <div>
-          <button class="btn" id="clearCart">حذف همه</button>
-          <button class="btn" id="closeDrawer">بستن</button>
-        </div>
-      </div>
-    </header>
-    <div class="body">
-      <div class="row" style="margin-bottom:10px">
-        <label class="pill">شماره میز/مشتری: <input id="tableNo" class="kbd" style="margin-inline-start:8px; background:transparent; border:none; outline:none; color:var(--text); width:90px" placeholder="مثلاً ۱۲"/></label>
-        <span class="pill">جمع کل: <strong id="grandTotal">0</strong> <span class="muted">تومان</span></span>
-      </div>
-      <div id="orderList"></div>
-      <div>
-        <label class="muted" for="orderNote">توضیحات کلی:</label>
-        <textarea id="orderNote" class="note" placeholder="بدون شکر، اضافه یخ، تعویض نان و ..."></textarea>
-      </div>
-    </div>
-    <div class="foot">
-      <button class="btn" id="copyText">کپی متن سفارش</button>
-      <button class="btn" id="printSlip">پرینت فیش</button>
-      <button class="btn" id="saveCart">ذخیره موقت</button>
-    </div>
-  </aside>
-
   <template id="cardTpl">
     <div class="card">
       <div class="thumb"><img alt="" loading="lazy"/></div>
