@@ -1,402 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>منوی کافه</title>
-  <!-- Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>منوی کافه — پیش‌نمایش</title>
   <style>
     :root{
-      --bg:#0f1115; --panel:#141823; --muted:#9aa3b2; --text:#f2f5f9; --brand:#7c4dff;
-      --brand-2:#00e5ff; --ok:#31d0aa; --danger:#ff6b6b; --card:#161b27; --border:#222838;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --bg:#faf8f6;--card:#fff;--accent:#b85c3c;--muted:#666;
+      --glass: rgba(255,255,255,0.6);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:"Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 600px at 80% -10%, rgba(124,77,255,.12), transparent 60%),
-                  radial-gradient(1000px 500px at 0% 120%, rgba(0,229,255,.10), transparent 60%),
-                  var(--bg);
-      color:var(--text);
-    }
-    a{color:inherit}
-    .container{max-width:1200px; margin:0 auto; padding:16px}
-    header{
-      position:sticky; top:0; z-index:40; backdrop-filter:saturate(140%) blur(8px);
-      background:linear-gradient(180deg, rgba(15,17,21,.85), rgba(15,17,21,.6));
-      border-bottom:1px solid var(--border);
-    }
-    .brand{display:flex; align-items:center; gap:12px; padding:10px 0}
-    .logo{width:44px; height:44px; display:grid; place-items:center; border-radius:14px;
-          background: linear-gradient(135deg, var(--brand), var(--brand-2));
-          color:white; font-weight:900; font-size:20px; box-shadow:var(--shadow)}
-    .title{font-weight:900; font-size:22px; letter-spacing:.2px}
-    .subtitle{font-size:12px; color:var(--muted)}
+    body{font-family: "Vazirmatn", system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial; margin:0;background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);color:#111}
+    header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #eee;background:var(--card);position:sticky;top:0;z-index:10}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#faf;#eee);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:var(--accent)}
+    .brand{display:flex;flex-direction:column}
+    .brand .title{font-size:18px;font-weight:800}
+    .brand .subtitle{font-size:12px;color:var(--muted)}
 
-    .toolbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--border);
-          border-radius:12px; background:var(--panel); cursor:pointer; transition:.2s}
-    .chip.active, .chip:hover{border-color:var(--brand); box-shadow:0 0 0 2px rgba(124,77,255,.2) inset}
-    .chip svg{width:18px; height:18px; opacity:.95}
+    .container{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:18px;max-width:1200px;margin:18px auto}
+    @media (max-width:900px){.container{grid-template-columns:1fr;}.sidebar{order:2}.main{order:1}}
 
-    .search{flex:1; min-width:220px; position:relative}
-    .search input{width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
-                  outline:none; background:var(--panel); color:var(--text)}
-    .search .icon{position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.7}
+    .sidebar{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
+    .category{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;margin-bottom:8px}
+    .category:hover{background:#fbf7f6}
+    .category.active{background:linear-gradient(90deg,rgba(184,92,60,0.12),rgba(184,92,60,0.06));border-left:3px solid var(--accent)}
+    .cat-icon{width:44px;height:44px;border-radius:8px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700}
 
-    .grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-top:16px}
-    @media (max-width:1000px){.grid{grid-template-columns:repeat(3, 1fr)}}
-    @media (max-width:760px){.grid{grid-template-columns:repeat(2, 1fr)}}
-    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+    .main{display:flex;flex-direction:column;gap:12px}
+    .filters{display:flex;justify-content:space-between;align-items:center}
+    .search{flex:1;margin-left:12px}
+    input[type=search]{width:100%;padding:10px;border-radius:10px;border:1px solid #eee}
 
-    .card{background:var(--card); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column}
-    .thumb{position:relative; aspect-ratio:4/3; overflow:hidden; background:#0b0e13}
-    .thumb img{width:100%; height:100%; object-fit:cover; display:block}
-    .badge{position:absolute; top:10px; right:10px; background:rgba(0,0,0,.55); padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid rgba(255,255,255,.15)}
-    .content{padding:12px 14px; display:flex; flex-direction:column; gap:8px}
+    .items{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width:900px){.items{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:520px){.items{grid-template-columns:1fr}}
+
+    .card{background:var(--card);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
+    .photo{width:96px;height:72px;border-radius:8px;background:#eee;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
+    .meta{flex:1}
     .name{font-weight:800}
-    .ing{font-size:13px; color:var(--muted); line-height:1.6}
-    .meta{display:flex; align-items:center; justify-content:space-between}
-    .price{font-weight:900; font-size:16px}
+    .desc{font-size:13px;color:var(--muted);margin-top:6px}
+    .price-row{display:flex;gap:10px;align-items:center;margin-top:8px}
+    .price{font-weight:800}
+    .controls{margin-right:auto;display:flex;align-items:center;gap:8px}
+    button.add{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .qty{display:inline-flex;align-items:center;border-radius:8px;overflow:hidden;border:1px solid #eee}
+    .qty button{padding:6px 8px;background:#fff;border:0;cursor:pointer}
+    .qty span{padding:6px 10px;min-width:28px;text-align:center}
 
-    .qty{display:flex; align-items:center; gap:6px}
-    .btn{background:var(--panel); border:1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:10px; cursor:pointer}
-    .btn:hover{border-color:var(--brand)}
-    .btn.icon{display:grid; place-items:center; width:34px; height:34px}
+    /* cart summary */
+    .cart{position:sticky;bottom:18px;background:linear-gradient(180deg,#fff, #fff);border-radius:12px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .cart .list{max-height:140px;overflow:auto}
+    .cart .total{font-weight:900;font-size:18px}
 
-    /* Drawer */
-    .drawer{position:fixed; inset-inline-start:auto; inset-inline-end:0; top:0; bottom:0; width:min(420px, 100%);
-            background:linear-gradient(180deg, #0e1218, #0c1116); border-left:1px solid var(--border); box-shadow:var(--shadow); display:flex; flex-direction:column; transform:translateX(100%); transition:.28s ease}
-    .drawer.open{transform:translateX(0)}
-    .drawer header{position:sticky; top:0; background:transparent; border-bottom:1px solid var(--border)}
-    .drawer .head{display:flex; align-items:center; justify-content:space-between; padding:14px 16px}
-    .drawer .body{padding:14px 16px; overflow:auto; flex:1}
-    .drawer .foot{padding:12px 16px; border-top:1px solid var(--border); display:grid; gap:8px}
-    .row{display:flex; align-items:center; justify-content:space-between; gap:8px}
-    .note{width:100%; min-height:70px; padding:10px; border:1px solid var(--border); border-radius:12px; background:var(--panel); color:var(--text)}
+    footer.note{max-width:1200px;margin:8px auto;text-align:center;color:var(--muted);font-size:13px}
 
-    .order-item{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; border:1px solid var(--border); padding:10px; border-radius:12px; margin-bottom:10px; background:var(--panel)}
-    .order-item .thumb{width:64px; aspect-ratio:1; border-radius:10px; overflow:hidden}
-    .order-item .thumb img{width:100%; height:100%; object-fit:cover}
-    .order-item h4{margin:0 0 4px 0}
-    .order-item .muted{font-size:12px; color:var(--muted)}
-
-    .floating-cart{position:fixed; inset-inline-end:16px; bottom:16px; z-index:50}
-    .cart-btn{display:flex; align-items:center; gap:10px; padding:12px 16px; border-radius:14px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; border:none; cursor:pointer; box-shadow:var(--shadow); font-weight:800}
-    .cart-count{display:inline-grid; place-items:center; min-width:26px; height:26px; padding:0 6px; background:rgba(0,0,0,.25); border-radius:999px}
-
-    .pill{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:var(--panel)}
-    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; background:#0b0e13; border:1px solid var(--border); border-radius:6px; padding:2px 6px}
-    .muted{color:var(--muted)}
-
-    .hidden{display:none}
   </style>
 </head>
 <body>
-  <!--
-    راهنما:
-    1) نام کافه و لوگو را در هدر تغییر دهید. می‌توانید لوگوی واقعی را جایگزین div.logo کنید.
-    2) دسته‌ها و آیتم‌ها در آرایه های categories و items در انتهای فایل JS هستند.
-    3) برای استقرار در GitHub Pages کافیست این فایل را به نام index.html در ریشه ریپو قرار دهید.
-    4) دکمه «پرینت» یادداشت سفارش را به صورت فیش کوچک چاپ می‌کند. «کپی» متن را در کلیپ‌بورد می‌گذارد.
-    5) سفارش‌ها در localStorage ذخیره می‌شوند تا با رفرش از بین نروند.
-  -->
-
   <header>
-    <div class="container">
-      <div class="brand">
-        <div class="logo" aria-label="لوگو">☕</div>
-        <div>
-          <div class="title">کافه موستافا</div>
-          <div class="subtitle">منوی تعاملی | انتخاب و یادداشت سفارش</div>
-        </div>
-      </div>
-      <div class="toolbar">
-        <div class="search">
-          <input id="search" placeholder="جستجو در منو (نام، مواد تشکیل‌دهنده)" />
-          <svg class="icon" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"/></svg>
-        </div>
-        <div id="filters" class="toolbar" aria-label="دسته‌بندی‌ها"></div>
-      </div>
+    <div class="logo">ک</div>
+    <div class="brand">
+      <div class="title">کافهٔ سنتی "کافه‌ک"</div>
+      <div class="subtitle">منوی آنلاین — پیش‌نمایش</div>
     </div>
   </header>
 
-  <main class="container">
-    <div id="grid" class="grid"></div>
-  </main>
+  <div class="container">
+    <aside class="sidebar">
+      <div style="font-weight:900;margin-bottom:10px">دسته‌بندی‌ها</div>
+      <div id="categories"></div>
+    </aside>
 
-  <!-- Floating Cart Button -->
-  <div class="floating-cart">
-    <button class="cart-btn" id="openCart">
-      <span class="cart-count" id="cartCount">0</span>
-      سفارش موقت
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2M7.17 14h9.66c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66.11-1.49-.55-1.86c-.21-.12-.45-.18-.69-.18H6.21L5.27 2.9C5.1 2.37 4.61 2 4.04 2H2v2h1.6l3.6 10.59c.14.4.52.66.94.66M7 6h13.1l-2.76 5H8.53z"/></svg>
-    </button>
-  </div>
-
-  <template id="cardTpl">
-    <div class="card">
-      <div class="thumb"><img alt="" loading="lazy"/></div>
-      <span class="badge"></span>
-      <div class="content">
-        <div class="name"></div>
-        <div class="ing"></div>
-        <div class="meta">
-          <div class="price"></div>
-          <div class="qty">
-            <button class="btn icon minus">−</button>
-            <span class="count">0</span>
-            <button class="btn icon plus">+</button>
-          </div>
+    <main class="main">
+      <div class="filters">
+        <div style="display:flex;gap:12px;align-items:center">
+          <label style="font-weight:700">نمایش:</label>
+          <select id="viewCat">
+            <option value="all">همه</option>
+          </select>
+        </div>
+        <div class="search">
+          <input id="search" type="search" placeholder="جستجوی آیتم یا مواد..." />
         </div>
       </div>
-    </div>
-  </template>
+
+      <section class="items" id="items"></section>
+
+      <div class="cart" id="cart">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="font-weight:800">سبد خرید</div>
+          <div class="list" id="cartList" style="min-width:220px"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end">
+          <div class="total" id="total">مجموع: 0 تومان</div>
+          <button id="clearCart" style="margin-top:8px;padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer">پاک کردن</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="note">برای ویرایش آیتم‌ها، بخش <strong>itemsData</strong> در انتهای فایل را تغییر دهید.</footer>
 
   <script>
-    // --- Data --------------------------------------------------------------
-    const categories = [
-      {id:'coffee-hot', title:'قهوه‌های گرم', icon:'☕'},
-      {id:'coffee-cold', title:'نوشیدنی‌های سرد', icon:'🧊'},
-      {id:'tea', title:'چای و دمنوش', icon:'🍵'},
-      {id:'smoothie', title:'اسموتی', icon:'🥤'},
-      {id:'dessert', title:'دسر', icon:'🍰'},
-      {id:'breakfast', title:'صبحانه', icon:'🥐'},
-      {id:'snack', title:'میان‌وعده', icon:'🥨'},
-      {id:'sandwich', title:'ساندویچ', icon:'🥪'},
-      {id:'salad', title:'سالاد', icon:'🥗'},
-      {id:'pizza', title:'پیتزا', icon:'🍕'}
+    // داده‌های اولیه: 10 دسته با چند آیتم نمونه. برای اضافه/حذف آیتم‌ها این بخش را ویرایش کنید.
+    const itemsData = [
+      {catId:1, catName:'قهوه‌ها', icon:'☕', items:[
+        {id:'c1',name:'اسپرسو',desc:'عصارهٔ قهوهٔ فشرده',price:40000},
+        {id:'c2',name:'کاپوچینو',desc:'شیر کف‌کرده و اسپرسو',price:70000},
+      ]},
+      {catId:2, catName:'چای‌ها', icon:'🍵', items:[{id:'t1',name:'چای سیاه',desc:'با دمنوش محلی',price:25000}]},
+      {catId:3, catName:'نوشیدنی‌های خنک', icon:'🥤', items:[{id:'f1',name:'لیموناد',desc:'ترش و شیرین',price:30000}]},
+      {catId:4, catName:'کیک‌ها', icon:'🍰', items:[{id:'k1',name:'کیک شکلاتی',desc:'یادگاری روزهای خوب',price:85000}]},
+      {catId:5, catName:'صبحانه', icon:'🥐', items:[{id:'b1',name:'پنیر و گردو',desc:'صبحانهٔ سبک',price:60000}]},
+      {catId:6, catName:'ساندویچ‌ها', icon:'🥪', items:[{id:'s1',name:'ساندویچ مرغ',desc:'مرغ گریل شده',price:90000}]},
+      {catId:7, catName:'سالادها', icon:'🥗', items:[{id:'sa1',name:'سالاد فصل',desc:'سبزیجات تازه',price:50000}]},
+      {catId:8, catName:'دسرها', icon:'🍮', items:[{id:'d1',name:'پاناکوتا',desc:'خامهٔ لطیف',price:65000}]},
+      {catId:9, catName:'پیش‌غذاها', icon:'🧆', items:[{id:'p1',name:'سیب‌زمینی تنوری',desc:'با سس مخصوص',price:45000}]},
+      {catId:10, catName:'مخصوص روز', icon:'⭐', items:[{id:'m1',name:'صبحانهٔ ویژهٔ کافه',desc:'ترکیب انتخابی سرآشپز',price:120000}]}
     ];
 
-    const items = [
-      // coffee hot
-      {id:'espresso', cat:'coffee-hot', name:'اسپرسو سینگل', ing:'دانه عربیکا، عصاره‌گیری ۲۵–۳۰ ثانیه', price:45000, img:'https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop'},
-      {id:'cappuccino', cat:'coffee-hot', name:'کاپوچینو', ing:'اسپرسو، فوم شیر، دارچین', price:85000, img:'https://images.unsplash.com/photo-1503481766315-7a586b20f66d?q=80&w=1200&auto=format&fit=crop'},
-      {id:'latte', cat:'coffee-hot', name:'لاته', ing:'اسپرسو، شیر بخار داده', price:90000, img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1200&auto=format&fit=crop'},
+    const categoriesEl = document.getElementById('categories');
+    const itemsEl = document.getElementById('items');
+    const viewCat = document.getElementById('viewCat');
+    const search = document.getElementById('search');
+    const cartList = document.getElementById('cartList');
+    const totalEl = document.getElementById('total');
+    const clearCartBtn = document.getElementById('clearCart');
 
-      // coffee cold
-      {id:'iced-latte', cat:'coffee-cold', name:'آیس لاته', ing:'اسپرسو، شیر سرد، یخ', price:95000, img:'https://images.unsplash.com/photo-1555949963-aa79dcee981d?q=80&w=1200&auto=format&fit=crop'},
-      {id:'cold-brew', cat:'coffee-cold', name:'کلد برو', ing:'قهوه دم‌سرد ۱۲ ساعته', price:110000, img:'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1200&auto=format&fit=crop'},
+    // state
+    let activeCat = 'all';
+    let cart = {}; // {id:{item,qty}}
 
-      // tea
-      {id:'black-tea', cat:'tea', name:'چای سیاه ممتاز', ing:'چای تازه‌دم، لیمو', price:35000, img:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=1200&auto=format&fit=crop'},
-      {id:'herbal', cat:'tea', name:'دمنوش به‌لیمو', ing:'به‌لیمو، گل‌گاوزبان، عسل', price:60000, img:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1200&auto=format&fit=crop'},
+    function renderCategories(){
+      categoriesEl.innerHTML='';
+      viewCat.innerHTML='<option value="all">همه</option>';
+      itemsData.forEach(cat=>{
+        const div=document.createElement('div');
+        div.className='category';
+        div.dataset.cat=cat.catId;
+        div.innerHTML=`<div class="cat-icon">${cat.icon}</div><div style="font-weight:800">${cat.catName}</div>`;
+        div.addEventListener('click',()=>{setActive(cat.catId)});
+        categoriesEl.appendChild(div);
 
-      // smoothie
-      {id:'berry-sm', cat:'smoothie', name:'اسموتی بری', ing:'توت‌فرنگی، بلوبری، ماست', price:125000, img:'https://images.unsplash.com/photo-1514996937319-344454492b37?q=80&w=1200&auto=format&fit=crop'},
-      {id:'mango-sm', cat:'smoothie', name:'اسموتی انبه', ing:'انبه تازه، آب پرتقال', price:120000, img:'https://images.unsplash.com/photo-1497534446932-c925b458314e?q=80&w=1200&auto=format&fit=crop'},
+        const opt = document.createElement('option'); opt.value = cat.catId; opt.textContent = cat.catName; viewCat.appendChild(opt);
+      });
+    }
 
-      // dessert
-      {id:'cheesecake', cat:'dessert', name:'چیزکیک', ing:'پنیرخامه‌ای، بیسکویت، سس توت‌فرنگی', price:130000, img:'https://images.unsplash.com/photo-1505253668822-42074d58a7f8?q=80&w=1200&auto=format&fit=crop'},
-      {id:'brownie', cat:'dessert', name:'براونی شکلاتی', ing:'شکلات تلخ، گردو', price:115000, img:'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=1200&auto=format&fit=crop'},
+    function setActive(id){
+      activeCat = id;
+      document.querySelectorAll('.category').forEach(el=>el.classList.toggle('active', el.dataset.cat==id));
+      renderItems();
+    }
 
-      // breakfast
-      {id:'omelette', cat:'breakfast', name:'اُملت گوجه', ing:'تخم‌مرغ، گوجه، ادویه', price:98000, img:'https://images.unsplash.com/photo-1508739826987-b79cd8b7da12?q=80&w=1200&auto=format&fit=crop'},
-      {id:'french-toast', cat:'breakfast', name:'فرنچ‌توست', ing:'نان تست، تخم‌مرغ، دارچین، عسل', price:120000, img:'https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=1200&auto=format&fit=crop'},
+    function renderItems(){
+      const q = search.value.trim().toLowerCase();
+      itemsEl.innerHTML='';
+      const cats = activeCat==='all' ? itemsData : itemsData.filter(c=>c.catId==activeCat);
+      cats.forEach(cat=>{
+        cat.items.forEach(it=>{
+          if(q){
+            const text = (it.name + ' ' + it.desc + ' ' + cat.catName).toLowerCase();
+            if(!text.includes(q)) return;
+          }
 
-      // snack
-      {id:'fries', cat:'snack', name:'سیب‌زمینی سرخ‌کرده', ing:'سس مخصوص', price:80000, img:'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop'},
-      {id:'nachos', cat:'snack', name:'ناچوز', ing:'چیپس تورتیلا، پنیر، سالسا', price:135000, img:'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop'},
+          const card = document.createElement('article'); card.className='card';
+          card.innerHTML = `
+            <div class="photo">عکس</div>
+            <div class="meta">
+              <div class="name">${it.name}</div>
+              <div class="desc">${it.desc}</div>
+              <div class="price-row">
+                <div class="controls">
+                  <div class="qty" data-id="${it.id}">
+                    <button class="dec">−</button>
+                    <span class="count">0</span>
+                    <button class="inc">+</button>
+                  </div>
+                </div>
+                <div class="price">${it.price.toLocaleString()} تومان</div>
+                <div style="width:8px"></div>
+                <button class="add" data-id="${it.id}">افزودن</button>
+              </div>
+            </div>`;
 
-      // sandwich
-      {id:'chicken-sand', cat:'sandwich', name:'ساندویچ مرغ گریل', ing:'مرغ گریل، کاهو، سس سزار', price:160000, img:'https://images.unsplash.com/photo-1540713434306-58505cf1b6fc?q=80&w=1200&auto=format&fit=crop'},
-      {id:'club', cat:'sandwich', name:'کلاب‌سندویچ', ing:'ژامبون، پنیر، کاهو، گوجه', price:170000, img:'https://images.unsplash.com/photo-1544025162-8e8c9f55b03c?q=80&w=1200&auto=format&fit=crop'},
+          // events
+          card.querySelector('.add').addEventListener('click', ()=> addToCart(it));
+          const inc = card.querySelector('.inc'); const dec = card.querySelector('.dec');
+          inc.addEventListener('click', ()=> changeQty(it.id, 1));
+          dec.addEventListener('click', ()=> changeQty(it.id, -1));
 
-      // salad
-      {id:'caesar', cat:'salad', name:'سالاد سزار', ing:'کاهو رومی، کرتون، مرغ، پنیر پارمزان', price:150000, img:'https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1200&auto=format&fit=crop'},
-      {id:'greek', cat:'salad', name:'سالاد یونانی', ing:'خیار، گوجه، زیتون، پنیر فتا', price:145000, img:'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1200&auto=format&fit=crop'},
-
-      // pizza
-      {id:'margherita', cat:'pizza', name:'پیتزا مارگاریتا', ing:'گوجه، موزارلا، ریحان', price:210000, img:'https://images.unsplash.com/photo-1548365328-9f547fb0953c?q=80&w=1200&auto=format&fit=crop'},
-      {id:'pepperoni', cat:'pizza', name:'پپرونی', ing:'پپرونی، پنیر، سس', price:235000, img:'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?q=80&w=1200&auto=format&fit=crop'}
-    ];
-
-    // --- State -------------------------------------------------------------
-    const state = {
-      filter:'all',
-      q:'',
-      cart:{} // id -> {qty, note}
-    };
-
-    // --- Helpers -----------------------------------------------------------
-    const toman = n => n.toLocaleString('fa-IR');
-    const el = sel => document.querySelector(sel);
-    const byId = id => document.getElementById(id);
-
-    function persist(){ localStorage.setItem('cafe-cart', JSON.stringify(state.cart)); }
-    function loadPersist(){ try{ state.cart = JSON.parse(localStorage.getItem('cafe-cart'))||{} }catch{ state.cart={} }
-      renderCartBadge(); }
-
-    // --- UI: Filters -------------------------------------------------------
-    function renderFilters(){
-      const wrap = byId('filters');
-      wrap.innerHTML = '';
-      const all = document.createElement('button');
-      all.className = 'chip' + (state.filter==='all' ? ' active' : '');
-      all.innerHTML = 'همه';
-      all.onclick = ()=>{ state.filter='all'; renderGrid(); highlightFilter(); };
-      wrap.appendChild(all);
-      categories.forEach(c=>{
-        const b = document.createElement('button');
-        b.className = 'chip' + (state.filter===c.id ? ' active' : '');
-        b.innerHTML = `<span>${c.icon}</span><span>${c.title}</span>`;
-        b.onclick = ()=>{ state.filter=c.id; renderGrid(); highlightFilter(); };
-        wrap.appendChild(b);
+          itemsEl.appendChild(card);
+        })
       })
-    }
-    function highlightFilter(){
-      [...document.querySelectorAll('#filters .chip')].forEach(btn=>btn.classList.remove('active'));
-      const idx = ['all', ...categories.map(c=>c.id)].indexOf(state.filter);
-      const target = document.querySelectorAll('#filters .chip')[idx];
-      if(target) target.classList.add('active');
+
+      // update counts in UI
+      updateUICounts();
     }
 
-    // --- UI: Grid ----------------------------------------------------------
-    function filteredItems(){
-      return items.filter(it=> (state.filter==='all' || it.cat===state.filter) &&
-        (state.q==='' || it.name.includes(state.q) || it.ing.includes(state.q)));
+    function addToCart(item){
+      if(!cart[item.id]) cart[item.id] = {item, qty:0};
+      cart[item.id].qty += 1;
+      updateCart();
+      updateUICounts();
+    }
+    function changeQty(id, delta){
+      if(!cart[id]){
+        // find item object and add
+        const found = itemsData.flatMap(c=>c.items).find(x=>x.id===id);
+        if(!found) return;
+        cart[id] = {item:found, qty:0};
+      }
+      cart[id].qty = Math.max(0, cart[id].qty + delta);
+      if(cart[id].qty===0) delete cart[id];
+      updateCart(); updateUICounts();
     }
 
-    function renderGrid(){
-      const grid = byId('grid');
-      grid.innerHTML = '';
-      const list = filteredItems();
-      if(!list.length){ grid.innerHTML = `<div class="pill">موردی یافت نشد.</div>`; return; }
-      list.forEach(it=> grid.appendChild(renderCard(it)));
-    }
-
-    function renderCard(it){
-      const tpl = byId('cardTpl');
-      const node = tpl.content.firstElementChild.cloneNode(true);
-      node.querySelector('.thumb img').src = it.img;
-      node.querySelector('.thumb img').alt = it.name;
-      node.querySelector('.badge').textContent = categories.find(c=>c.id===it.cat)?.title || '';
-      node.querySelector('.name').textContent = it.name;
-      node.querySelector('.ing').textContent = it.ing;
-      node.querySelector('.price').innerHTML = `${toman(it.price)} <span class="muted">تومان</span>`;
-
-      const count = node.querySelector('.count');
-      const qty = state.cart[it.id]?.qty || 0;
-      count.textContent = qty;
-      node.querySelector('.minus').onclick = ()=> changeQty(it.id, -1, it);
-      node.querySelector('.plus').onclick = ()=> changeQty(it.id, +1, it);
-
-      return node;
-    }
-
-    function changeQty(id, delta, it){
-      const cur = state.cart[id]?.qty || 0;
-      const next = Math.max(0, cur + delta);
-      if(next===0){ delete state.cart[id]; }
-      else{ state.cart[id] = { ...(state.cart[id]||{}), qty: next, name: it.name, price: it.price, img: it.img, cat: it.cat } }
-      renderGrid(); renderDrawer(); renderCartBadge(); persist();
-    }
-
-    function renderCartBadge(){
-      const totalQty = Object.values(state.cart).reduce((s,v)=>s+v.qty,0);
-      byId('cartCount').textContent = totalQty;
-      byId('grandTotal').textContent = toman(calcTotal());
-    }
-
-    function calcTotal(){
-      return Object.values(state.cart).reduce((s,v)=> s + v.qty * v.price, 0);
-    }
-
-    // --- Drawer ------------------------------------------------------------
-    function toggleDrawer(open){
-      const dr = byId('drawer');
-      dr.classList[open?'add':'remove']('open');
-    }
-
-    function renderDrawer(){
-      const list = byId('orderList');
-      list.innerHTML = '';
-      Object.entries(state.cart).forEach(([id, row])=>{
-        const it = items.find(x=>x.id===id) || row;
-        const wrap = document.createElement('div');
-        wrap.className = 'order-item';
-        wrap.innerHTML = `
-          <div class="thumb"><img src="${it.img}" alt="${row.name}"></div>
-          <div>
-            <h4>${row.name}</h4>
-            <div class="muted">${categories.find(c=>c.id===row.cat)?.title||''} • ${toman(row.price)} تومان</div>
-            <div style="margin-top:6px"><input class="note kbd" placeholder="یادداشت آیتم (مثلاً بدون شکر)" value="${row.note||''}" style="width:100%"></div>
-          </div>
-          <div style="display:grid; gap:6px; justify-items:center">
-            <div class="qty">
-              <button class="btn icon" data-act="minus">−</button>
-              <span class="count">${row.qty}</span>
-              <button class="btn icon" data-act="plus">+</button>
-            </div>
-            <button class="btn" data-act="remove">حذف</button>
-          </div>
-        `;
-        // events
-        wrap.querySelector('[data-act="minus"]').onclick = ()=> changeQty(id,-1,it);
-        wrap.querySelector('[data-act="plus"]').onclick = ()=> changeQty(id,+1,it);
-        wrap.querySelector('[data-act="remove"]').onclick = ()=>{ delete state.cart[id]; renderGrid(); renderDrawer(); renderCartBadge(); persist(); };
-        wrap.querySelector('input.note').oninput = (e)=>{ state.cart[id].note = e.target.value; persist(); };
-        list.appendChild(wrap);
+    function updateCart(){
+      cartList.innerHTML='';
+      let total = 0;
+      Object.values(cart).forEach(c=>{
+        const row = document.createElement('div');
+        row.style.display='flex'; row.style.justifyContent='space-between'; row.style.gap='8px'; row.style.padding='6px 0';
+        row.innerHTML = `<div style="min-width:160px">${c.item.name} × ${c.qty}</div><div style="font-weight:700">${(c.item.price*c.qty).toLocaleString()} تومان</div>`;
+        cartList.appendChild(row);
+        total += c.item.price * c.qty;
       });
-      byId('grandTotal').textContent = toman(calcTotal());
+      totalEl.textContent = `مجموع: ${total.toLocaleString()} تومان`;
     }
 
-    function buildTextNote(){
-      const table = byId('tableNo').value?.trim();
-      const lines = [];
-      if(table) lines.push(`میز/مشتری: ${table}`);
-      lines.push('سفارش:');
-      Object.values(state.cart).forEach(row=>{
-        const base = `• ${row.name} × ${row.qty} — ${toman(row.price*row.qty)} تومان`;
-        lines.push(base);
-        if(row.note) lines.push(`  ◦ یادداشت: ${row.note}`);
-      });
-      lines.push(`جمع کل: ${toman(calcTotal())} تومان`);
-      const note = byId('orderNote').value?.trim();
-      if(note) lines.push(`توضیحات کلی: ${note}`);
-      lines.push('\n— تولید شده توسط منوی کافه');
-      return lines.join('\n');
-    }
-
-    function doCopy(){
-      const text = buildTextNote();
-      navigator.clipboard.writeText(text).then(()=>{
-        alert('متن سفارش کپی شد.');
-      }).catch(()=>{
-        prompt('کپی دستی: متن زیر را انتخاب و کپی کنید:', text);
+    function updateUICounts(){
+      document.querySelectorAll('.qty').forEach(el=>{
+        const id = el.dataset.id;
+        const count = cart[id] ? cart[id].qty : 0;
+        el.querySelector('.count').textContent = count;
       });
     }
 
-    function doPrint(){
-      const text = buildTextNote().replaceAll('\n','<br/>');
-      const w = window.open('', 'PRINT', 'height=600,width=420');
-      w.document.write(`<!doctype html><html dir="rtl"><head><title>فیش سفارش</title>
-        <meta charset="utf-8"><style>body{font-family:Vazirmatn, sans-serif; padding:14px} .muted{color:#666}
-        @media print{ @page{size:80mm auto; margin:6mm} body{font-size:13px} }
-        </style></head><body>${text}</body></html>`);
-      w.document.close();
-      w.focus();
-      w.print();
-      w.close();
-    }
+    viewCat.addEventListener('change', ()=>{ setActive(viewCat.value); });
+    search.addEventListener('input', ()=> renderItems());
+    clearCartBtn.addEventListener('click', ()=>{ cart = {}; updateCart(); updateUICounts(); });
 
-    // --- Events ------------------------------------------------------------
-    byId('search').addEventListener('input', (e)=>{ state.q = e.target.value.trim(); renderGrid(); });
-    byId('openCart').onclick = ()=>{ renderDrawer(); toggleDrawer(true); };
-    byId('closeDrawer').onclick = ()=> toggleDrawer(false);
-    byId('clearCart').onclick = ()=>{ if(confirm('همه آیتم‌ها حذف شوند؟')){ state.cart={}; renderGrid(); renderDrawer(); renderCartBadge(); persist(); }};
-    byId('copyText').onclick = doCopy;
-    byId('printSlip').onclick = doPrint;
-    byId('saveCart').onclick = ()=>{ persist(); alert('ذخیره شد. در همین مرورگر باقی می‌ماند.'); };
+    // init
+    function init(){ renderCategories(); renderItems(); }
+    init();
 
-    // --- Init --------------------------------------------------------------
-    renderFilters();
-    loadPersist();
-    renderGrid();
   </script>
 </body>
 </html>
