@@ -1,222 +1,146 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منوی کافه — پیش‌نمایش</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منوی کافه</title>
   <style>
-    :root{
-      --bg:#faf8f6;--card:#fff;--accent:#b85c3c;--muted:#666;
-      --glass: rgba(255,255,255,0.6);
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
     }
-    *{box-sizing:border-box}
-    body{font-family: "Vazirmatn", system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial; margin:0;background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);color:#111}
-    header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #eee;background:var(--card);position:sticky;top:0;z-index:10;flex-wrap:wrap}
-    .logo{width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
-    .brand{display:flex;flex-direction:column}
-    .brand .title{font-size:18px;font-weight:800}
-    .brand .subtitle{font-size:12px;color:var(--muted)}
-
-    .categories-bar{display:flex;overflow-x:auto;gap:8px;padding:10px 0;border-bottom:1px solid #eee;margin-top:8px}
-    .category{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}
-    .category:hover{background:#fbf7f6}
-    .category.active{background:linear-gradient(90deg,rgba(184,92,60,0.12),rgba(184,92,60,0.06));border-bottom:2px solid var(--accent)}
-    .cat-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px}
-
-    .container{padding:18px;max-width:1200px;margin:18px auto}
-
-    .main{display:flex;flex-direction:column;gap:12px}
-    .filters{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-    .search{flex:1;margin-left:12px}
-    input[type=search]{width:100%;padding:10px;border-radius:10px;border:1px solid #eee}
-
-    .items{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media (max-width:900px){.items{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:520px){.items{grid-template-columns:1fr}}
-
-    .card{background:var(--card);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
-    .photo{width:96px;height:72px;border-radius:8px;background:#eee;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
-    .meta{flex:1}
-    .name{font-weight:800}
-    .desc{font-size:13px;color:var(--muted);margin-top:6px}
-    .price-row{display:flex;gap:10px;align-items:center;margin-top:8px}
-    .price{font-weight:800}
-    .controls{margin-right:auto;display:flex;align-items:center;gap:8px}
-    button.add{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
-    .qty{display:inline-flex;align-items:center;border-radius:8px;overflow:hidden;border:1px solid #eee}
-    .qty button{padding:6px 8px;background:#fff;border:0;cursor:pointer}
-    .qty span{padding:6px 10px;min-width:28px;text-align:center}
-
-    .cart{position:sticky;bottom:18px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}
-    .cart .list{max-height:140px;overflow:auto}
-    .cart .total{font-weight:900;font-size:18px}
-
-    footer.note{max-width:1200px;margin:8px auto;text-align:center;color:var(--muted);font-size:13px}
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #333;
+      color: #fff;
+    }
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      background: #eee;
+      padding: 10px;
+      gap: 10px;
+    }
+    .categories button {
+      padding: 10px 15px;
+      border: none;
+      background: #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: none;
+    }
+    .categories button.active {
+      background: #333;
+      color: #fff;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .item {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .item h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+    .item p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .item span {
+      display: block;
+      margin-top: 8px;
+      font-weight: bold;
+      color: #333;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">ک</div>
-    <div class="brand">
-      <div class="title">کافهٔ سنتی "کافه‌ک"</div>
-      <div class="subtitle">منوی آنلاین — پیش‌نمایش</div>
-    </div>
-    <div class="categories-bar" id="categories"></div>
+    <h1>☕ کافه من</h1>
   </header>
 
-  <div class="container">
-    <main class="main">
-      <div class="filters">
-        <div class="search">
-          <input id="search" type="search" placeholder="جستجوی آیتم یا مواد..." />
-        </div>
-      </div>
-      <section class="items" id="items"></section>
-      <div class="cart" id="cart">
-        <div style="display:flex;gap:12px;align-items:flex-start">
-          <div style="font-weight:800">سبد خرید</div>
-          <div class="list" id="cartList" style="min-width:220px"></div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end">
-          <div class="total" id="total">مجموع: 0 تومان</div>
-          <button id="clearCart" style="margin-top:8px;padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer">پاک کردن</button>
-        </div>
-      </div>
-    </main>
+  <!-- دسته بندی‌ها -->
+  <div class="categories">
+    <button class="active" onclick="filterMenu('coffee')">قهوه</button>
+    <button onclick="filterMenu('tea')">چای</button>
+    <button onclick="filterMenu('dessert')">دسر</button>
+    <button onclick="filterMenu('juice')">آبمیوه</button>
   </div>
 
-  <footer class="note">برای ویرایش آیتم‌ها، بخش <strong>itemsData</strong> در انتهای فایل را تغییر دهید.</footer>
+  <!-- منو -->
+  <div class="menu" id="menu">
+    <div class="item coffee">
+      <img src="https://via.placeholder.com/200x120" alt="">
+      <h3>اسپرسو</h3>
+      <p>دانه عربیکا تازه</p>
+      <span>80,000 تومان</span>
+    </div>
+    <div class="item coffee">
+      <img src="https://via.placeholder.com/200x120" alt="">
+      <h3>کاپوچینو</h3>
+      <p>شیر بخار داده + قهوه</p>
+      <span>100,000 تومان</span>
+    </div>
+    <div class="item tea">
+      <img src="https://via.placeholder.com/200x120" alt="">
+      <h3>چای سبز</h3>
+      <p>چای سبز مرغوب</p>
+      <span>40,000 تومان</span>
+    </div>
+    <div class="item dessert">
+      <img src="https://via.placeholder.com/200x120" alt="">
+      <h3>کیک شکلاتی</h3>
+      <p>با سس شکلات داغ</p>
+      <span>120,000 تومان</span>
+    </div>
+    <div class="item juice">
+      <img src="https://via.placeholder.com/200x120" alt="">
+      <h3>آب پرتقال طبیعی</h3>
+      <p>تازه و خنک</p>
+      <span>70,000 تومان</span>
+    </div>
+  </div>
 
   <script>
-    const itemsData = [
-      {catId:1, catName:'قهوه‌ها', icon:'☕', items:[
-        {id:'c1',name:'اسپرسو',desc:'عصارهٔ قهوهٔ فشرده',price:40000},
-        {id:'c2',name:'کاپوچینو',desc:'شیر کف‌کرده و اسپرسو',price:70000},
-      ]},
-      {catId:2, catName:'چای‌ها', icon:'🍵', items:[{id:'t1',name:'چای سیاه',desc:'با دمنوش محلی',price:25000}]},
-      {catId:3, catName:'نوشیدنی‌های خنک', icon:'🥤', items:[{id:'f1',name:'لیموناد',desc:'ترش و شیرین',price:30000}]},
-      {catId:4, catName:'کیک‌ها', icon:'🍰', items:[{id:'k1',name:'کیک شکلاتی',desc:'یادگاری روزهای خوب',price:85000}]},
-      {catId:5, catName:'صبحانه', icon:'🥐', items:[{id:'b1',name:'پنیر و گردو',desc:'صبحانهٔ سبک',price:60000}]},
-      {catId:6, catName:'ساندویچ‌ها', icon:'🥪', items:[{id:'s1',name:'ساندویچ مرغ',desc:'مرغ گریل شده',price:90000}]},
-      {catId:7, catName:'سالادها', icon:'🥗', items:[{id:'sa1',name:'سالاد فصل',desc:'سبزیجات تازه',price:50000}]},
-      {catId:8, catName:'دسرها', icon:'🍮', items:[{id:'d1',name:'پاناکوتا',desc:'خامهٔ لطیف',price:65000}]},
-      {catId:9, catName:'پیش‌غذاها', icon:'🧆', items:[{id:'p1',name:'سیب‌زمینی تنوری',desc:'با سس مخصوص',price:45000}]},
-      {catId:10, catName:'مخصوص روز', icon:'⭐', items:[{id:'m1',name:'صبحانهٔ ویژهٔ کافه',desc:'ترکیب انتخابی سرآشپز',price:120000}]}
-    ];
+    function filterMenu(category) {
+      let items = document.querySelectorAll(".item");
+      let buttons = document.querySelectorAll(".categories button");
 
-    const categoriesEl = document.getElementById('categories');
-    const itemsEl = document.getElementById('items');
-    const search = document.getElementById('search');
-    const cartList = document.getElementById('cartList');
-    const totalEl = document.getElementById('total');
-    const clearCartBtn = document.getElementById('clearCart');
+      buttons.forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
 
-    let activeCat = itemsData[0].catId; // پیش‌فرض اولین دسته
-    let cart = {};
-
-    function renderCategories(){
-      categoriesEl.innerHTML='';
-      itemsData.forEach(cat=>{
-        const div=document.createElement('div');
-        div.className='category';
-        div.dataset.cat=cat.catId;
-        div.innerHTML=`<div class="cat-icon">${cat.icon}</div><div>${cat.catName}</div>`;
-        div.addEventListener('click',()=>{setActive(cat.catId)});
-        categoriesEl.appendChild(div);
+      items.forEach(item => {
+        if (item.classList.contains(category)) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
       });
     }
 
-    function setActive(id){
-      activeCat = id;
-      document.querySelectorAll('.category').forEach(el=>el.classList.toggle('active', el.dataset.cat==id));
-      renderItems();
+    // وقتی صفحه باز میشه فقط دسته اول (قهوه) نمایش داده بشه
+    window.onload = function() {
+      filterMenu('coffee');
     }
-
-    function renderItems(){
-      const q = search.value.trim().toLowerCase();
-      itemsEl.innerHTML='';
-      const cats = itemsData.filter(c=>c.catId==activeCat);
-      cats.forEach(cat=>{
-        cat.items.forEach(it=>{
-          if(q){
-            const text = (it.name + ' ' + it.desc + ' ' + cat.catName).toLowerCase();
-            if(!text.includes(q)) return;
-          }
-
-          const card = document.createElement('article'); card.className='card';
-          card.innerHTML = `
-            <div class="photo">عکس</div>
-            <div class="meta">
-              <div class="name">${it.name}</div>
-              <div class="desc">${it.desc}</div>
-              <div class="price-row">
-                <div class="controls">
-                  <div class="qty" data-id="${it.id}">
-                    <button class="dec">−</button>
-                    <span class="count">0</span>
-                    <button class="inc">+</button>
-                  </div>
-                </div>
-                <div class="price">${it.price.toLocaleString()} تومان</div>
-                <div style="width:8px"></div>
-                <button class="add" data-id="${it.id}">افزودن</button>
-              </div>
-            </div>`;
-
-          card.querySelector('.add').addEventListener('click', ()=> addToCart(it));
-          const inc = card.querySelector('.inc'); const dec = card.querySelector('.dec');
-          inc.addEventListener('click', ()=> changeQty(it.id, 1));
-          dec.addEventListener('click', ()=> changeQty(it.id, -1));
-
-          itemsEl.appendChild(card);
-        })
-      })
-      updateUICounts();
-    }
-
-    function addToCart(item){
-      if(!cart[item.id]) cart[item.id] = {item, qty:0};
-      cart[item.id].qty += 1;
-      updateCart();
-      updateUICounts();
-    }
-    function changeQty(id, delta){
-      if(!cart[id]){
-        const found = itemsData.flatMap(c=>c.items).find(x=>x.id===id);
-        if(!found) return;
-        cart[id] = {item:found, qty:0};
-      }
-      cart[id].qty = Math.max(0, cart[id].qty + delta);
-      if(cart[id].qty===0) delete cart[id];
-      updateCart(); updateUICounts();
-    }
-
-    function updateCart(){
-      cartList.innerHTML='';
-      let total = 0;
-      Object.values(cart).forEach(c=>{
-        const row = document.createElement('div');
-        row.style.display='flex'; row.style.justifyContent='space-between'; row.style.gap='8px'; row.style.padding='6px 0';
-        row.innerHTML = `<div style="min-width:160px">${c.item.name} × ${c.qty}</div><div style="font-weight:700">${(c.item.price*c.qty).toLocaleString()} تومان</div>`;
-        cartList.appendChild(row);
-        total += c.item.price * c.qty;
-      });
-      totalEl.textContent = `مجموع: ${total.toLocaleString()} تومان`;
-    }
-
-    function updateUICounts(){
-      document.querySelectorAll('.qty').forEach(el=>{
-        const id = el.dataset.id;
-        const count = cart[id] ? cart[id].qty : 0;
-        el.querySelector('.count').textContent = count;
-      });
-    }
-
-    search.addEventListener('input', ()=> renderItems());
-    clearCartBtn.addEventListener('click', ()=>{ cart = {}; updateCart(); updateUICounts(); });
-
-    function init(){ renderCategories(); setActive(activeCat); }
-    init();
   </script>
 </body>
 </html>
