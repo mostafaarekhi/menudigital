@@ -1,146 +1,136 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منوی کافه</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      direction: rtl;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      background: #333;
-      color: #fff;
-    }
-    .categories {
-      display: flex;
-      overflow-x: auto;
-      background: #eee;
-      padding: 10px;
-      gap: 10px;
-    }
-    .categories button {
-      padding: 10px 15px;
-      border: none;
-      background: #ddd;
-      border-radius: 8px;
-      cursor: pointer;
-      flex: none;
-    }
-    .categories button.active {
-      background: #333;
-      color: #fff;
-    }
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
-    .item {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 15px;
-      text-align: center;
-    }
-    .item img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-    .item h3 {
-      margin: 10px 0 5px;
-      font-size: 18px;
-    }
-    .item p {
-      margin: 5px 0;
-      font-size: 14px;
-      color: #666;
-    }
-    .item span {
-      display: block;
-      margin-top: 8px;
-      font-weight: bold;
-      color: #333;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منوی کافه</title>
+<style>
+  body {
+    font-family: 'Tahoma', sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #f5f5f5;
+  }
+  header {
+    background: #1e1e1e;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  header h1 {
+    margin: 0;
+    color: #f5f5f5;
+  }
+  nav {
+    display: flex;
+    overflow-x: auto;
+    background: #1a1a1a;
+    padding: 10px;
+    gap: 10px;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar {display: none;}
+  nav button {
+    background: #2a2a2a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #f5f5f5;
+    transition: background 0.3s;
+    white-space: nowrap;
+  }
+  nav button:hover,
+  nav button.active {
+    background: #ff9800;
+    color: #121212;
+    font-weight: bold;
+  }
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 15px;
+  }
+  .item {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .item:hover {
+    transform: translateY(-5px);
+    background: #292929;
+  }
+  .item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .item h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+  }
+  .item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #bbb;
+  }
+  .item span {
+    font-weight: bold;
+    color: #ff9800;
+    display: block;
+    margin-top: 8px;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>☕ کافه من</h1>
-  </header>
+<header>
+  <h1>☕ کافه مستر</h1>
+</header>
+<nav>
+  <button class="active" onclick="showCategory('coffee')">قهوه</button>
+  <button onclick="showCategory('tea')">چای</button>
+  <button onclick="showCategory('dessert')">دسر</button>
+</nav>
+<div class="menu" id="menu"></div>
 
-  <!-- دسته بندی‌ها -->
-  <div class="categories">
-    <button class="active" onclick="filterMenu('coffee')">قهوه</button>
-    <button onclick="filterMenu('tea')">چای</button>
-    <button onclick="filterMenu('dessert')">دسر</button>
-    <button onclick="filterMenu('juice')">آبمیوه</button>
-  </div>
+<script>
+const menuData = {
+  coffee: [
+    {name: "اسپرسو", ingredients: "دانه قهوه خالص", price: "60,000 تومان", img:"https://via.placeholder.com/200x150?text=Espresso"},
+    {name: "کاپوچینو", ingredients: "شیر، فوم شیر، قهوه", price: "80,000 تومان", img:"https://via.placeholder.com/200x150?text=Cappuccino"}
+  ],
+  tea: [
+    {name: "چای سبز", ingredients: "برگ چای سبز", price: "40,000 تومان", img:"https://via.placeholder.com/200x150?text=Green+Tea"},
+    {name: "چای ماسالا", ingredients: "چای، ادویه هندی، شیر", price: "70,000 تومان", img:"https://via.placeholder.com/200x150?text=Masala+Tea"}
+  ],
+  dessert: [
+    {name: "کیک شکلاتی", ingredients: "شکلات، آرد، تخم‌مرغ", price: "90,000 تومان", img:"https://via.placeholder.com/200x150?text=Chocolate+Cake"},
+    {name: "چیزکیک", ingredients: "پنیر خامه‌ای، بیسکویت", price: "100,000 تومان", img:"https://via.placeholder.com/200x150?text=Cheesecake"}
+  ]
+};
 
-  <!-- منو -->
-  <div class="menu" id="menu">
-    <div class="item coffee">
-      <img src="https://via.placeholder.com/200x120" alt="">
-      <h3>اسپرسو</h3>
-      <p>دانه عربیکا تازه</p>
-      <span>80,000 تومان</span>
-    </div>
-    <div class="item coffee">
-      <img src="https://via.placeholder.com/200x120" alt="">
-      <h3>کاپوچینو</h3>
-      <p>شیر بخار داده + قهوه</p>
-      <span>100,000 تومان</span>
-    </div>
-    <div class="item tea">
-      <img src="https://via.placeholder.com/200x120" alt="">
-      <h3>چای سبز</h3>
-      <p>چای سبز مرغوب</p>
-      <span>40,000 تومان</span>
-    </div>
-    <div class="item dessert">
-      <img src="https://via.placeholder.com/200x120" alt="">
-      <h3>کیک شکلاتی</h3>
-      <p>با سس شکلات داغ</p>
-      <span>120,000 تومان</span>
-    </div>
-    <div class="item juice">
-      <img src="https://via.placeholder.com/200x120" alt="">
-      <h3>آب پرتقال طبیعی</h3>
-      <p>تازه و خنک</p>
-      <span>70,000 تومان</span>
-    </div>
-  </div>
-
-  <script>
-    function filterMenu(category) {
-      let items = document.querySelectorAll(".item");
-      let buttons = document.querySelectorAll(".categories button");
-
-      buttons.forEach(btn => btn.classList.remove("active"));
-      event.target.classList.add("active");
-
-      items.forEach(item => {
-        if (item.classList.contains(category)) {
-          item.style.display = "block";
-        } else {
-          item.style.display = "none";
-        }
-      });
-    }
-
-    // وقتی صفحه باز میشه فقط دسته اول (قهوه) نمایش داده بشه
-    window.onload = function() {
-      filterMenu('coffee');
-    }
-  </script>
+function showCategory(category) {
+  const menu = document.getElementById("menu");
+  menu.innerHTML = "";
+  menuData[category].forEach(item => {
+    menu.innerHTML += `
+      <div class="item">
+        <img src="${item.img}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.ingredients}</p>
+        <span>${item.price}</span>
+      </div>`;
+  });
+  document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+}
+showCategory("coffee");
+</script>
 </body>
 </html>
