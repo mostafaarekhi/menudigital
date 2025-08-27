@@ -22,13 +22,16 @@
     color: #f5f5f5;
   }
   nav {
-    display: flex;
-    overflow-x: auto;
-    background: #1a1a1a;
-    padding: 10px;
-    gap: 10px;
-    scrollbar-width: none;
-  }
+  display: flex;
+  justify-content: center; /* وسط‌چین کردن دسته‌ها */
+  flex-wrap: wrap;         /* در صورت کمبود فضا، خط بعدی */
+  background: #1a1a1a;
+  padding: 10px;
+  gap: 10px;
+  scrollbar-width: none;
+  overflow-x: auto;
+}
+
   nav::-webkit-scrollbar {display: none;}
   nav button {
     background: #2a2a2a;
