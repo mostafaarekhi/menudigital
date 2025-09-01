@@ -1,31 +1,56 @@
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwex3i5nyA59w8gA3lSMlNF6CUjrGtvbWGZnJVSiPUWilicogvp8GaZVzIStSq1pHqQYQ/exec"; // اینجا لینک exec رو بذار
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم ثبت اطلاعات</title>
+  <style>
+    body { font-family: Tahoma, sans-serif; direction: rtl; padding: 40px; background: #f0f0f0; }
+    form { background: #fff; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #007bff; color: #fff; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    #response { text-align: center; font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">فرم ثبت اطلاعات</h1>
+  <form id="myForm">
+    <input type="text" name="firstName" placeholder="نام" required>
+    <input type="text" name="lastName" placeholder="نام خانوادگی" required>
+    <input type="tel" name="phone" placeholder="شماره تماس" required>
+    <button type="submit">ارسال</button>
+  </form>
 
-  document.getElementById("myForm").addEventListener("submit", e => {
-    e.preventDefault();
+  <p id="response"></p>
 
-    const formData = {
-      firstName: e.target.firstName.value,
-      lastName: e.target.lastName.value,
-      phone: e.target.phone.value
-    };
+  <script>
+    // لینک Web App که از Google Apps Script گرفتید
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwXxDJ_f8VEiR1AgAyX0AtKx6-2moRzLoDuK21iro9p0plkFBMWtBGGiZDLKfmTHYEu0A/exec";
 
-    fetch(scriptURL, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(res => {
-      if (!res.ok) throw new Error("Network response was not ok " + res.statusText);
-      return res.json();
-    })
-    .then(data => {
-      document.getElementById("response").innerText = "اطلاعات با موفقیت ثبت شد ✅";
-      e.target.reset();
-    })
-    .catch(err => {
-      document.getElementById("response").innerText = "خطا در ثبت اطلاعات ❌";
-      console.error("Error:", err);
+    document.getElementById("myForm").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const formData = {
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        phone: e.target.phone.value
+      };
+
+      fetch(scriptURL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body: JSON.stringify(formData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("response").innerText = "اطلاعات با موفقیت ثبت شد ✅";
+        e.target.reset();
+      })
+      .catch(err => {
+        document.getElementById("response").innerText = "خطا در ثبت اطلاعات ❌";
+        console.error("Error:", err);
+      });
     });
-  });
-</script>
+  </script>
+</body>
+</html>
