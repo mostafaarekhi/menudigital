@@ -1,46 +1,31 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>فرم ثبت اطلاعات</title>
-</head>
-<body>
-  <h1>فرم ثبت اطلاعات</h1>
-  <form id="myForm">
-    <input type="text" name="firstName" placeholder="نام" required><br><br>
-    <input type="text" name="lastName" placeholder="نام خانوادگی" required><br><br>
-    <input type="tel" name="phone" placeholder="شماره تماس" required><br><br>
-    <button type="submit">ارسال</button>
-  </form>
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwex3i5nyA59w8gA3lSMlNF6CUjrGtvbWGZnJVSiPUWilicogvp8GaZVzIStSq1pHqQYQ/exec"; // اینجا لینک exec رو بذار
 
-  <p id="response"></p>
+  document.getElementById("myForm").addEventListener("submit", e => {
+    e.preventDefault();
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwex3i5nyA59w8gA3lSMlNF6CUjrGtvbWGZnJVSiPUWilicogvp8GaZVzIStSq1pHqQYQ/exec"; // اینجا لینک دیپلوی شده رو بذار
+    const formData = {
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+      phone: e.target.phone.value
+    };
 
-    document.getElementById("myForm").addEventListener("submit", e => {
-      e.preventDefault();
-
-      const formData = {
-        firstName: e.target.firstName.value,
-        lastName: e.target.lastName.value,
-        phone: e.target.phone.value
-      };
-
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(formData)
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("response").innerText = "اطلاعات با موفقیت ثبت شد ✅";
-        e.target.reset();
-      })
-      .catch(err => {
-        document.getElementById("response").innerText = "خطا در ثبت اطلاعات ❌";
-        console.error(err);
-      });
+    fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Network response was not ok " + res.statusText);
+      return res.json();
+    })
+    .then(data => {
+      document.getElementById("response").innerText = "اطلاعات با موفقیت ثبت شد ✅";
+      e.target.reset();
+    })
+    .catch(err => {
+      document.getElementById("response").innerText = "خطا در ثبت اطلاعات ❌";
+      console.error("Error:", err);
     });
-  </script>
-</body>
-</html>
+  });
+</script>
