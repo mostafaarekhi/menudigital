@@ -1,301 +1,46 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منوی کافه</title>
-<style>
-  body {
-    font-family: 'Tahoma', sans-serif;
-    margin: 0;
-    background-color: #121212;
-    color: #f5f5f5;
-    position: relative;
-  }
-  header {
-    background: #1e1e1e;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  }
-  header h1 {
-    margin: 0;
-    color: #f5f5f5;
-  }
-  nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: #1a1a1a;
-    padding: 10px;
-    gap: 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  nav::-webkit-scrollbar {display: none;}
-  nav button {
-    background: #2a2a2a;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    color: #f5f5f5;
-    transition: background 0.3s;
-    white-space: nowrap;
-  }
-  nav button:hover,
-  nav button.active {
-    background: #ff9800;
-    color: #121212;
-    font-weight: bold;
-  }
-  .menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
-    gap: 15px;
-  }
-  .item {
-    background: #1f1f1f;
-    border-radius: 12px;
-    padding: 15px;
-    width: 220px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-    transition: transform 0.2s, background 0.3s;
-  }
-  .item:hover {
-    transform: translateY(-5px);
-    background: #292929;
-  }
-  .item img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-  }
-  .item h3 {
-    margin: 10px 0 5px;
-    font-size: 18px;
-  }
-  .item p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #bbb;
-  }
-  .item span.price {
-    font-weight: bold;
-    color: #ff9800;
-    display: block;
-    margin-top: 8px;
-  }
-  .item input[type=number] {
-    width: 50px;
-    text-align: center;
-    border-radius: 5px;
-    border: none;
-  }
-  .item .qty-controls {
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:5px;
-    margin-top:8px;
-  }
-  .item .qty-controls button {
-    background: #ff9800;
-    border: none;
-    color: #121212;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  /* سبد سفارش پایین صفحه */
-  #cartMini {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ff9800;
-    color: #121212;
-    padding: 12px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 1000;
-  }
-
-  #cartPanel {
-    position: fixed;
-    bottom: 70px;
-    right: 20px;
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: #1e1e1e;
-    color: #f5f5f5;
-    border-radius: 12px;
-    padding: 15px;
-    display: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-    z-index: 1000;
-  }
-  #cartPanel h2 {
-    color: #ff9800;
-    margin-top: 0;
-  }
-  #cartPanel table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  #cartPanel th, #cartPanel td {
-    padding: 6px;
-    text-align: center;
-    border-bottom: 1px solid #333;
-  }
-  #cartPanel input[type=number] {
-    width: 50px;
-    text-align: center;
-  }
-  #cartPanel button {
-    background: #ff9800;
-    border: none;
-    border-radius: 5px;
-    padding: 2px 6px;
-    cursor: pointer;
-    color: #121212;
-    font-weight: bold;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>فرم ثبت اطلاعات</title>
 </head>
 <body>
-<header>
-  <h1>☕ کافه مستر</h1>
-</header>
-<nav>
-  <button class="active" onclick="showCategory('coffee')">قهوه</button>
-  <button onclick="showCategory('tea')">چای</button>
-  <button onclick="showCategory('dessert')">دسر</button>
-  <button onclick="showCategory('drinkcold')">نوشیدنی سرد</button>
-</nav>
-<div class="menu" id="menu"></div>
+  <h1>فرم ثبت اطلاعات</h1>
+  <form id="myForm">
+    <input type="text" name="firstName" placeholder="نام" required><br><br>
+    <input type="text" name="lastName" placeholder="نام خانوادگی" required><br><br>
+    <input type="tel" name="phone" placeholder="شماره تماس" required><br><br>
+    <button type="submit">ارسال</button>
+  </form>
 
-<div id="cartMini" onclick="toggleCartPanel()">جمع سفارش: 0 تومان</div>
-<div id="cartPanel">
-  <h2>سبد سفارش</h2>
-  <table id="cartTable">
-    <thead>
-      <tr>
-        <th>نام</th>
-        <th>تعداد</th>
-        <th>قیمت واحد</th>
-        <th>جمع</th>
-        <th>حذف</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+  <p id="response"></p>
 
-<script>
-const menuData = {
-  coffee: [
-    {name: "اسپرسو", ingredients: "دانه قهوه خالص", price: 60000, img:"https://via.placeholder.com/200x150?text=Espresso"},
-    {name: "کاپوچینو", ingredients: "شیر، فوم شیر، قهوه", price: 80000, img:"https://via.placeholder.com/200x150?text=Cappuccino"}
-  ],
-  tea: [
-    {name: "چای سبز", ingredients: "برگ چای سبز", price: 40000, img:"https://via.placeholder.com/200x150?text=Green+Tea"},
-    {name: "چای ماسالا", ingredients: "چای، ادویه هندی، شیر", price: 70000, img:"https://via.placeholder.com/200x150?text=Masala+Tea"}
-  ],
-  drinkcold: [
-    {name: "لیموناد", ingredients: "ترش و شیرین", price: 50000, img:"https://via.placeholder.com/200x150?text=Lemonade"},
-    {name: "آب پرتقال", ingredients: "تازه و طبیعی", price: 55000, img:"https://via.placeholder.com/200x150?text=Orange+Juice"}
-    {name: "لیموناد", ingredients: "ترش و شیرین", price: 50000, img:"https://via.placeholder.com/200x150?text=Lemonade"},
-    {name: "آب پرتقال", ingredients: "تازه و طبیعی", price: 55000, img:"https://via.placeholder.com/200x150?text=Orange+Juice"}
-    {name: "لیموناد", ingredients: "ترش و شیرین", price: 50000, img:"https://via.placeholder.com/200x150?text=Lemonade"},
-    {name: "آب پرتقال", ingredients: "تازه و طبیعی", price: 55000, img:"https://via.placeholder.com/200x150?text=Orange+Juice"}
-    {name: "لیموناد", ingredients: "ترش و شیرین", price: 50000, img:"https://via.placeholder.com/200x150?text=Lemonade"},
-    {name: "آب پرتقال", ingredients: "تازه و طبیعی", price: 55000, img:"https://via.placeholder.com/200x150?text=Orange+Juice"}
-  ],
-  dessert: [
-    {name: "کیک شکلاتی", ingredients: "شکلات، آرد، تخم‌مرغ", price: 90000, img:"https://via.placeholder.com/200x150?text=Chocolate+Cake"},
-    {name: "چیزکیک", ingredients: "پنیر خامه‌ای، بیسکویت", price: 100000, img:"https://via.placeholder.com/200x150?text=Cheesecake"}
-  ]
-};
+  <script>
+    const scriptURL = "PASTE_YOUR_SCRIPT_URL_HERE"; // اینجا لینک دیپلوی شده رو بذار
 
-let cart = {};
+    document.getElementById("myForm").addEventListener("submit", e => {
+      e.preventDefault();
 
-function showCategory(category) {
-  const menu = document.getElementById("menu");
-  menu.innerHTML = "";
-  menuData[category].forEach(item => {
-    menu.innerHTML += `
-      <div class="item">
-        <img src="${item.img}" alt="${item.name}">
-        <h3>${item.name}</h3>
-        <p>${item.ingredients}</p>
-        <span class="price">${item.price.toLocaleString()} تومان</span>
-        <div class="qty-controls">
-          <button onclick="changeQty('${item.name}', ${item.price}, -1)">-</button>
-          <input type="number" min="0" value="${cart[item.name] ? cart[item.name].qty : 0}" onchange="addToCart('${item.name}', ${item.price}, this.value)">
-          <button onclick="changeQty('${item.name}', ${item.price}, 1)">+</button>
-        </div>
-      </div>`;
-  });
-}
+      const formData = {
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        phone: e.target.phone.value
+      };
 
-function addToCart(name, price, qty) {
-  qty = parseInt(qty);
-  if(qty > 0) {
-    cart[name] = {price: price, qty: qty};
-  } else {
-    delete cart[name];
-  }
-  updateCart();
-}
-
-function changeQty(name, price, delta) {
-  const input = Array.from(document.querySelectorAll(".menu .item")).find(itemDiv => 
-    itemDiv.querySelector("h3").textContent === name
-  ).querySelector("input");
-  let qty = parseInt(input.value) + delta;
-  if(qty < 0) qty = 0;
-  input.value = qty;
-  addToCart(name, price, qty);
-}
-
-function updateCart() {
-  // بروزرسانی جدول
-  const tbody = document.querySelector("#cart tbody") || document.querySelector("#cartPanel tbody");
-  if(tbody){
-    tbody.innerHTML = "";
-    let total = 0;
-    for(let item in cart) {
-      const sum = cart[item].price * cart[item].qty;
-      total += sum;
-      tbody.innerHTML += `
-        <tr>
-          <td>${item}</td>
-          <td>${cart[item].qty}</td>
-          <td>${cart[item].price.toLocaleString()} تومان</td>
-          <td>${sum.toLocaleString()} تومان</td>
-        </tr>`;
-    }
-    document.getElementById("cartMini").textContent = "جمع سفارش: " + total.toLocaleString() + " تومان";
-  } else {
-    let total = 0;
-    for(let item in cart) total += cart[item].price * cart[item].qty;
-    document.getElementById("cartMini").textContent = "جمع سفارش: " + total.toLocaleString() + " تومان";
-  }
-}
-
-function toggleCartPanel() {
-  const panel = document.getElementById("cartPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-}
-
-showCategory("coffee");
-</script>
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(formData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("response").innerText = "اطلاعات با موفقیت ثبت شد ✅";
+        e.target.reset();
+      })
+      .catch(err => {
+        document.getElementById("response").innerText = "خطا در ثبت اطلاعات ❌";
+        console.error(err);
+      });
+    });
+  </script>
 </body>
 </html>
