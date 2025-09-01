@@ -7,21 +7,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* فونت یکان */
   body {
     font-family: 'Vazirmatn', Tahoma, sans-serif;
-    margin: 0; padding: 0;
-    display: flex; justify-content: center; align-items: center; height: 100vh;
+    margin:0; padding:0;
+    display:flex; justify-content:center; align-items:center;
+    height:100vh;
     background: linear-gradient(270deg, #6a11cb, #2575fc);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    overflow: hidden;
+    overflow:hidden;
   }
 
   @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
   }
 
   form {
@@ -48,7 +48,7 @@
   }
 
   input {
-    width: 100%; padding: 14px 14px 14px 14px;
+    width: 100%; padding: 14px;
     border: 1px solid #ccc; border-radius: 12px;
     font-size: 16px; transition: all 0.3s ease;
     background: #f9f9f9; outline: none;
@@ -131,13 +131,40 @@
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbwXxDJ_f8VEiR1AgAyX0AtKx6-2moRzLoDuK21iro9p0plkFBMWtBGGiZDLKfmTHYEu0A/exec";
 
+// تولید کد تخفیف رندوم یکتا
+function generateDiscountCode(length=6){
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for(let i=0;i<length;i++){
+    code += chars.charAt(Math.floor(Math.random()*chars.length));
+  }
+  return code;
+}
+
+// تولید درصد تخفیف احتمالی
+function getRandomDiscount() {
+  const rand = Math.random();
+  if(rand < 0.01){ // حدود 1٪ شانس 50٪ تخفیف
+    return 50;
+  } else {
+    return Math.random() < 0.5 ? 10 : 15;
+  }
+}
+
 document.getElementById("myForm").addEventListener("submit", e=>{
   e.preventDefault();
+
   const formData = {
     firstName: e.target.firstName.value,
     lastName: e.target.lastName.value,
     phone: e.target.phone.value
   };
+
+  const discountCode = generateDiscountCode();
+  const discountPercent = getRandomDiscount();
+
+  formData.discountCode = discountCode;
+  formData.discountPercent = discountPercent;
 
   fetch(scriptURL, {
     method: "POST",
@@ -147,17 +174,17 @@ document.getElementById("myForm").addEventListener("submit", e=>{
   .then(res=>res.json())
   .then(data=>{
     const resp = document.getElementById("response");
-    resp.innerText = "✅ اطلاعات با موفقیت ثبت شد";
+    resp.innerText = `✅ اطلاعات ثبت شد! کد تخفیف شما: ${discountCode} - ${discountPercent}%`;
     resp.classList.add("show");
     e.target.reset();
-    setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
+    setTimeout(()=>{ resp.classList.remove("show"); }, 5000);
   })
   .catch(err=>{
     const resp = document.getElementById("response");
     resp.innerText = "❌ خطا در ثبت اطلاعات";
     resp.classList.add("show");
     console.error("Error:", err);
-    setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
+    setTimeout(()=>{ resp.classList.remove("show"); }, 5000);
   });
 });
 </script>
