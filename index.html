@@ -3,117 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <title>فرم ثبت اطلاعات</title>
-<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap'); /* جایگزین با یکان در صورت داشتن فونت */
-  body { 
-    font-family: 'Vazirmatn', Tahoma, sans-serif; 
-    direction: rtl; 
-    background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%); 
-    display: flex; justify-content: center; align-items: center; height: 100vh; 
-  }
-  form {
-    background: #fff; 
-    padding: 30px; 
-    border-radius: 15px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-    width: 400px; 
-    animation: fadeIn 1s ease;
-  }
-  input, button {
-    width: 100%; 
-    padding: 12px; 
-    margin: 10px 0; 
-    border-radius: 8px; 
-    border: 1px solid #ccc; 
-    font-size: 16px;
-    transition: all 0.3s ease;
-  }
-  input:focus {
-    border-color: #007bff; 
-    box-shadow: 0 0 8px rgba(0,123,255,0.5); 
-    outline: none;
-  }
-  button {
-    background: #007bff; 
-    color: #fff; 
-    border: none; 
-    cursor: pointer;
-    font-weight: bold;
-  }
-  button:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-  #response {
-    text-align: center; 
-    font-weight: bold; 
-    margin-top: 15px; 
-    font-size: 17px;
-    min-height: 24px;
-    opacity: 0;
-    transition: all 0.6s ease;
-  }
-  #response.show {
-    opacity: 1;
-    animation: popIn 0.5s ease;
+  /* فونت یکان */
+  body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+    background: linear-gradient(270deg, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow: hidden;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px);}
-    to { opacity: 1; transform: translateY(0);}
+  @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
   }
+
+  form {
+    background: rgba(255,255,255,0.95);
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 380px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    animation: fadeInUp 1s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {opacity:0; transform: translateY(50px);}
+    to {opacity:1; transform: translateY(0);}
+  }
+
+  h2 {
+    text-align:center; margin-bottom: 30px; color: #333;
+  }
+
+  .input-container {
+    position: relative; margin-bottom: 25px;
+  }
+
+  input {
+    width: 100%; padding: 14px 14px 14px 14px;
+    border: 1px solid #ccc; border-radius: 12px;
+    font-size: 16px; transition: all 0.3s ease;
+    background: #f9f9f9; outline: none;
+  }
+
+  input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0,123,255,0.4);
+  }
+
+  label {
+    position: absolute; left: 15px; top: 14px;
+    color: #aaa; font-size: 16px;
+    pointer-events: none; transition: all 0.2s ease-out;
+  }
+
+  input:focus + label,
+  input:not(:placeholder-shown) + label {
+    top: -10px; left: 10px; font-size: 12px;
+    color: #007bff; background: white; padding: 0 5px;
+  }
+
+  button {
+    padding: 14px;
+    border: none; border-radius: 12px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white; font-size: 16px; font-weight: bold;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  }
+
+  button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  #response {
+    text-align:center; font-weight:bold; font-size:16px; margin-top:20px;
+    opacity:0; transition: all 0.5s ease; min-height:22px;
+  }
+  #response.show {
+    opacity:1; animation: popIn 0.5s ease;
+  }
+
   @keyframes popIn {
-    0% { transform: scale(0.5);}
-    50% { transform: scale(1.1);}
-    100% { transform: scale(1);}
+    0% {transform: scale(0.5);}
+    50% {transform: scale(1.1);}
+    100% {transform: scale(1);}
+  }
+
+  @media(max-width:450px){
+    form { width: 90%; padding: 30px 20px;}
   }
 </style>
 </head>
 <body>
-  <form id="myForm">
-    <h2 style="text-align:center; margin-bottom:20px;">فرم ثبت اطلاعات</h2>
-    <input type="text" name="firstName" placeholder="نام" required>
-    <input type="text" name="lastName" placeholder="نام خانوادگی" required>
-    <input type="tel" name="phone" placeholder="شماره تماس" required>
-    <button type="submit">ارسال</button>
-    <p id="response"></p>
-  </form>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwXxDJ_f8VEiR1AgAyX0AtKx6-2moRzLoDuK21iro9p0plkFBMWtBGGiZDLKfmTHYEu0A/exec"; // لینک Web App Google Apps Script
+<form id="myForm">
+  <h2>فرم ثبت اطلاعات</h2>
 
-    document.getElementById("myForm").addEventListener("submit", e => {
-      e.preventDefault();
+  <div class="input-container">
+    <input type="text" name="firstName" placeholder=" " required>
+    <label>نام</label>
+  </div>
 
-      const formData = {
-        firstName: e.target.firstName.value,
-        lastName: e.target.lastName.value,
-        phone: e.target.phone.value
-      };
+  <div class="input-container">
+    <input type="text" name="lastName" placeholder=" " required>
+    <label>نام خانوادگی</label>
+  </div>
 
-      fetch(scriptURL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        body: JSON.stringify(formData)
-      })
-      .then(res => res.json())
-      .then(data => {
-        const resp = document.getElementById("response");
-        resp.innerText = "✅ اطلاعات با موفقیت ثبت شد";
-        resp.classList.add("show");
-        e.target.reset();
-        setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
-      })
-      .catch(err => {
-        const resp = document.getElementById("response");
-        resp.innerText = "❌ خطا در ثبت اطلاعات";
-        resp.classList.add("show");
-        console.error("Error:", err);
-        setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
-      });
-    });
-  </script>
+  <div class="input-container">
+    <input type="tel" name="phone" placeholder=" " required>
+    <label>شماره تماس</label>
+  </div>
+
+  <button type="submit">ارسال</button>
+  <p id="response"></p>
+</form>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwXxDJ_f8VEiR1AgAyX0AtKx6-2moRzLoDuK21iro9p0plkFBMWtBGGiZDLKfmTHYEu0A/exec";
+
+document.getElementById("myForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const formData = {
+    firstName: e.target.firstName.value,
+    lastName: e.target.lastName.value,
+    phone: e.target.phone.value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    headers: {"Content-Type":"text/plain;charset=UTF-8"},
+    body: JSON.stringify(formData)
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    const resp = document.getElementById("response");
+    resp.innerText = "✅ اطلاعات با موفقیت ثبت شد";
+    resp.classList.add("show");
+    e.target.reset();
+    setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
+  })
+  .catch(err=>{
+    const resp = document.getElementById("response");
+    resp.innerText = "❌ خطا در ثبت اطلاعات";
+    resp.classList.add("show");
+    console.error("Error:", err);
+    setTimeout(()=>{ resp.classList.remove("show"); }, 3000);
+  });
+});
+</script>
+
 </body>
 </html>
