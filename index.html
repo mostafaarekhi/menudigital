@@ -1,55 +1,26 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>باشگاه مشتریان</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; background: #f4f6f9; }
-    .card { background: white; padding: 20px; margin: 20px auto; width: 320px;
-            border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    button { padding: 10px 20px; border: none; border-radius: 8px;
-             background: #4CAF50; color: white; cursor: pointer; margin-top: 10px; }
-    .badge { display: inline-block; padding: 6px 12px; border-radius: 12px; font-size: 14px; color: white; }
-    .bronze { background: #cd7f32; }
-    .silver { background: #c0c0c0; }
-    .gold { background: #ffd700; color: black; }
-  </style>
-</head>
-<body>
-  <h1>🎉 باشگاه مشتریان</h1>
-  <div class="card">
-    <h2 id="name">کاربر مهمان</h2>
-    <p>امتیاز شما: <span id="points">0</span></p>
-    <p>سطح شما: <span id="level" class="badge bronze">Bronze 🥉</span></p>
-    <button onclick="addPoints()">+ ثبت خرید</button>
-  </div>
+<h2>📋 ثبت خرید</h2>
+<form onsubmit="sendData(event)">
+  <input type="text" id="name" placeholder="نام و فامیل" required><br><br>
+  <input type="text" id="phone" placeholder="شماره تماس" required><br><br>
+  <input type="text" id="invoice" placeholder="شماره فاکتور" required><br><br>
+  <input type="date" id="date" required><br><br>
+  <button type="submit">ثبت خرید</button>
+</form>
 
-  <script>
-    let points = localStorage.getItem("points") || 0;
-    points = parseInt(points);
-    document.getElementById("points").textContent = points;
-    updateLevel();
+<script>
+async function sendData(e) {
+  e.preventDefault();
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let invoice = document.getElementById("invoice").value;
+  let date = document.getElementById("date").value;
 
-    function addPoints() {
-      points += 10; // هر خرید ۱۰ امتیاز
-      localStorage.setItem("points", points);
-      document.getElementById("points").textContent = points;
-      updateLevel();
-    }
+  let res = await fetch("https://script.google.com/macros/s/AKfycbwRFlV4eMfuWghaS08F1vZ_srZX7yFi_wzFNGtKJgIEYGPLO7QpsmrNTpIpb373Sbfc/exec", {
+    method: "POST",
+    body: JSON.stringify({ name, phone, invoice, date })
+  });
 
-    function updateLevel() {
-      const levelEl = document.getElementById("level");
-      if (points >= 100) {
-        levelEl.textContent = "Gold 🏆";
-        levelEl.className = "badge gold";
-      } else if (points >= 50) {
-        levelEl.textContent = "Silver 🥈";
-        levelEl.className = "badge silver";
-      } else {
-        levelEl.textContent = "Bronze 🥉";
-        levelEl.className = "badge bronze";
-      }
-    }
-  </script>
-</body>
-</html>
+  let data = await res.json();
+  alert(data.message);
+}
+</script>
