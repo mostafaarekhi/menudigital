@@ -1,193 +1,55 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<title>فرم ثبت اطلاعات</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  body {
-    font-family: 'Vazirmatn', Tahoma, sans-serif;
-    margin:0; padding:0;
-    display:flex; justify-content:center; align-items:center;
-    height:100vh;
-    background: linear-gradient(270deg, #6a11cb, #2575fc);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    overflow:hidden;
-  }
-
-  @keyframes gradientBG {
-    0% {background-position:0% 50%;}
-    50% {background-position:100% 50%;}
-    100% {background-position:0% 50%;}
-  }
-
-  form {
-    background: rgba(255,255,255,0.95);
-    padding: 40px 30px;
-    border-radius: 20px;
-    width: 380px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    display: flex; flex-direction: column;
-    animation: fadeInUp 1s ease;
-  }
-
-  @keyframes fadeInUp {
-    from {opacity:0; transform: translateY(50px);}
-    to {opacity:1; transform: translateY(0);}
-  }
-
-  h2 {
-    text-align:center; margin-bottom: 30px; color: #333;
-  }
-
-  .input-container {
-    position: relative; margin-bottom: 25px;
-  }
-
-  input {
-    width: 100%; padding: 14px;
-    border: 1px solid #ccc; border-radius: 12px;
-    font-size: 16px; transition: all 0.3s ease;
-    background: #f9f9f9; outline: none;
-  }
-
-  input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 10px rgba(0,123,255,0.4);
-  }
-
-  label {
-    position: absolute; left: 15px; top: 14px;
-    color: #aaa; font-size: 16px;
-    pointer-events: none; transition: all 0.2s ease-out;
-  }
-
-  input:focus + label,
-  input:not(:placeholder-shown) + label {
-    top: -10px; left: 10px; font-size: 12px;
-    color: #007bff; background: white; padding: 0 5px;
-  }
-
-  button {
-    padding: 14px;
-    border: none; border-radius: 12px;
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    color: white; font-size: 16px; font-weight: bold;
-    cursor: pointer; transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  }
-
-  button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  }
-
-  #response {
-    text-align:center; font-weight:bold; font-size:16px; margin-top:20px;
-    opacity:0; transition: all 0.5s ease; min-height:22px;
-  }
-  #response.show {
-    opacity:1; animation: popIn 0.5s ease;
-  }
-
-  @keyframes popIn {
-    0% {transform: scale(0.5);}
-    50% {transform: scale(1.1);}
-    100% {transform: scale(1);}
-  }
-
-  @media(max-width:450px){
-    form { width: 90%; padding: 30px 20px;}
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>باشگاه مشتریان</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f4f6f9; }
+    .card { background: white; padding: 20px; margin: 20px auto; width: 320px;
+            border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    button { padding: 10px 20px; border: none; border-radius: 8px;
+             background: #4CAF50; color: white; cursor: pointer; margin-top: 10px; }
+    .badge { display: inline-block; padding: 6px 12px; border-radius: 12px; font-size: 14px; color: white; }
+    .bronze { background: #cd7f32; }
+    .silver { background: #c0c0c0; }
+    .gold { background: #ffd700; color: black; }
+  </style>
 </head>
 <body>
-
-<form id="myForm">
-  <h2>فرم ثبت اطلاعات</h2>
-
-  <div class="input-container">
-    <input type="text" name="firstName" placeholder=" " required>
-    <label>نام</label>
+  <h1>🎉 باشگاه مشتریان</h1>
+  <div class="card">
+    <h2 id="name">کاربر مهمان</h2>
+    <p>امتیاز شما: <span id="points">0</span></p>
+    <p>سطح شما: <span id="level" class="badge bronze">Bronze 🥉</span></p>
+    <button onclick="addPoints()">+ ثبت خرید</button>
   </div>
 
-  <div class="input-container">
-    <input type="text" name="lastName" placeholder=" " required>
-    <label>نام خانوادگی</label>
-  </div>
+  <script>
+    let points = localStorage.getItem("points") || 0;
+    points = parseInt(points);
+    document.getElementById("points").textContent = points;
+    updateLevel();
 
-  <div class="input-container">
-    <input type="tel" name="phone" placeholder=" " required>
-    <label>شماره تماس</label>
-  </div>
+    function addPoints() {
+      points += 10; // هر خرید ۱۰ امتیاز
+      localStorage.setItem("points", points);
+      document.getElementById("points").textContent = points;
+      updateLevel();
+    }
 
-  <button type="submit">ارسال</button>
-  <p id="response"></p>
-</form>
-
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwvvmLpPNmD_6lPGBIPBXyx521F4-8_xMGA0W_isOnhNlUMvqGbqhXwR3FJU9BJW9jD/exec";
-
-// تولید کد تخفیف رندوم یکتا
-function generateDiscountCode(length=6){
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let code = '';
-  for(let i=0;i<length;i++){
-    code += chars.charAt(Math.floor(Math.random()*chars.length));
-  }
-  return code;
-}
-
-// تولید درصد تخفیف احتمالی
-function getRandomDiscount() {
-  const rand = Math.random();
-  if(rand < 0.01){ // حدود 1٪ شانس 50٪ تخفیف
-    return 50;
-  } else {
-    return Math.random() < 0.5 ? 10 : 15;
-  }
-}
-
-document.getElementById("myForm").addEventListener("submit", e=>{
-  e.preventDefault();
-
-  const formData = {
-    firstName: e.target.firstName.value,
-    lastName: e.target.lastName.value,
-    phone: e.target.phone.value
-  };
-
-  const discountCode = generateDiscountCode();
-  const discountPercent = getRandomDiscount();
-
-  formData.discountCode = discountCode;
-  formData.discountPercent = discountPercent;
-
-  fetch(scriptURL, {
-    method: "POST",
-    headers: {"Content-Type":"text/plain;charset=UTF-8"},
-    body: JSON.stringify(formData)
-  })
-  .then(res=>res.json())
-  .then(data=>{
-    const resp = document.getElementById("response");
-    resp.innerText = `✅ اطلاعات ثبت شد! کد تخفیف شما: ${discountCode} - ${discountPercent}%`;
-    resp.classList.add("show");
-    e.target.reset();
-    setTimeout(()=>{ resp.classList.remove("show"); }, 5000);
-  })
-  .catch(err=>{
-    const resp = document.getElementById("response");
-    resp.innerText = "❌ خطا در ثبت اطلاعات";
-    resp.classList.add("show");
-    console.error("Error:", err);
-    setTimeout(()=>{ resp.classList.remove("show"); }, 5000);
-  });
-});
-</script>
-
+    function updateLevel() {
+      const levelEl = document.getElementById("level");
+      if (points >= 100) {
+        levelEl.textContent = "Gold 🏆";
+        levelEl.className = "badge gold";
+      } else if (points >= 50) {
+        levelEl.textContent = "Silver 🥈";
+        levelEl.className = "badge silver";
+      } else {
+        levelEl.textContent = "Bronze 🥉";
+        levelEl.className = "badge bronze";
+      }
+    }
+  </script>
 </body>
 </html>
