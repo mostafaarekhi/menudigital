@@ -1,55 +1,123 @@
-<h2>🏆 رتبه‌بندی مشتریان</h2>
-<table border="1" cellpadding="10" cellspacing="0" style="margin:auto; border-collapse:collapse;">
-  <thead>
-    <tr>
-      <th>رتبه</th>
-      <th>نام و فامیل</th>
-      <th>شماره تماس</th>
-      <th>امتیاز</th>
-    </tr>
-  </thead>
-  <tbody id="leaderboard">
-    <tr><td colspan="4">در حال بارگذاری...</td></tr>
-  </tbody>
-</table>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>باشگاه مشتریان</title>
+<style>
+  body { font-family: sans-serif; background: #f4f6f9; margin:0; padding:20px; }
+  .container { display:flex; justify-content: center; gap:40px; flex-wrap: wrap; }
+  .card { background:white; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:350px; }
+  h2 { text-align:center; }
+  input, button { width:100%; padding:10px; margin:5px 0; border-radius:8px; border:1px solid #ccc; }
+  button { background:#4CAF50; color:white; border:none; cursor:pointer; }
+  table { width:100%; border-collapse: collapse; margin-top:10px; }
+  th, td { border:1px solid #ddd; padding:8px; text-align:center; }
+  th { background:#f0f0f0; }
+  .highlight { background:#fffae6; font-weight:bold; }
+</style>
+</head>
+<body>
 
+<h1 style="text-align:center;">🎉 باشگاه مشتریان</h1>
+<div class="container">
+  <!-- فرم ثبت خرید -->
+  <div class="card">
+    <h2>📋 ثبت خرید</h2>
+    <form id="purchaseForm">
+      <input type="text" id="name" placeholder="نام و فامیل" required>
+      <input type="text" id="phone" placeholder="شماره تماس" required>
+      <input type="text" id="invoice" placeholder="شماره فاکتور" required>
+      <input type="date" id="date" required>
+      <button type="submit">ثبت خرید</button>
+    </form>
+  </div>
+
+  <!-- مشتریان برتر -->
+  <div class="card">
+    <h2>🏆 مشتریان برتر</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>رتبه</th>
+          <th>نام</th>
+          <th>امتیاز</th>
+          <th>تاریخ آخرین خرید</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard">
+        <tr><td colspan="4">در حال بارگذاری...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jalaali-js@1.1.0/dist/jalaali-js.min.js"></script>
 <script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwRFlV4eMfuWghaS08F1vZ_srZX7yFi_wzFNGtKJgIEYGPLO7QpsmrNTpIpb373Sbfc/exec"; // لینک Google Apps Script
+
+// تبدیل تاریخ میلادی به شمسی
+function toJalali(dateStr) {
+  const d = new Date(dateStr);
+  const j = jalaali.toJalaali(d.getFullYear(), d.getMonth()+1, d.getDate());
+  return `${j.jy}/${j.jm.toString().padStart(2,'0')}/${j.jd.toString().padStart(2,'0')}`;
+}
+
+// بارگذاری مشتریان برتر
 async function loadLeaderboard() {
-  const res = await fetch("https://script.google.com/macros/s/AKfycbwRFlV4eMfuWghaS08F1vZ_srZX7yFi_wzFNGtKJgIEYGPLO7QpsmrNTpIpb373Sbfc/exec"); // URL Google Apps Script doGet
+  const res = await fetch(SCRIPT_URL);
   const data = await res.json();
 
-  // جمع کردن امتیازها بر اساس شماره تماس
   const users = {};
   data.forEach(item => {
-    if(users[item.phone]) {
+    if(users[item.phone]){
       users[item.phone].points += Number(item.points) || 0;
+      users[item.phone].lastDate = item.date;
     } else {
       users[item.phone] = {
         name: item.name,
         phone: item.phone,
-        points: Number(item.points) || 0
+        points: Number(item.points) || 0,
+        lastDate: item.date
       };
     }
   });
 
-  // تبدیل به آرایه و مرتب‌سازی بر اساس امتیاز
-  const leaderboard = Object.values(users).sort((a,b) => b.points - a.points);
+  const leaderboard = Object.values(users).sort((a,b)=>b.points - a.points);
 
   const tbody = document.getElementById("leaderboard");
   tbody.innerHTML = "";
-
-  leaderboard.forEach((user, index) => {
+  leaderboard.forEach((user,index)=>{
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${index+1}</td>
       <td>${user.name}</td>
-      <td>${user.phone}</td>
       <td>${user.points}</td>
+      <td>${toJalali(user.lastDate)}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// بارگذاری داشبورد
+// ثبت خرید
+document.getElementById("purchaseForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const invoice = document.getElementById("invoice").value;
+  const date = document.getElementById("date").value;
+
+  const res = await fetch(SCRIPT_URL,{
+    method:"POST",
+    body: JSON.stringify({name, phone, invoice, date})
+  });
+
+  const data = await res.json();
+  alert(data.message);
+  loadLeaderboard(); // بروزرسانی جدول
+});
+
+// بارگذاری اولیه
 loadLeaderboard();
 </script>
+</body>
+</html>
