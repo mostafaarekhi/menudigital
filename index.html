@@ -1,26 +1,55 @@
-<h2>📋 ثبت خرید</h2>
-<form onsubmit="sendData(event)">
-  <input type="text" id="name" placeholder="نام و فامیل" required><br><br>
-  <input type="text" id="phone" placeholder="شماره تماس" required><br><br>
-  <input type="text" id="invoice" placeholder="شماره فاکتور" required><br><br>
-  <input type="date" id="date" required><br><br>
-  <button type="submit">ثبت خرید</button>
-</form>
+<h2>🏆 رتبه‌بندی مشتریان</h2>
+<table border="1" cellpadding="10" cellspacing="0" style="margin:auto; border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>رتبه</th>
+      <th>نام و فامیل</th>
+      <th>شماره تماس</th>
+      <th>امتیاز</th>
+    </tr>
+  </thead>
+  <tbody id="leaderboard">
+    <tr><td colspan="4">در حال بارگذاری...</td></tr>
+  </tbody>
+</table>
 
 <script>
-async function sendData(e) {
-  e.preventDefault();
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
-  let invoice = document.getElementById("invoice").value;
-  let date = document.getElementById("date").value;
+async function loadLeaderboard() {
+  const res = await fetch("https://script.google.com/macros/s/AKfycbwRFlV4eMfuWghaS08F1vZ_srZX7yFi_wzFNGtKJgIEYGPLO7QpsmrNTpIpb373Sbfc/exec"); // URL Google Apps Script doGet
+  const data = await res.json();
 
-  let res = await fetch("https://script.google.com/macros/s/AKfycbwRFlV4eMfuWghaS08F1vZ_srZX7yFi_wzFNGtKJgIEYGPLO7QpsmrNTpIpb373Sbfc/exec", {
-    method: "POST",
-    body: JSON.stringify({ name, phone, invoice, date })
+  // جمع کردن امتیازها بر اساس شماره تماس
+  const users = {};
+  data.forEach(item => {
+    if(users[item.phone]) {
+      users[item.phone].points += Number(item.points) || 0;
+    } else {
+      users[item.phone] = {
+        name: item.name,
+        phone: item.phone,
+        points: Number(item.points) || 0
+      };
+    }
   });
 
-  let data = await res.json();
-  alert(data.message);
+  // تبدیل به آرایه و مرتب‌سازی بر اساس امتیاز
+  const leaderboard = Object.values(users).sort((a,b) => b.points - a.points);
+
+  const tbody = document.getElementById("leaderboard");
+  tbody.innerHTML = "";
+
+  leaderboard.forEach((user, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${index+1}</td>
+      <td>${user.name}</td>
+      <td>${user.phone}</td>
+      <td>${user.points}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
+
+// بارگذاری داشبورد
+loadLeaderboard();
 </script>
