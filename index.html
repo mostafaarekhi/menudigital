@@ -1,123 +1,194 @@
-<!DOCTYPE html>
-<html lang="fa">
+<!doctype html>
+<html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>باشگاه مشتریان</title>
-<style>
-  body { font-family: sans-serif; background: #f4f6f9; margin:0; padding:20px; }
-  .container { display:flex; justify-content: center; gap:40px; flex-wrap: wrap; }
-  .card { background:white; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:350px; }
-  h2 { text-align:center; }
-  input, button { width:100%; padding:10px; margin:5px 0; border-radius:8px; border:1px solid #ccc; }
-  button { background:#4CAF50; color:white; border:none; cursor:pointer; }
-  table { width:100%; border-collapse: collapse; margin-top:10px; }
-  th, td { border:1px solid #ddd; padding:8px; text-align:center; }
-  th { background:#f0f0f0; }
-  .highlight { background:#fffae6; font-weight:bold; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>منو رستوران - نسخه بازتولید</title>
+  <meta name="description" content="نسخه بازتولید قالب منو رستوران شبیه پیش‌نمایش"> 
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family: 'Tahoma', 'Vazir', sans-serif;background:#faf7f3;color:#222}
+    a{color:inherit;text-decoration:none}
+
+    /* Topbar */
+    .topbar{background:#111;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+    .brand h1{font-size:18px}
+    .actions{display:flex;gap:8px;align-items:center}
+    .btn{background:#ff7a00;color:#fff;padding:8px 12px;border-radius:8px;font-weight:600}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:28px}
+    .hero .intro{background:linear-gradient(90deg, #fff 0%, #fff 100%);padding:18px;border-radius:12px;box-shadow:0 6px 22px rgba(18,18,18,0.06)}
+    .hero h2{font-size:28px;margin-bottom:8px}
+    .hero p{color:#444;line-height:1.6}
+    .hero .card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 10px 30px rgba(12,12,12,0.06)}
+    .menu-preview{display:flex;flex-direction:column;gap:12px}
+    .menu-item-preview{display:flex;gap:12px;align-items:center}
+    .menu-item-preview img{width:72px;height:56px;border-radius:8px;object-fit:cover}
+
+    /* Menu list */
+    .menu{padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .section{background:#fff;border-radius:12px;padding:14px;box-shadow:0 8px 30px rgba(12,12,12,0.06)}
+    .section h3{margin-bottom:12px}
+    .dish{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px dashed #eee}
+    .dish:last-child{border-bottom:none}
+    .dish .left{display:flex;gap:10px;align-items:center}
+    .dish img{width:56px;height:48px;border-radius:8px;object-fit:cover}
+    .dish .meta{line-height:1.2}
+    .dish .price{font-weight:700}
+
+    /* Footer / sticky bottom */
+    .sticky{position:fixed;left:18px;right:18px;bottom:18px;background:linear-gradient(90deg,#fff,#fff);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 12px 40px rgba(10,10,10,0.08)}
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr}
+      .menu{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .menu{grid-template-columns:1fr}
+      .topbar{flex-direction:column;align-items:flex-start;gap:8px}
+      .hero{padding:14px}
+      .sticky{left:10px;right:10px}
+    }
+  </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="https://via.placeholder.com/120x120.png?text=Logo" alt="لوگو">
+      <div>
+        <h1>پرنیان — منو رستوران</h1>
+        <div style="font-size:12px;color:#ddd">نسخه بازتولید</div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn" href="#download">دانلود</a>
+      <a class="btn" href="#order">سفارش آنلاین</a>
+    </div>
+  </header>
 
-<h1 style="text-align:center;">🎉 باشگاه مشتریان</h1>
-<div class="container">
-  <!-- فرم ثبت خرید -->
-  <div class="card">
-    <h2>📋 ثبت خرید</h2>
-    <form id="purchaseForm">
-      <input type="text" id="name" placeholder="نام و فامیل" required>
-      <input type="text" id="phone" placeholder="شماره تماس" required>
-      <input type="text" id="invoice" placeholder="شماره فاکتور" required>
-      <input type="date" id="date" required>
-      <button type="submit">ثبت خرید</button>
-    </form>
+  <main>
+    <section class="hero">
+      <div class="intro">
+        <h2>منوی ویژه امروز</h2>
+        <p>اینجا می‌توانید منوی رستوران را با طراحی زیبا و خوانا ببینید. نسخهٔ بازتولید حاوی HTML/CSS ساده و قابل ویرایش است.</p>
+        <div style="height:14px"></div>
+        <div class="card menu-preview">
+          <div class="menu-item-preview">
+            <img src="https://via.placeholder.com/160x120.png?text=خوراک" alt="خوراک">
+            <div>
+              <div style="font-weight:700">چلو کباب لقمه</div>
+              <div style="font-size:13px;color:#666">گوشت تازه، سرو با برنج و گوجه</div>
+            </div>
+            <div style="margin-inline-start:auto;font-weight:800">120,000 تومان</div>
+          </div>
+          <div class="menu-item-preview">
+            <img src="https://via.placeholder.com/160x120.png?text=پیتزا" alt="پیتزا">
+            <div>
+              <div style="font-weight:700">پیتزا مخصوص</div>
+              <div style="font-size:13px;color:#666">پنیر خامه‌ای و تاپینگ تازه</div>
+            </div>
+            <div style="margin-inline-start:auto;font-weight:800">95,000 تومان</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <h3>سفارش سریع</h3>
+        <p style="font-size:14px;color:#555">آیتم‌ها را از پایین انتخاب کنید و به سبد اضافه کنید. این نسخه نمونه دکمه‌ها و منطق ساده‌ای دارد.</p>
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:8px">
+          <button onclick="scrollToSection('m1')" class="btn">غذاها</button>
+          <button onclick="scrollToSection('m2')" class="btn">پیش‌غذا</button>
+        </div>
+      </aside>
+    </section>
+
+    <section id="menu" class="menu">
+      <div id="m1" class="section">
+        <h3>غذاهای اصلی</h3>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=1" alt="">
+            <div class="meta"><div>چلو کباب لقمه</div><div style="font-size:13px;color:#666">گوشت تازه با سس ویژه</div></div>
+          </div>
+          <div class="price">120,000 تومان</div>
+        </div>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=2" alt="">
+            <div class="meta"><div>چلو جوجه</div><div style="font-size:13px;color:#666">سینه مرغ مزه‌دار</div></div>
+          </div>
+          <div class="price">95,000 تومان</div>
+        </div>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=3" alt="">
+            <div class="meta"><div>خوراک ماهی</div><div style="font-size:13px;color:#666">ماهی روز با سبزیجات</div></div>
+          </div>
+          <div class="price">140,000 تومان</div>
+        </div>
+      </div>
+
+      <div id="m2" class="section">
+        <h3>پیش‌غذا و سالاد</h3>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=4" alt="">
+            <div class="meta"><div>سالاد فصل</div><div style="font-size:13px;color:#666">سبزیجات تازه و سس مخصوص</div></div>
+          </div>
+          <div class="price">25,000 تومان</div>
+        </div>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=5" alt="">
+            <div class="meta"><div>سوپ روز</div><div style="font-size:13px;color:#666">سوپ مخصوص سرآشپز</div></div>
+          </div>
+          <div class="price">18,000 تومان</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>نوشیدنی و دسر</h3>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=6" alt="">
+            <div class="meta"><div>شیرینی خانگی</div><div style="font-size:13px;color:#666">با چای یا قهوه</div></div>
+          </div>
+          <div class="price">22,000 تومان</div>
+        </div>
+        <div class="dish">
+          <div class="left"><img src="https://via.placeholder.com/160x120.png?text=7" alt="">
+            <div class="meta"><div>قهوه اسپرسو</div><div style="font-size:13px;color:#666">تازه و داغ</div></div>
+          </div>
+          <div class="price">12,000 تومان</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="sticky">
+    <div>جمع سبد: <strong id="cartTotal">0</strong> کالا</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="openOrder()">ارسال سفارش</button>
+      <a class="btn" id="download" href="#" onclick="downloadHTML()">دانلود HTML</a>
+    </div>
   </div>
 
-  <!-- مشتریان برتر -->
-  <div class="card">
-    <h2>🏆 مشتریان برتر</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>رتبه</th>
-          <th>نام</th>
-          <th>امتیاز</th>
-          <th>تاریخ آخرین خرید</th>
-        </tr>
-      </thead>
-      <tbody id="leaderboard">
-        <tr><td colspan="4">در حال بارگذاری...</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/jalaali-js@1.1.0/dist/jalaali-js.min.js"></script>
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEtbgHzMUJSeL3zF9xEp7TlT-sjKjK94BD0uCGHikPOg6fP7k_-urbTIGEuQN2ESJ2/exec"; // لینک Google Apps Script
-
-// تبدیل تاریخ میلادی به شمسی
-function toJalali(dateStr) {
-  const d = new Date(dateStr);
-  const j = jalaali.toJalaali(d.getFullYear(), d.getMonth()+1, d.getDate());
-  return `${j.jy}/${j.jm.toString().padStart(2,'0')}/${j.jd.toString().padStart(2,'0')}`;
-}
-
-// بارگذاری مشتریان برتر
-async function loadLeaderboard() {
-  const res = await fetch(SCRIPT_URL);
-  const data = await res.json();
-
-  const users = {};
-  data.forEach(item => {
-    if(users[item.phone]){
-      users[item.phone].points += Number(item.points) || 0;
-      users[item.phone].lastDate = item.date;
-    } else {
-      users[item.phone] = {
-        name: item.name,
-        phone: item.phone,
-        points: Number(item.points) || 0,
-        lastDate: item.date
-      };
+  <script>
+    // ساده‌سازی عملکرد دکمه‌ها — این اسکریپت صرفاً نمایشی است
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
     }
-  });
-
-  const leaderboard = Object.values(users).sort((a,b)=>b.points - a.points);
-
-  const tbody = document.getElementById("leaderboard");
-  tbody.innerHTML = "";
-  leaderboard.forEach((user,index)=>{
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${index+1}</td>
-      <td>${user.name}</td>
-      <td>${user.points}</td>
-      <td>${toJalali(user.lastDate)}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-// ثبت خرید
-document.getElementById("purchaseForm").addEventListener("submit", async e=>{
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const invoice = document.getElementById("invoice").value;
-  const date = document.getElementById("date").value;
-
-  const res = await fetch(SCRIPT_URL,{
-    method:"POST",
-    body: JSON.stringify({name, phone, invoice, date})
-  });
-
-  const data = await res.json();
-  alert(data.message);
-  loadLeaderboard(); // بروزرسانی جدول
-});
-
-// بارگذاری اولیه
-loadLeaderboard();
-</script>
+    function openOrder(){
+      alert('در این نسخه آزمایشی، قابلیت سفارش‌دهی غیرفعال است.');
+    }
+    function downloadHTML(){
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html],{type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'menu.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+  </script>
 </body>
 </html>
