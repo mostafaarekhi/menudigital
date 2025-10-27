@@ -67,6 +67,12 @@ canvas {
   color: #333;
   display: none;
 }
+#save-btn {
+  display: none;
+  margin-top: 10px;
+  background: #28a745;
+}
+#save-btn:hover { background: #1e7e34; }
 </style>
 </head>
 <body>
@@ -84,6 +90,7 @@ canvas {
   <canvas id="wheel" width="300" height="300"></canvas>
   <button id="spin">بچرخ!</button>
   <div id="result"></div>
+  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
 <script>
@@ -92,6 +99,7 @@ const wheelBox = document.getElementById('wheel-container');
 const ctx = document.getElementById('wheel').getContext('2d');
 const resultBox = document.getElementById('result');
 const spinBtn = document.getElementById('spin');
+const saveBtn = document.getElementById('save-btn');
 
 const segments = ["تخفیف ۵٪", "ارسال رایگان", "تخفیف ۱۰٪", "هیچ جایزه‌ای", "تخفیف ۲۰٪", "کد ویژه"];
 const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
@@ -99,6 +107,7 @@ const segAngle = 360 / segments.length;
 
 let currentAngle = 0;
 let spinning = false;
+let winner = "";
 
 // رسم گردونه
 function drawWheel(angle){
@@ -139,12 +148,13 @@ document.getElementById('submit').onclick = () => {
   wheelBox.style.display = 'flex';
 }
 
-// چرخش گردونه و ارسال فوری به شیت
+// چرخش گردونه
 function spinWheel(){
   if(spinning) return;
 
   spinning = true;
   resultBox.style.display = 'none';
+  saveBtn.style.display = 'none';
   spinBtn.disabled = true;
 
   const totalRotations = 360 * 6;
@@ -166,32 +176,41 @@ function spinWheel(){
       currentAngle = angle % 360;
       const adjusted = (currentAngle + 90) % 360;
       const index = Math.floor((360 - adjusted) / segAngle) % segments.length;
-      const winner = segments[index];
+      winner = segments[index];
 
-      // نمایش نتیجه
       resultBox.innerText = "🎉 نتیجه: " + winner;
       resultBox.style.display = 'block';
+      saveBtn.style.display = 'inline-block';
 
-      // ارسال فوری به گوگل شیت
-      const prizeData = {
-        name: document.getElementById('name').value,
-        family: document.getElementById('family').value,
-        age: document.getElementById('age').value,
-        prize: winner
-      };
-
-      fetch('https://script.google.com/macros/s/AKfycbyB57d60vyKW1-_JGSvNBVN8fJ0Pbrc8TfY9zt6gzXVAUKRa3gyBdMFXM7VysPFueV8/exec', {  // جایگزین کن با URL وب اپ گوگل شیت
-        method: 'POST',
-        body: JSON.stringify(prizeData),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(res => res.json())
-      .then(data => console.log('ارسال شد', data))
-      .catch(err => console.error('خطا در ارسال', err));
-
-      spinBtn.disabled = false;
       spinning = false;
+      spinBtn.disabled = false;
     }
+  });
+}
+
+// ثبت در گوگل شیت با دکمه
+saveBtn.onclick = () => {
+  const prizeData = {
+    name: document.getElementById('name').value,
+    family: document.getElementById('family').value,
+    age: document.getElementById('age').value,
+    prize: winner
+  };
+
+  fetch('https://script.google.com/macros/s/AKfycbyB57d60vyKW1-_JGSvNBVN8fJ0Pbrc8TfY9zt6gzXVAUKRa3gyBdMFXM7VysPFueV8/exec', {  // جایگزین کن با URL وب اپ گوگل شیت
+    method: 'POST',
+    body: JSON.stringify(prizeData),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('ارسال شد', data);
+    alert('اطلاعات شما ثبت شد!');
+    saveBtn.style.display = 'none';
+  })
+  .catch(err => {
+    console.error('خطا در ارسال', err);
+    alert('خطا در ثبت اطلاعات. دوباره تلاش کنید.');
   });
 }
 
