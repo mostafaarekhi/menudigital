@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با لوگو ثابت و تصاویر وسط</title>
+<title>گردونه شانس با تصاویر فیت</title>
 <style>
 body {
   font-family: sans-serif;
@@ -57,7 +57,6 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 </head>
 <body>
 
-<!-- لوگو ثابت -->
 <img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
 
 <div id="form-container">
@@ -88,7 +87,8 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <script>
 const form = document.getElementById('form-container');
 const wheelBox = document.getElementById('wheel-container');
-const ctx = document.getElementById('wheel').getContext('2d');
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
 const resultBox = document.getElementById('result');
 const spinBtn = document.getElementById('spin');
 const saveBtn = document.getElementById('save-btn');
@@ -129,11 +129,13 @@ function preloadImages(callback){
   }
 }
 
-// رسم گردونه و تصویر وسط هر بخش
+// رسم گردونه با تصاویر فیت
 function drawWheel(angle){
   if(!imagesLoaded) return;
-  const cx=150, cy=150, r=140;
-  ctx.clearRect(0,0,300,300);
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  const r = Math.min(cx,cy)-20;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(angle*Math.PI/180);
@@ -151,11 +153,11 @@ function drawWheel(angle){
     ctx.save();
     ctx.clip();
 
-    // تصویر وسط بخش
+    // تصویر وسط بخش فیت با بخش
     const img = loadedImages[i];
-    const imgSize = 60;
-    const imgX = r/2 * Math.cos(midRad) - imgSize/2;
-    const imgY = r/2 * Math.sin(midRad) - imgSize/2;
+    const imgSize = r*0.8;
+    const imgX = (r/2) * Math.cos(midRad) - imgSize/2;
+    const imgY = (r/2) * Math.sin(midRad) - imgSize/2;
     ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
 
     ctx.restore();
@@ -169,10 +171,11 @@ function drawWheel(angle){
     ctx.strokeStyle = "#ffffff";
     ctx.stroke();
   }
-
   ctx.restore();
 }
 
+canvas.width = 300;
+canvas.height = 300;
 preloadImages(()=>{ drawWheel(0); });
 
 // ثبت فرم و نمایش گردونه
