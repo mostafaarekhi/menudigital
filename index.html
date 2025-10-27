@@ -57,7 +57,7 @@ const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪
 const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
 const segAngle = 360 / segments.length;
 
-// مسیر یا لینک تصاویر
+// لینک تصاویر (می‌توانید لینک خودتان را جایگزین کنید)
 const images = [
   "https://i.ibb.co/5vFJzZp/discount5.png",
   "https://i.ibb.co/3m2gL5H/free-shipping.png",
@@ -90,7 +90,7 @@ function preloadImages(callback){
   }
 }
 
-// رسم گردونه با تصاویر
+// رسم گردونه با تصاویر داخل بخش
 function drawWheel(angle){
   if(!imagesLoaded) return;
   const cx=150, cy=150, r=140;
@@ -106,11 +106,13 @@ function drawWheel(angle){
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
 
+    // رسم تصویر داخل بخش
     ctx.save();
     ctx.rotate((i+0.5)*segAngle*Math.PI/180);
     const img = loadedImages[i];
-    const imgSize = 40;
-    ctx.drawImage(img, 90 - imgSize/2, -imgSize/2, imgSize, imgSize);
+    const imgSize = 30; // اندازه کوچکتر برای داخل کادر
+    const radiusFromCenter = 80; // فاصله از مرکز کمتر از شعاع
+    ctx.drawImage(img, radiusFromCenter - imgSize/2, -imgSize/2, imgSize, imgSize);
     ctx.restore();
   }
 
