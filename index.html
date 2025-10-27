@@ -22,7 +22,6 @@
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       text-align: center;
-      transition: 0.3s;
     }
     input {
       display: block;
@@ -145,7 +144,7 @@
       spinBtn.disabled = true;
 
       const totalRotations = 360 * 6;
-      const randomOffset = Math.random() * (segAngle - 4) + 2; // همیشه داخل بخش، نه روی مرز
+      const randomOffset = Math.random() * (segAngle - 4) + 2; 
       const targetIndex = Math.floor(Math.random() * segments.length);
       const stopAngle = totalRotations + (targetIndex * segAngle + randomOffset);
       const startAngle = currentAngle;
@@ -162,9 +161,9 @@
         } else {
           currentAngle = angle % 360;
 
-          // موقعیت واقعی فلش در بالای دایره است => زاویه 270 درجه (محور Y منفی)
-          const adjusted = (360 - currentAngle + 90) % 360;
-          const index = Math.floor(adjusted / segAngle) % segments.length;
+          // ✅ فلش بالای دایره (270 درجه) است، و چرخ از زاویه صفر سمت راست شروع می‌شود
+          const adjusted = (currentAngle + 90) % 360;
+          const index = Math.floor((360 - adjusted) / segAngle) % segments.length;
 
           const winner = segments[index];
           resultBox.innerText = "🎉 نتیجه: " + winner;
