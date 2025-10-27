@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با تصاویر full-section و مرز</title>
+<title>گردونه شانس با تصاویر و لوگو</title>
 <style>
 body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
 #form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
@@ -21,22 +21,24 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <body>
 
 <div id="form-container">
-<h2>ثبت اطلاعات</h2>
-<input type="text" id="name" placeholder="نام">
-<input type="text" id="family" placeholder="نام خانوادگی">
-<input type="number" id="age" placeholder="سن">
-<button id="submit">ثبت</button>
+  <img src="https://barista-und-espresso.de/cdn/shop/articles/kostnad-for-att-oppna-ett-cafe-979328_1024x1024.webp?v=1740514475" alt="لوگو" style="width:120px; margin-bottom:15px;">
+  <h2>ثبت اطلاعات</h2>
+  <input type="text" id="name" placeholder="نام">
+  <input type="text" id="family" placeholder="نام خانوادگی">
+  <input type="number" id="age" placeholder="سن">
+  <button id="submit">ثبت</button>
 </div>
 
 <div id="wheel-container">
-<div id="pointer"></div>
-<canvas id="wheel" width="300" height="300"></canvas>
-<button id="spin">بچرخ!</button>
-<div id="result"></div>
-<button id="save-btn">ثبت جایزه در گوگل شیت</button>
+  <img src="YOUR_LOGO_URL" alt="لوگو" style="width:120px; margin-bottom:15px;">
+  <div id="pointer"></div>
+  <canvas id="wheel" width="300" height="300"></canvas>
+  <button id="spin">بچرخ!</button>
+  <div id="result"></div>
+  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
+<form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
 <input type="hidden" name="name" id="hiddenName">
 <input type="hidden" name="family" id="hiddenFamily">
 <input type="hidden" name="age" id="hiddenAge">
@@ -56,14 +58,14 @@ const saveBtn = document.getElementById('save-btn');
 const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
 const segAngle = 360 / segments.length;
 
-// لینک تصاویر full-section (مربع و بزرگ)
+// تصاویر full-section (مربع و بزرگ)
 const images = [
-  "https://s3-eu-west-1.amazonaws.com/static.koeln.de/000/000/040/563/versions/neues-interieuer_722x406_669a777393c74.png",
-  "https://www.stwhh.de/fileadmin/_processed_/3/5/csm_Cafe_DellArte_innen_Gastraum_e30d09dd12.jpg",
-  "https://cafe-pfau.de/wp-content/uploads/2020/05/pfau_street-1024x682.jpg",
-  "https://www.eben-ezer.de/files/ebenezer/artikel/Cafe%20Vielfalt%20Innenraum.jpg",
-  "https://www.people-abroad.de/blog/wp-content/uploads/2020/06/cafe-meerwiesen-cafe-mannheim.jpg",
-  "https://static.wixstatic.com/media/22a932_3dceaf78b748431080109730722541b8~mv2.png/v1/fill/w_640,h_532,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22a932_3dceaf78b748431080109730722541b8~mv2.png"
+  "https://i.ibb.co/5vFJzZp/discount5.png",
+  "https://i.ibb.co/3m2gL5H/free-shipping.png",
+  "https://i.ibb.co/QdQnVJq/discount10.png",
+  "https://i.ibb.co/9nhgLwK/no-prize.png",
+  "https://i.ibb.co/0BfKdJ6/discount20.png",
+  "https://i.ibb.co/7Yc08kT/special-code.png"
 ];
 
 let loadedImages = [];
@@ -99,19 +101,17 @@ function drawWheel(angle){
   ctx.rotate(angle*Math.PI/180);
 
   for(let i=0;i<segments.length;i++){
-    // برش بخش دایره
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.closePath();
 
     ctx.save();
-    ctx.clip(); // فقط داخل بخش
+    ctx.clip();
     const img = loadedImages[i];
-    ctx.drawImage(img, -r, -r, r*2, r*2); // تصویر full-section
+    ctx.drawImage(img, -r, -r, r*2, r*2);
     ctx.restore();
 
-    // stroke بین بخش‌ها
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
@@ -124,7 +124,6 @@ function drawWheel(angle){
   ctx.restore();
 }
 
-// شروع پیش‌بارگذاری و رسم اولیه
 preloadImages(()=>{ drawWheel(0); });
 
 // ثبت فرم و نمایش گردونه
