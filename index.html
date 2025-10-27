@@ -7,167 +7,182 @@
   <style>
     body {
       font-family: sans-serif;
-      text-align: center;
       direction: rtl;
-      background: linear-gradient(135deg, #f0f0f0, #c0eaff);
-      height: 100vh;
-      margin: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+      margin: 0;
     }
-
-    #wheel-container {
-      position: relative;
-      display: none;
-      margin-top: 30px;
+    #form-container, #wheel-container {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      text-align: center;
     }
-
-    #wheel {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      border: 5px solid #333;
-      position: relative;
-      overflow: hidden;
-      transition: transform 5s ease-out;
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 200px;
     }
-
-    .segment {
-      width: 50%;
-      height: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      background: conic-gradient(red, yellow, green, blue);
-    }
-
-    #pointer {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 20px solid black;
-    }
-
-    #spin-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
+    button {
+      background: #007BFF;
       color: white;
       border: none;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
-    }
-
-    #spin-btn:disabled {
-      background-color: gray;
-      cursor: not-allowed;
-    }
-
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-
-    input {
-      margin: 10px;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    #result {
       font-weight: bold;
-      margin-top: 20px;
+    }
+    button:hover { background: #0056b3; }
+    #wheel-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    canvas {
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    #pointer {
+      width: 0; 
+      height: 0; 
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid red;
+      margin-bottom: -20px;
+    }
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <form id="user-form">
-    <h2>فرم ورود</h2>
-    <input type="text" id="name" placeholder="نام" required>
-    <input type="text" id="family" placeholder="نام خانوادگی" required>
-    <input type="number" id="age" placeholder="سن" required>
-    <button type="submit">ثبت</button>
-  </form>
+
+  <div id="form-container">
+    <h2>ثبت اطلاعات</h2>
+    <input type="text" id="name" placeholder="نام">
+    <input type="text" id="family" placeholder="نام خانوادگی">
+    <input type="number" id="age" placeholder="سن">
+    <button id="submit">ثبت</button>
+  </div>
 
   <div id="wheel-container">
     <div id="pointer"></div>
-    <div id="wheel"></div>
-    <button id="spin-btn">چرخوندن گردونه</button>
-    <p id="result"></p>
+    <canvas id="wheel" width="300" height="300"></canvas>
+    <button id="spin">بچرخ!</button>
+    <div id="result"></div>
   </div>
 
   <script>
-    const wheel = document.getElementById("wheel");
-    const result = document.getElementById("result");
-    const spinBtn = document.getElementById("spin-btn");
-    const userForm = document.getElementById("user-form");
-    const wheelContainer = document.getElementById("wheel-container");
+    const form = document.getElementById('form-container');
+    const wheelBox = document.getElementById('wheel-container');
+    const ctx = document.getElementById('wheel').getContext('2d');
+    const resultBox = document.getElementById('result');
+    const spinBtn = document.getElementById('spin');
 
-    const prizes = ["کد ویژه", "ارسال رایگان", "تخفیف 10 درصد", "تخفیف 20 درصد"];
-    const segmentAngle = 360 / prizes.length;
+    const segments = ["تخفیف ۵٪", "ارسال رایگان", "تخفیف ۱۰٪", "هیچ جایزه‌ای", "تخفیف ۲۰٪", "کد ویژه"];
+    const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
+    const segAngle = 360 / segments.length;
 
-    // رسم گردونه
-    prizes.forEach((prize, i) => {
-      const segment = document.createElement("div");
-      segment.classList.add("segment");
-      segment.style.background = i % 2 === 0 ? "#ffcc00" : "#ff6666";
-      segment.style.transform = `rotate(${i * segmentAngle}deg) skewY(${90 - segmentAngle}deg)`;
-      segment.textContent = prize;
-      segment.style.position = "absolute";
-      segment.style.top = "50%";
-      segment.style.left = "50%";
-      segment.style.transformOrigin = "0% 0%";
-      segment.style.textAlign = "center";
-      segment.style.paddingTop = "60px";
-      segment.style.fontWeight = "bold";
-      segment.style.color = "#fff";
-      wheel.appendChild(segment);
-    });
+    let currentAngle = 0;
+    let spinning = false;
 
-    // ثبت اطلاعات فرم
-    userForm.addEventListener("submit", e => {
-      e.preventDefault();
-      userForm.style.display = "none";
-      wheelContainer.style.display = "block";
-    });
-
-    // بررسی اینکه کاربر قبلاً چرخونده یا نه
-    if (localStorage.getItem("spun") === "true") {
-      userForm.style.display = "none";
-      wheelContainer.style.display = "block";
-      spinBtn.disabled = true;
-      result.textContent = "شما قبلاً گردونه را چرخانده‌اید!";
+    function drawWheel(angle){
+      const cx = 150, cy = 150, r = 140;
+      ctx.clearRect(0,0,300,300);
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle * Math.PI / 180);
+      for(let i=0; i<segments.length; i++){
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.fillStyle = colors[i];
+        ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+        ctx.fill();
+        ctx.save();
+        ctx.rotate((i+0.5)*segAngle*Math.PI/180);
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 14px sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(segments[i], r - 10, 5);
+        ctx.restore();
+      }
+      ctx.restore();
     }
 
-    spinBtn.addEventListener("click", () => {
-      if (localStorage.getItem("spun") === "true") {
-        result.textContent = "شما قبلاً گردونه را چرخانده‌اید!";
+    drawWheel(0);
+
+    document.getElementById('submit').onclick = () => {
+      const name = document.getElementById('name').value.trim();
+      const family = document.getElementById('family').value.trim();
+      const age = document.getElementById('age').value.trim();
+
+      if(!name || !family || !age){
+        alert("لطفاً همه فیلدها را پر کنید");
         return;
       }
+      form.style.display = 'none';
+      wheelBox.style.display = 'flex';
+    };
 
+    // بررسی چرخش قبلی
+    if(localStorage.getItem("spun") === "true"){
+      form.style.display = 'none';
+      wheelBox.style.display = 'flex';
+      spinBtn.disabled = true;
+      resultBox.innerText = "شما قبلاً گردونه را چرخانده‌اید!";
+      resultBox.style.display = 'block';
+    }
+
+    function spinWheel(){
+      if(spinning) return;
+      spinning = true;
+      resultBox.style.display = 'none';
       spinBtn.disabled = true;
 
-      // انتخاب تصادفی زاویه برنده
-      const randomIndex = Math.floor(Math.random() * prizes.length);
-      const finalAngle = 3600 + (randomIndex * segmentAngle) + segmentAngle / 2; // همیشه وسط بخش
-      wheel.style.transform = `rotate(${finalAngle}deg)`;
+      const totalRotations = 360 * 6;
+      const randomOffset = Math.random() * (segAngle - 4) + 2;
+      const targetIndex = Math.floor(Math.random() * segments.length);
+      const stopAngle = totalRotations + (targetIndex * segAngle + randomOffset);
+      const startAngle = currentAngle;
+      const start = performance.now();
+      const duration = 4500;
 
-      setTimeout(() => {
-        result.textContent = `🎉 شما برنده ${prizes[randomIndex]} شدید!`;
-        localStorage.setItem("spun", "true");
-      }, 5200);
-    });
+      requestAnimationFrame(function animate(now){
+        const t = Math.min((now - start)/duration, 1);
+        const easeOut = 1 - Math.pow(1 - t, 3);
+        const angle = startAngle + (stopAngle - startAngle) * easeOut;
+        drawWheel(angle);
+        if(t < 1){
+          requestAnimationFrame(animate);
+        } else {
+          currentAngle = angle % 360;
+          const adjusted = (currentAngle + 90) % 360;
+          const index = Math.floor((360 - adjusted) / segAngle) % segments.length;
+          const winner = segments[index];
+          resultBox.innerText = "🎉 نتیجه: " + winner;
+          resultBox.style.display = 'block';
+          spinBtn.disabled = false;
+          spinning = false;
+          localStorage.setItem("spun", "true");
+        }
+      });
+    }
+
+    spinBtn.onclick = spinWheel;
   </script>
+
 </body>
 </html>
