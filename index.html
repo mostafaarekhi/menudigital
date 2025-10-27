@@ -17,7 +17,6 @@
     input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-bottom:12px;font-size:15px}
     .btn{display:inline-block;padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#042d33;font-weight:600;cursor:pointer}
     .error{color:#ffb4b4;background:rgba(255,80,80,0.06);padding:8px;border-radius:8px;margin-bottom:10px;display:none;text-align:center}
-    /* ابتدا wheelArea مخفیه و کانواس داخلش ایجاد نمیشه تا رندر زودهنگام اتفاق نیافته */
     .wheel-area{display:none;text-align:center;flex-direction:column;align-items:center}
     canvas{width:100%;max-width:350px;border-radius:50%;background:transparent;margin-bottom:20px}
     .result{margin-top:10px;padding:10px;border-radius:8px;background:rgba(6,182,212,0.08);color:var(--accent);font-weight:700}
@@ -32,9 +31,9 @@
     <form id="entryForm" autocomplete="off">
       <div id="formError" class="error"></div>
       <label for="fname">نام</label>
-      <input id="fname" type="text" placeholder="مثال: علی" required />
+      <input id="fname" type="text" placeholder="مثال: مصطفی" required />
       <label for="lname">فامیل</label>
-      <input id="lname" type="text" placeholder="مثال: نظری" required />
+      <input id="lname" type="text" placeholder="مثال: ارکھی" required />
       <label for="age">سن</label>
       <input id="age" type="number" placeholder="مثال: 30" required />
       <div style="text-align:center;margin-top:14px">
@@ -42,9 +41,8 @@
       </div>
     </form>
 
-    <!-- گردونه: کانواس و دکمه بعد از ثبت به طور دینامیک اضافه می‌شن -->
+    <!-- گردونه -->
     <div class="wheel-area" id="wheelArea">
-      <!-- کانواس به صورت داینامیک ایجاد می‌شود تا هیچ رندر زودهنگامی نداشته باشیم -->
       <div id="wheelContainer"></div>
       <button class="btn" id="spinBtn">بچرخان</button>
       <div id="resultBox" class="result" style="display:none"></div>
@@ -53,7 +51,6 @@
   </div>
 
 <script>
-/* ---------- متغیرهای رابط ---------- */
 const form = document.getElementById('entryForm');
 const formError = document.getElementById('formError');
 const wheelArea = document.getElementById('wheelArea');
@@ -62,11 +59,10 @@ const spinBtn = document.getElementById('spinBtn');
 const resultBox = document.getElementById('resultBox');
 const alreadyMsg = document.getElementById('alreadyMsg');
 
-/* ---------- تنظیمات بخش و توابع گردونه (آمادهٔ اجرا در زمان نمایش) ---------- */
 let canvas, ctx, center, radius;
 let segments = [
-  {label:"۵۰% تخفیف",color:"#ffb86b"},
-  {label:"کد تخفیف ۲۰%",color:"#8bd3c7"},
+  {label:"۵۰٪ تخفیف",color:"#ffb86b"},
+  {label:"کد تخفیف ۲۰٪",color:"#8bd3c7"},
   {label:"ارسال رایگان",color:"#a7f3d0"},
   {label:"کارت هدیه",color:"#fde68a"},
   {label:"هیچ‌چی :(",color:"#9aa6b2"},
@@ -74,11 +70,8 @@ let segments = [
 ];
 let spinning=false, currentRotation=0;
 
-/* تابعی برای اولیه‌سازی کانواس و رسم اولیۀ گردونه */
 function initWheelAndDrawOnce(){
-  // اگر قبلاً ساخته شده، دوباره نساز
   if(canvas) return;
-  // ایجاد کانواس و اضافه به کانتینر
   canvas = document.createElement('canvas');
   canvas.width = 800;
   canvas.height = 800;
@@ -87,10 +80,9 @@ function initWheelAndDrawOnce(){
   ctx = canvas.getContext('2d');
   center = {x: canvas.width/2, y: canvas.height/2};
   radius = Math.min(canvas.width, canvas.height)/2 - 10;
-  drawWheel(0); // فقط پس از ساخت کانواس رسم می‌کنیم
+  drawWheel(0);
 }
 
-/* رسم گردونه با زاویهٔ rot (رادیان) */
 function drawWheel(rot=0){
   const segAngle = 2*Math.PI/segments.length;
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -114,7 +106,6 @@ function drawWheel(rot=0){
     ctx.restore();
   }
   ctx.restore();
-  // pointer
   ctx.fillStyle="#fff";
   ctx.beginPath();
   ctx.moveTo(center.x-10,10);
@@ -124,32 +115,36 @@ function drawWheel(rot=0){
   ctx.fill();
 }
 
-/* انیمیشن چرخش و نشان دادن نتیجه */
 function spinOnce(){
   if(spinning) return;
   spinning = true;
   spinBtn.disabled = true;
   resultBox.style.display = 'none';
+
   const segAngle = 360 / segments.length;
   const targetIndex = Math.floor(Math.random()*segments.length);
-  const finalDeg = 360*4 + (360 - (targetIndex*segAngle + segAngle/2));
-  const finalRad = finalDeg * Math.PI/180;
-  const start = performance.now(), duration = 4000;
+
+  // زاویه تصادفی داخل بخش انتخاب‌شده (دور از مرز)
+  const offset = (Math.random() * (segAngle - 4)) + 2; // ۲ تا segAngle-۲ درجه داخل بخش
+  const stopDeg = 360*5 + (targetIndex * segAngle + offset);
+  const stopRad = stopDeg * Math.PI / 180;
+
+  const start = performance.now(), duration = 4500;
+
   (function anim(t){
-    const p = Math.min((t-start)/duration,1);
-    const ease = 1 - Math.pow(1-p,3);
-    const angle = currentRotation + (finalRad - currentRotation) * ease;
+    const p = Math.min((t - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3); // easeOutCubic
+    const angle = currentRotation + (stopRad - currentRotation) * ease;
     drawWheel(angle);
     if(p < 1) requestAnimationFrame(anim);
     else {
-      currentRotation = finalRad;
+      currentRotation = stopRad;
       showResult(targetIndex);
       spinning = false;
     }
   })(start);
 }
 
-/* نمایش نتیجه و ذخیره در localStorage */
 function showResult(index){
   resultBox.textContent = "نتیجه: " + segments[index].label;
   resultBox.style.display = 'block';
@@ -164,7 +159,6 @@ function showResult(index){
   }
 }
 
-/* ---------- فرم: ارسال اطلاعات ---------- */
 form.addEventListener('submit', e=>{
   e.preventDefault();
   formError.style.display = 'none';
@@ -186,18 +180,15 @@ form.addEventListener('submit', e=>{
   const data = {fname, lname, age: ageNum, spun: false, created: new Date().toISOString()};
   localStorage.setItem('wheel_user', JSON.stringify(data));
 
-  // مخفی کردن فرم و نمایش بخش گردونه — قبل از نمایش، کانواس را می‌سازیم و رسم می‌کنیم
   form.style.display = 'none';
   wheelArea.style.display = 'flex';
   initWheelAndDrawOnce();
   spinBtn.disabled = false;
 });
 
-/* ---------- بارگذاری اولیه: اگر کاربر قبلاً ثبت کرده باشد ---------- */
 window.addEventListener('load', ()=>{
   const user = JSON.parse(localStorage.getItem('wheel_user') || 'null');
   if(user){
-    // مخفی کردن فرم، نمایش گردونه، ساخت کانواس و نمایش نتیجه در صورت چرخش قبلی
     form.style.display = 'none';
     wheelArea.style.display = 'flex';
     initWheelAndDrawOnce();
@@ -210,18 +201,12 @@ window.addEventListener('load', ()=>{
     } else {
       spinBtn.disabled = false;
     }
-    // پر کردن فرم (اگر خواستی بعداً ویرایش کنه) -- مخفی هست اما مفیده
-    document.getElementById('fname').value = user.fname || '';
-    document.getElementById('lname').value = user.lname || '';
-    document.getElementById('age').value = user.age || '';
   } else {
-    // هیچ کاربری ثبت نشده؛ مطمئن می‌شویم wheelArea مخفی بمونه و کانواس ساخته نشه
     wheelArea.style.display = 'none';
     spinBtn.disabled = true;
   }
 });
 
-/* ---------- دکمهٔ چرخش ---------- */
 spinBtn.addEventListener('click', ()=>{
   const user = JSON.parse(localStorage.getItem('wheel_user') || 'null');
   if(!user){
