@@ -93,6 +93,16 @@ canvas {
   <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
+<!-- فرم مخفی برای ارسال به گوگل شیت -->
+<form id="gsForm" action="https://script.google.com/macros/s/AKfycbyB57d60vyKW1-_JGSvNBVN8fJ0Pbrc8TfY9zt6gzXVAUKRa3gyBdMFXM7VysPFueV8/exec" method="post" target="hidden_iframe">
+  <input type="hidden" name="name" id="hiddenName">
+  <input type="hidden" name="family" id="hiddenFamily">
+  <input type="hidden" name="age" id="hiddenAge">
+  <input type="hidden" name="prize" id="hiddenPrize">
+  <button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
+</form>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 <script>
 const form = document.getElementById('form-container');
 const wheelBox = document.getElementById('wheel-container');
@@ -188,30 +198,16 @@ function spinWheel(){
   });
 }
 
-// ثبت در گوگل شیت با دکمه
+// ثبت در گوگل شیت با فرم مخفی
 saveBtn.onclick = () => {
-  const prizeData = {
-    name: document.getElementById('name').value,
-    family: document.getElementById('family').value,
-    age: document.getElementById('age').value,
-    prize: winner
-  };
+  document.getElementById('hiddenName').value = document.getElementById('name').value;
+  document.getElementById('hiddenFamily').value = document.getElementById('family').value;
+  document.getElementById('hiddenAge').value = document.getElementById('age').value;
+  document.getElementById('hiddenPrize').value = winner;
 
-  fetch('https://script.google.com/macros/s/AKfycbyB57d60vyKW1-_JGSvNBVN8fJ0Pbrc8TfY9zt6gzXVAUKRa3gyBdMFXM7VysPFueV8/exec', {  // جایگزین کن با URL وب اپ گوگل شیت
-    method: 'POST',
-    body: JSON.stringify(prizeData),
-    headers: { 'Content-Type': 'application/json' }
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log('ارسال شد', data);
-    alert('اطلاعات شما ثبت شد!');
-    saveBtn.style.display = 'none';
-  })
-  .catch(err => {
-    console.error('خطا در ارسال', err);
-    alert('خطا در ثبت اطلاعات. دوباره تلاش کنید.');
-  });
+  document.getElementById('gsSubmit').click();
+  alert('اطلاعات شما ثبت شد!');
+  saveBtn.style.display = 'none';
 }
 
 spinBtn.onclick = spinWheel;
