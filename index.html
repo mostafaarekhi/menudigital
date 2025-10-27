@@ -3,12 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با تصاویر و لوگو</title>
+<title>گردونه شانس با لوگو ثابت</title>
 <style>
-body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
-#form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
-input { display: block; margin: 10px auto; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; width: 200px;}
-button { background: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;}
+body {
+  font-family: sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+  margin: 0;
+  padding-top: 20px;
+}
+img#logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+#form-container, #wheel-container {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  text-align: center;
+  margin-bottom: 20px;
+}
+input {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
 button:hover { background: #0056b3; }
 #wheel-container { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
 canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
@@ -20,8 +57,10 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 </head>
 <body>
 
+<!-- لوگو ثابت -->
+<img id="logo" src="https://barista-und-espresso.de/cdn/shop/articles/kostnad-for-att-oppna-ett-cafe-979328_1024x1024.webp?v=1740514475" alt="لوگو">
+
 <div id="form-container">
-  <img src="https://barista-und-espresso.de/cdn/shop/articles/kostnad-for-att-oppna-ett-cafe-979328_1024x1024.webp?v=1740514475" alt="لوگو" style="width:120px; margin-bottom:15px;">
   <h2>ثبت اطلاعات</h2>
   <input type="text" id="name" placeholder="نام">
   <input type="text" id="family" placeholder="نام خانوادگی">
@@ -30,7 +69,6 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 </div>
 
 <div id="wheel-container">
-  <img src="YOUR_LOGO_URL" alt="لوگو" style="width:120px; margin-bottom:15px;">
   <div id="pointer"></div>
   <canvas id="wheel" width="300" height="300"></canvas>
   <button id="spin">بچرخ!</button>
@@ -58,7 +96,7 @@ const saveBtn = document.getElementById('save-btn');
 const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
 const segAngle = 360 / segments.length;
 
-// تصاویر full-section (مربع و بزرگ)
+// تصاویر full-section
 const images = [
   "https://i.ibb.co/5vFJzZp/discount5.png",
   "https://i.ibb.co/3m2gL5H/free-shipping.png",
