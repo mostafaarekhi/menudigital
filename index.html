@@ -126,7 +126,7 @@ function drawWheel(angle){
 
 drawWheel(0);
 
-// ثبت فرم
+// ثبت فرم و نمایش گردونه
 document.getElementById('submit').onclick = () => {
   const name = document.getElementById('name').value.trim();
   const family = document.getElementById('family').value.trim();
@@ -139,7 +139,7 @@ document.getElementById('submit').onclick = () => {
   wheelBox.style.display = 'flex';
 }
 
-// چرخش گردونه
+// چرخش گردونه و ارسال فوری به شیت
 function spinWheel(){
   if(spinning) return;
 
@@ -172,7 +172,7 @@ function spinWheel(){
       resultBox.innerText = "🎉 نتیجه: " + winner;
       resultBox.style.display = 'block';
 
-      // ارسال به گوگل شیت
+      // ارسال فوری به گوگل شیت
       const prizeData = {
         name: document.getElementById('name').value,
         family: document.getElementById('family').value,
@@ -180,7 +180,7 @@ function spinWheel(){
         prize: winner
       };
 
-      fetch('https://script.google.com/macros/s/AKfycbxYXgM7Ke-cGTvKhbquWuaRQjluy7RoAhet51CzOQLBlVZFfvZzdLsKW-RPbK31tHBuOA/exec', {  // اینجا URL وب اپ گوگل شیت را جایگزین کن
+      fetch('https://script.google.com/macros/s/AKfycbxYXgM7Ke-cGTvKhbquWuaRQjluy7RoAhet51CzOQLBlVZFfvZzdLsKW-RPbK31tHBuOA/exec', {  // جایگزین کن با URL وب اپ گوگل شیت
         method: 'POST',
         body: JSON.stringify(prizeData),
         headers: { 'Content-Type': 'application/json' }
