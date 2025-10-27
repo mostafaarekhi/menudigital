@@ -179,6 +179,24 @@ function spinWheel(){
     }
   });
 }
+// بعد از اینکه winner مشخص شد:
+const prizeData = {
+  name: document.getElementById('name').value,
+  family: document.getElementById('family').value,
+  age: document.getElementById('age').value,
+  prize: winner
+};
+
+fetch('https://script.google.com/macros/s/AKfycbxKtjEqk6-5BZmdeRN8TEvRG6Q2vOFFlhI5Za1dFxuH71zgrEtRCtEotji34rjS1_ZJtA/exec', {  // اینجا URL وب اپ را جایگزین کن
+  method: 'POST',
+  body: JSON.stringify(prizeData),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(res => res.json())
+.then(data => console.log('ارسال شد', data))
+.catch(err => console.error('خطا در ارسال', err));
 
 // چک اولیه برای وقتی صفحه تازه باز می‌شود
 if(localStorage.getItem("spun") === "true"){
