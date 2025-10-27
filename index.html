@@ -5,101 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>گردونه شانس</title>
 <style>
-body {
-  font-family: sans-serif;
-  direction: rtl;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
-  margin: 0;
-}
-#form-container, #wheel-container {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  text-align: center;
-}
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
-}
-button {
-  background: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
+body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
+#form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
+input { display: block; margin: 10px auto; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; width: 200px;}
+button { background: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;}
 button:hover { background: #0056b3; }
-#wheel-container {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-canvas {
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-}
-#pointer {
-  width: 0; 
-  height: 0; 
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-bottom: 30px solid red;
-  margin-bottom: -20px;
-  transform: rotate(180deg);
-}
-#result {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  display: none;
-}
-#save-btn {
-  display: none;
-  margin-top: 10px;
-  background: #28a745;
-}
-#save-btn:hover { background: #1e7e34; }
+#wheel-container { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
+#pointer { width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-bottom:30px solid red; margin-bottom:-20px; transform: rotate(180deg);}
+#result { font-size:20px; font-weight:bold; color:#333; display:none;}
+#save-btn { display:none; margin-top:10px; background:#28a745;}
+#save-btn:hover { background:#1e7e34;}
 </style>
 </head>
 <body>
 
 <div id="form-container">
-  <h2>ثبت اطلاعات</h2>
-  <input type="text" id="name" placeholder="نام">
-  <input type="text" id="family" placeholder="نام خانوادگی">
-  <input type="number" id="age" placeholder="سن">
-  <button id="submit">ثبت</button>
+<h2>ثبت اطلاعات</h2>
+<input type="text" id="name" placeholder="نام">
+<input type="text" id="family" placeholder="نام خانوادگی">
+<input type="number" id="age" placeholder="سن">
+<button id="submit">ثبت</button>
 </div>
 
 <div id="wheel-container">
-  <div id="pointer"></div>
-  <canvas id="wheel" width="300" height="300"></canvas>
-  <button id="spin">بچرخ!</button>
-  <div id="result"></div>
-  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
+<div id="pointer"></div>
+<canvas id="wheel" width="300" height="300"></canvas>
+<button id="spin">بچرخ!</button>
+<div id="result"></div>
+<button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<!-- فرم مخفی برای ارسال به گوگل شیت -->
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbyB57d60vyKW1-_JGSvNBVN8fJ0Pbrc8TfY9zt6gzXVAUKRa3gyBdMFXM7VysPFueV8/exec" method="post" target="hidden_iframe">
-  <input type="hidden" name="name" id="hiddenName">
-  <input type="hidden" name="family" id="hiddenFamily">
-  <input type="hidden" name="age" id="hiddenAge">
-  <input type="hidden" name="prize" id="hiddenPrize">
-  <button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
+<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
+<input type="hidden" name="name" id="hiddenName">
+<input type="hidden" name="family" id="hiddenFamily">
+<input type="hidden" name="age" id="hiddenAge">
+<input type="hidden" name="prize" id="hiddenPrize">
+<button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
 </form>
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -111,7 +53,7 @@ const resultBox = document.getElementById('result');
 const spinBtn = document.getElementById('spin');
 const saveBtn = document.getElementById('save-btn');
 
-const segments = ["تخفیف ۵٪", "ارسال رایگان", "تخفیف ۱۰٪", "هیچ جایزه‌ای", "تخفیف ۲۰٪", "کد ویژه"];
+const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
 const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
 const segAngle = 360 / segments.length;
 
@@ -119,25 +61,24 @@ let currentAngle = 0;
 let spinning = false;
 let winner = "";
 
-// رسم گردونه
 function drawWheel(angle){
-  const cx = 150, cy = 150, r = 140;
+  const cx=150, cy=150, r=140;
   ctx.clearRect(0,0,300,300);
   ctx.save();
   ctx.translate(cx, cy);
-  ctx.rotate(angle * Math.PI / 180);
-  for(let i=0; i<segments.length; i++){
+  ctx.rotate(angle*Math.PI/180);
+  for(let i=0;i<segments.length;i++){
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.fillStyle = colors[i];
+    ctx.fillStyle=colors[i];
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
     ctx.save();
     ctx.rotate((i+0.5)*segAngle*Math.PI/180);
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 14px sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(segments[i], r - 10, 5);
+    ctx.fillStyle="#fff";
+    ctx.font="bold 14px sans-serif";
+    ctx.textAlign="right";
+    ctx.fillText(segments[i], r-10, 5);
     ctx.restore();
   }
   ctx.restore();
@@ -145,73 +86,64 @@ function drawWheel(angle){
 
 drawWheel(0);
 
-// ثبت فرم و نمایش گردونه
 document.getElementById('submit').onclick = () => {
   const name = document.getElementById('name').value.trim();
   const family = document.getElementById('family').value.trim();
   const age = document.getElementById('age').value.trim();
-  if(!name || !family || !age){
-    alert("لطفاً همه فیلدها را پر کنید");
-    return;
-  }
-  form.style.display = 'none';
-  wheelBox.style.display = 'flex';
+  if(!name || !family || !age){ alert("لطفاً همه فیلدها را پر کنید"); return;}
+  form.style.display='none';
+  wheelBox.style.display='flex';
 }
 
-// چرخش گردونه
 function spinWheel(){
   if(spinning) return;
+  spinning=true;
+  resultBox.style.display='none';
+  saveBtn.style.display='none';
+  spinBtn.disabled=true;
 
-  spinning = true;
-  resultBox.style.display = 'none';
-  saveBtn.style.display = 'none';
-  spinBtn.disabled = true;
-
-  const totalRotations = 360 * 6;
-  const randomOffset = Math.random() * (segAngle - 4) + 2;
-  const targetIndex = Math.floor(Math.random() * segments.length);
-  const stopAngle = totalRotations + (targetIndex * segAngle + randomOffset);
-  const startAngle = currentAngle;
-  const start = performance.now();
-  const duration = 4500;
+  const totalRotations=360*6;
+  const randomOffset=Math.random()*(segAngle-4)+2;
+  const targetIndex=Math.floor(Math.random()*segments.length);
+  const stopAngle=totalRotations+(targetIndex*segAngle+randomOffset);
+  const startAngle=currentAngle;
+  const start=performance.now();
+  const duration=4500;
 
   requestAnimationFrame(function animate(now){
-    const t = Math.min((now - start)/duration, 1);
-    const easeOut = 1 - Math.pow(1 - t, 3);
-    const angle = startAngle + (stopAngle - startAngle) * easeOut;
+    const t=Math.min((now-start)/duration,1);
+    const easeOut=1-Math.pow(1-t,3);
+    const angle=startAngle+(stopAngle-startAngle)*easeOut;
     drawWheel(angle);
-    if(t < 1){
-      requestAnimationFrame(animate);
-    } else {
-      currentAngle = angle % 360;
-      const adjusted = (currentAngle + 90) % 360;
-      const index = Math.floor((360 - adjusted) / segAngle) % segments.length;
-      winner = segments[index];
+    if(t<1){ requestAnimationFrame(animate); }
+    else{
+      currentAngle=angle%360;
+      const adjusted=(currentAngle+90)%360;
+      const index=Math.floor((360-adjusted)/segAngle)%segments.length;
+      winner=segments[index];
 
-      resultBox.innerText = "🎉 نتیجه: " + winner;
-      resultBox.style.display = 'block';
-      saveBtn.style.display = 'inline-block';
+      resultBox.innerText="🎉 نتیجه: "+winner;
+      resultBox.style.display='block';
+      saveBtn.style.display='inline-block';
 
-      spinning = false;
-      spinBtn.disabled = false;
+      spinning=false;
+      spinBtn.disabled=false;
     }
   });
 }
 
-// ثبت در گوگل شیت با فرم مخفی
 saveBtn.onclick = () => {
-  document.getElementById('hiddenName').value = document.getElementById('name').value;
-  document.getElementById('hiddenFamily').value = document.getElementById('family').value;
-  document.getElementById('hiddenAge').value = document.getElementById('age').value;
-  document.getElementById('hiddenPrize').value = winner;
+  document.getElementById('hiddenName').value=document.getElementById('name').value;
+  document.getElementById('hiddenFamily').value=document.getElementById('family').value;
+  document.getElementById('hiddenAge').value=document.getElementById('age').value;
+  document.getElementById('hiddenPrize').value=winner;
 
   document.getElementById('gsSubmit').click();
   alert('اطلاعات شما ثبت شد!');
-  saveBtn.style.display = 'none';
+  saveBtn.style.display='none';
 }
 
 spinBtn.onclick = spinWheel;
 </script>
-
 </body>
 </html>
