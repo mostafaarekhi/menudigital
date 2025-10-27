@@ -6,11 +6,7 @@
   <title>گردونه شانس</title>
   <style>
     :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#06b6d4;
-      --muted:#9aa6b2;
-      --glass: rgba(255,255,255,0.03);
+      --bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#9aa6b2;--glass: rgba(255,255,255,0.03);
     }
     *{box-sizing:border-box;font-family:"Vazirmatn","Arial",sans-serif}
     body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071025 0%, #0f1724 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:24px;}
@@ -21,7 +17,8 @@
     input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-bottom:12px;font-size:15px}
     .btn{display:inline-block;padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#042d33;font-weight:600;cursor:pointer}
     .error{color:#ffb4b4;background:rgba(255,80,80,0.06);padding:8px;border-radius:8px;margin-bottom:10px;display:none;text-align:center}
-    .wheel-area{text-align:center;display:none;flex-direction:column;align-items:center}
+    /* ابتدا wheelArea مخفیه و کانواس داخلش ایجاد نمیشه تا رندر زودهنگام اتفاق نیافته */
+    .wheel-area{display:none;text-align:center;flex-direction:column;align-items:center}
     canvas{width:100%;max-width:350px;border-radius:50%;background:transparent;margin-bottom:20px}
     .result{margin-top:10px;padding:10px;border-radius:8px;background:rgba(6,182,212,0.08);color:var(--accent);font-weight:700}
     .muted{font-size:13px;color:var(--muted)}
@@ -45,9 +42,10 @@
       </div>
     </form>
 
-    <!-- گردونه -->
+    <!-- گردونه: کانواس و دکمه بعد از ثبت به طور دینامیک اضافه می‌شن -->
     <div class="wheel-area" id="wheelArea">
-      <canvas id="wheel" width="800" height="800"></canvas>
+      <!-- کانواس به صورت داینامیک ایجاد می‌شود تا هیچ رندر زودهنگامی نداشته باشیم -->
+      <div id="wheelContainer"></div>
       <button class="btn" id="spinBtn">بچرخان</button>
       <div id="resultBox" class="result" style="display:none"></div>
       <div id="alreadyMsg" class="muted" style="margin-top:10px;display:none"></div>
@@ -55,30 +53,47 @@
   </div>
 
 <script>
+/* ---------- متغیرهای رابط ---------- */
 const form = document.getElementById('entryForm');
 const formError = document.getElementById('formError');
 const wheelArea = document.getElementById('wheelArea');
+const wheelContainer = document.getElementById('wheelContainer');
 const spinBtn = document.getElementById('spinBtn');
 const resultBox = document.getElementById('resultBox');
 const alreadyMsg = document.getElementById('alreadyMsg');
 
-/* گردونه */
-const wheel = document.getElementById('wheel');
-const ctx = wheel.getContext('2d');
-const center = {x: wheel.width/2, y: wheel.height/2};
-const radius = Math.min(wheel.width, wheel.height)/2 - 10;
-const segments = [
+/* ---------- تنظیمات بخش و توابع گردونه (آمادهٔ اجرا در زمان نمایش) ---------- */
+let canvas, ctx, center, radius;
+let segments = [
   {label:"۵۰% تخفیف",color:"#ffb86b"},
   {label:"کد تخفیف ۲۰%",color:"#8bd3c7"},
   {label:"ارسال رایگان",color:"#a7f3d0"},
   {label:"کارت هدیه",color:"#fde68a"},
   {label:"هیچ‌چی :(",color:"#9aa6b2"},
-  {label:"بلیت قرعه‌کشی",color:"#c7b7ff"},
+  {label:"بلیت قرعه‌کشی",color:"#c7b7ff"}
 ];
+let spinning=false, currentRotation=0;
 
+/* تابعی برای اولیه‌سازی کانواس و رسم اولیۀ گردونه */
+function initWheelAndDrawOnce(){
+  // اگر قبلاً ساخته شده، دوباره نساز
+  if(canvas) return;
+  // ایجاد کانواس و اضافه به کانتینر
+  canvas = document.createElement('canvas');
+  canvas.width = 800;
+  canvas.height = 800;
+  canvas.id = 'wheel';
+  wheelContainer.appendChild(canvas);
+  ctx = canvas.getContext('2d');
+  center = {x: canvas.width/2, y: canvas.height/2};
+  radius = Math.min(canvas.width, canvas.height)/2 - 10;
+  drawWheel(0); // فقط پس از ساخت کانواس رسم می‌کنیم
+}
+
+/* رسم گردونه با زاویهٔ rot (رادیان) */
 function drawWheel(rot=0){
   const segAngle = 2*Math.PI/segments.length;
-  ctx.clearRect(0,0,wheel.width,wheel.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.save();
   ctx.translate(center.x, center.y);
   ctx.rotate(rot);
@@ -108,83 +123,111 @@ function drawWheel(rot=0){
   ctx.closePath();
   ctx.fill();
 }
-drawWheel();
 
-/* چرخش */
-let spinning=false,currentRotation=0;
+/* انیمیشن چرخش و نشان دادن نتیجه */
 function spinOnce(){
   if(spinning) return;
-  spinning=true;
-  spinBtn.disabled=true;
-  resultBox.style.display='none';
-  const segAngle=360/segments.length;
-  const targetIndex=Math.floor(Math.random()*segments.length);
-  const finalDeg=360*4 + (360-(targetIndex*segAngle+segAngle/2));
-  const finalRad=finalDeg*Math.PI/180;
-  const start=performance.now(),duration=4000;
+  spinning = true;
+  spinBtn.disabled = true;
+  resultBox.style.display = 'none';
+  const segAngle = 360 / segments.length;
+  const targetIndex = Math.floor(Math.random()*segments.length);
+  const finalDeg = 360*4 + (360 - (targetIndex*segAngle + segAngle/2));
+  const finalRad = finalDeg * Math.PI/180;
+  const start = performance.now(), duration = 4000;
   (function anim(t){
-    const p=Math.min((t-start)/duration,1);
-    const ease=1-Math.pow(1-p,3);
-    const angle=currentRotation+(finalRad-currentRotation)*ease;
+    const p = Math.min((t-start)/duration,1);
+    const ease = 1 - Math.pow(1-p,3);
+    const angle = currentRotation + (finalRad - currentRotation) * ease;
     drawWheel(angle);
-    if(p<1) requestAnimationFrame(anim);
-    else{
-      currentRotation=finalRad;
+    if(p < 1) requestAnimationFrame(anim);
+    else {
+      currentRotation = finalRad;
       showResult(targetIndex);
-      spinning=false;
+      spinning = false;
     }
   })(start);
 }
 
-/* نتیجه */
+/* نمایش نتیجه و ذخیره در localStorage */
 function showResult(index){
-  resultBox.textContent="نتیجه: "+segments[index].label;
-  resultBox.style.display='block';
-  const user=JSON.parse(localStorage.getItem('wheel_user'));
-  user.spun=true;
-  user.result=segments[index].label;
-  localStorage.setItem('wheel_user',JSON.stringify(user));
-  alreadyMsg.textContent="شما قبلاً گردونه را چرخانده‌اید.";
-  alreadyMsg.style.display='block';
+  resultBox.textContent = "نتیجه: " + segments[index].label;
+  resultBox.style.display = 'block';
+  const user = JSON.parse(localStorage.getItem('wheel_user') || 'null');
+  if(user){
+    user.spun = true;
+    user.result = segments[index].label;
+    user.time = new Date().toISOString();
+    localStorage.setItem('wheel_user', JSON.stringify(user));
+    alreadyMsg.textContent = `نتیجه ثبت شد: ${user.result}`;
+    alreadyMsg.style.display = 'block';
+  }
 }
 
-/* فرم ثبت */
+/* ---------- فرم: ارسال اطلاعات ---------- */
 form.addEventListener('submit', e=>{
   e.preventDefault();
-  formError.style.display='none';
-  const fname=document.getElementById('fname').value.trim();
-  const lname=document.getElementById('lname').value.trim();
-  const age=document.getElementById('age').value.trim();
-  if(!fname||!lname||!age){
-    formError.textContent="لطفاً همه فیلدها را پر کنید.";
-    formError.style.display='block';
+  formError.style.display = 'none';
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const age = document.getElementById('age').value.trim();
+  if(!fname || !lname || !age){
+    formError.textContent = "لطفاً همه فیلدها را پر کنید.";
+    formError.style.display = 'block';
     return;
   }
-  const data={fname,lname,age,spun:false};
-  localStorage.setItem('wheel_user',JSON.stringify(data));
-  form.style.display='none';
-  wheelArea.style.display='flex';
+  const ageNum = Number(age);
+  if(Number.isNaN(ageNum) || ageNum < 1 || ageNum > 120){
+    formError.textContent = "لطفاً سن معتبر وارد کنید.";
+    formError.style.display = 'block';
+    return;
+  }
+
+  const data = {fname, lname, age: ageNum, spun: false, created: new Date().toISOString()};
+  localStorage.setItem('wheel_user', JSON.stringify(data));
+
+  // مخفی کردن فرم و نمایش بخش گردونه — قبل از نمایش، کانواس را می‌سازیم و رسم می‌کنیم
+  form.style.display = 'none';
+  wheelArea.style.display = 'flex';
+  initWheelAndDrawOnce();
+  spinBtn.disabled = false;
 });
 
-/* بارگذاری اولیه */
-window.addEventListener('load',()=>{
-  const user=JSON.parse(localStorage.getItem('wheel_user')||'null');
+/* ---------- بارگذاری اولیه: اگر کاربر قبلاً ثبت کرده باشد ---------- */
+window.addEventListener('load', ()=>{
+  const user = JSON.parse(localStorage.getItem('wheel_user') || 'null');
   if(user){
-    form.style.display='none';
-    wheelArea.style.display='flex';
+    // مخفی کردن فرم، نمایش گردونه، ساخت کانواس و نمایش نتیجه در صورت چرخش قبلی
+    form.style.display = 'none';
+    wheelArea.style.display = 'flex';
+    initWheelAndDrawOnce();
     if(user.spun){
-      alreadyMsg.textContent="شما قبلاً گردونه را چرخانده‌اید. نتیجه: "+user.result;
-      alreadyMsg.style.display='block';
-      spinBtn.disabled=true;
-      resultBox.textContent="نتیجه: "+user.result;
-      resultBox.style.display='block';
+      alreadyMsg.textContent = `شما قبلاً گردونه را چرخانده‌اید. نتیجه: ${user.result}`;
+      alreadyMsg.style.display = 'block';
+      spinBtn.disabled = true;
+      resultBox.textContent = `نتیجه: ${user.result}`;
+      resultBox.style.display = 'block';
+    } else {
+      spinBtn.disabled = false;
     }
+    // پر کردن فرم (اگر خواستی بعداً ویرایش کنه) -- مخفی هست اما مفیده
+    document.getElementById('fname').value = user.fname || '';
+    document.getElementById('lname').value = user.lname || '';
+    document.getElementById('age').value = user.age || '';
+  } else {
+    // هیچ کاربری ثبت نشده؛ مطمئن می‌شویم wheelArea مخفی بمونه و کانواس ساخته نشه
+    wheelArea.style.display = 'none';
+    spinBtn.disabled = true;
   }
 });
 
-/* دکمه چرخش */
-spinBtn.addEventListener('click',()=>{
-  const user=JSON.parse(localStorage.getItem('wheel_user'));
+/* ---------- دکمهٔ چرخش ---------- */
+spinBtn.addEventListener('click', ()=>{
+  const user = JSON.parse(localStorage.getItem('wheel_user') || 'null');
+  if(!user){
+    alert("ابتدا فرم را ثبت کنید.");
+    return;
+  }
   if(user.spun){
     alert("شما قبلاً چرخانده‌اید.");
     return;
