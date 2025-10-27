@@ -74,7 +74,7 @@ canvas {
 </head>
 <body>
 
-<!-- لوگوی ثابت -->
+<!-- لوگوی ثابت بالای صفحه -->
 <img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
 
 <div id="form-container">
@@ -118,19 +118,23 @@ let currentAngle = 0;
 let spinning = false;
 let winner = "";
 
+// رسم گردونه با متن وسط هر بخش
 function drawWheel(angle){
-  const cx=150, cy=150, r=140;
+  const cx = 150, cy = 150, r = 140;
   ctx.clearRect(0,0,300,300);
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(angle*Math.PI/180);
+
   for(let i=0;i<segments.length;i++){
+    // بخش رنگی
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.fillStyle=colors[i];
+    ctx.fillStyle = colors[i];
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
-    // مرز بین بخش‌ها
+
+    // مرز سفید
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
@@ -138,6 +142,15 @@ function drawWheel(angle){
     ctx.lineWidth = 4;
     ctx.strokeStyle = "#ffffff";
     ctx.stroke();
+
+    // متن وسط هر بخش
+    ctx.save();
+    ctx.rotate((i + 0.5) * segAngle * Math.PI/180);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 14px sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(segments[i], r - 10, 5);
+    ctx.restore();
   }
   ctx.restore();
 }
