@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس</title>
+<title>گردونه شانس با تصاویر</title>
 <style>
 body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
 #form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
@@ -36,7 +36,7 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
+<form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
 <input type="hidden" name="name" id="hiddenName">
 <input type="hidden" name="family" id="hiddenFamily">
 <input type="hidden" name="age" id="hiddenAge">
@@ -57,36 +57,67 @@ const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪
 const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
 const segAngle = 360 / segments.length;
 
+// لینک یا مسیر تصاویر هر بخش
+const images = [
+  "https://fruitbasket.limepack.com/blog/wp-content/uploads/2024/03/modern-cafe-house.jpg",
+  "img2.png",
+  "img3.png",
+  "img4.png",
+  "img5.png",
+  "img6.png"
+];
+
+let loadedImages = [];
 let currentAngle = 0;
 let spinning = false;
 let winner = "";
 
+// پیش‌بارگذاری تصاویر
+function preloadImages(callback){
+  let count = 0;
+  for(let i=0;i<images.length;i++){
+    const img = new Image();
+    img.src = images[i];
+    img.onload = ()=>{
+      count++;
+      if(count === images.length) callback();
+    }
+    loadedImages.push(img);
+  }
+}
+
+// رسم گردونه با تصاویر
 function drawWheel(angle){
   const cx=150, cy=150, r=140;
   ctx.clearRect(0,0,300,300);
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(angle*Math.PI/180);
+
   for(let i=0;i<segments.length;i++){
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.fillStyle=colors[i];
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
+
+    // رسم تصویر
     ctx.save();
     ctx.rotate((i+0.5)*segAngle*Math.PI/180);
-    ctx.fillStyle="#fff";
-    ctx.font="bold 14px sans-serif";
-    ctx.textAlign="right";
-    ctx.fillText(segments[i], r-10, 5);
+    const img = loadedImages[i];
+    const imgSize = 40;
+    ctx.drawImage(img, 90 - imgSize/2, -imgSize/2, imgSize, imgSize);
     ctx.restore();
   }
+
   ctx.restore();
 }
 
-drawWheel(0);
+// شروع پیش‌بارگذاری و رسم اولیه
+preloadImages(()=>{ drawWheel(0); });
 
-document.getElementById('submit').onclick = () => {
+// ثبت فرم و نمایش گردونه
+document.getElementById('submit').onclick = ()=>{
   const name = document.getElementById('name').value.trim();
   const family = document.getElementById('family').value.trim();
   const age = document.getElementById('age').value.trim();
@@ -95,6 +126,7 @@ document.getElementById('submit').onclick = () => {
   wheelBox.style.display='flex';
 }
 
+// چرخش گردونه
 function spinWheel(){
   if(spinning) return;
   spinning=true;
@@ -125,14 +157,14 @@ function spinWheel(){
       resultBox.innerText="🎉 نتیجه: "+winner;
       resultBox.style.display='block';
       saveBtn.style.display='inline-block';
-
       spinning=false;
       spinBtn.disabled=false;
     }
   });
 }
 
-saveBtn.onclick = () => {
+// ثبت در گوگل شیت
+saveBtn.onclick = ()=>{
   document.getElementById('hiddenName').value=document.getElementById('name').value;
   document.getElementById('hiddenFamily').value=document.getElementById('family').value;
   document.getElementById('hiddenAge').value=document.getElementById('age').value;
