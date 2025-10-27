@@ -3,49 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با تصاویر فیت</title>
+<title>گردونه شانس</title>
 <style>
-body {
-  font-family: sans-serif;
-  direction: rtl;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
-  margin: 0;
-  padding-top: 20px;
-}
-img#logo {
-  width: 120px;
-  margin-bottom: 20px;
-}
-#form-container, #wheel-container {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  text-align: center;
-  margin-bottom: 20px;
-}
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
-}
-button {
-  background: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
+body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
+#form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
+input { display: block; margin: 10px auto; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; width: 200px;}
+button { background: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;}
 button:hover { background: #0056b3; }
 #wheel-container { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
 canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
@@ -57,22 +20,20 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 </head>
 <body>
 
-<img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
-
 <div id="form-container">
-  <h2>ثبت اطلاعات</h2>
-  <input type="text" id="name" placeholder="نام">
-  <input type="text" id="family" placeholder="نام خانوادگی">
-  <input type="number" id="age" placeholder="سن">
-  <button id="submit">ثبت</button>
+<h2>ثبت اطلاعات</h2>
+<input type="text" id="name" placeholder="نام">
+<input type="text" id="family" placeholder="نام خانوادگی">
+<input type="number" id="age" placeholder="سن">
+<button id="submit">ثبت</button>
 </div>
 
 <div id="wheel-container">
-  <div id="pointer"></div>
-  <canvas id="wheel" width="300" height="300"></canvas>
-  <button id="spin">بچرخ!</button>
-  <div id="result"></div>
-  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
+<div id="pointer"></div>
+<canvas id="wheel" width="300" height="300"></canvas>
+<button id="spin">بچرخ!</button>
+<div id="result"></div>
+<button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
 <form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
@@ -87,99 +48,45 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <script>
 const form = document.getElementById('form-container');
 const wheelBox = document.getElementById('wheel-container');
-const canvas = document.getElementById('wheel');
-const ctx = canvas.getContext('2d');
+const ctx = document.getElementById('wheel').getContext('2d');
 const resultBox = document.getElementById('result');
 const spinBtn = document.getElementById('spin');
 const saveBtn = document.getElementById('save-btn');
 
 const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
+const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
 const segAngle = 360 / segments.length;
 
-// تصاویر هر بخش
-const images = [
-  "https://coffeestore.ir/wp-content/uploads/2025/05/cafe-frappe-1024x731.jpg",
-  "https://rezim.ir/wp-content/uploads/2025/02/1738826467_697_%DB%B2%DB%B6-%D8%A7%D8%B5%D8%B7%D9%84%D8%A7%D8%AD-%D8%B1%D8%A7%DB%8C%D8%AC-%D8%AF%D8%B1-%D9%85%D9%86%D9%88%DB%8C-%DA%A9%D8%A7%D9%81%DB%8C-%D8%B4%D8%A7%D9%BE-%D9%87%D8%A7-%D8%B9%DA%A9%D8%B3.jpg",
-  "https://static4.bartarinha.ir/servev2/vBSZHlk15euH/Bumv1zAHak0,/11.jpg",
-  "https://alis.ir/wp-content/uploads/2024/12/3116166.jpg",
-  "https://i.ibb.co/0BfKdJ6/discount20.png",
-  "https://i.ibb.co/7Yc08kT/special-code.png"
-];
-
-let loadedImages = [];
-let imagesLoaded = false;
 let currentAngle = 0;
 let spinning = false;
 let winner = "";
 
-// پیش‌بارگذاری تصاویر
-function preloadImages(callback){
-  let count = 0;
-  for(let i=0;i<images.length;i++){
-    const img = new Image();
-    img.src = images[i];
-    img.onload = ()=>{
-      count++;
-      if(count === images.length){
-        imagesLoaded = true;
-        callback();
-      }
-    }
-    loadedImages.push(img);
-  }
-}
-
-// رسم گردونه با تصاویر فیت
 function drawWheel(angle){
-  if(!imagesLoaded) return;
-  const cx = canvas.width/2;
-  const cy = canvas.height/2;
-  const r = Math.min(cx,cy)-20;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const cx=150, cy=150, r=140;
+  ctx.clearRect(0,0,300,300);
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(angle*Math.PI/180);
-
   for(let i=0;i<segments.length;i++){
-    const startRad = i * segAngle * Math.PI/180;
-    const endRad = (i+1) * segAngle * Math.PI/180;
-    const midRad = (startRad + endRad)/2;
-
-    // رسم clip بخش
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.arc(0,0,r,startRad,endRad);
-    ctx.closePath();
+    ctx.fillStyle=colors[i];
+    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+    ctx.fill();
     ctx.save();
-    ctx.clip();
-
-    // تصویر وسط بخش فیت با بخش
-    const img = loadedImages[i];
-    const imgSize = r*0.8;
-    const imgX = (r/2) * Math.cos(midRad) - imgSize/2;
-    const imgY = (r/2) * Math.sin(midRad) - imgSize/2;
-    ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
-
+    ctx.rotate((i+0.5)*segAngle*Math.PI/180);
+    ctx.fillStyle="#fff";
+    ctx.font="bold 14px sans-serif";
+    ctx.textAlign="right";
+    ctx.fillText(segments[i], r-10, 5);
     ctx.restore();
-
-    // stroke بخش
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.arc(0,0,r,startRad,endRad);
-    ctx.closePath();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#ffffff";
-    ctx.stroke();
   }
   ctx.restore();
 }
 
-canvas.width = 300;
-canvas.height = 300;
-preloadImages(()=>{ drawWheel(0); });
+drawWheel(0);
 
-// ثبت فرم و نمایش گردونه
-document.getElementById('submit').onclick = ()=>{
+document.getElementById('submit').onclick = () => {
   const name = document.getElementById('name').value.trim();
   const family = document.getElementById('family').value.trim();
   const age = document.getElementById('age').value.trim();
@@ -188,9 +95,8 @@ document.getElementById('submit').onclick = ()=>{
   wheelBox.style.display='flex';
 }
 
-// چرخش گردونه
 function spinWheel(){
-  if(spinning || !imagesLoaded) return;
+  if(spinning) return;
   spinning=true;
   resultBox.style.display='none';
   saveBtn.style.display='none';
@@ -219,14 +125,14 @@ function spinWheel(){
       resultBox.innerText="🎉 نتیجه: "+winner;
       resultBox.style.display='block';
       saveBtn.style.display='inline-block';
+
       spinning=false;
       spinBtn.disabled=false;
     }
   });
 }
 
-// ثبت در گوگل شیت
-saveBtn.onclick = ()=>{
+saveBtn.onclick = () => {
   document.getElementById('hiddenName').value=document.getElementById('name').value;
   document.getElementById('hiddenFamily').value=document.getElementById('family').value;
   document.getElementById('hiddenAge').value=document.getElementById('age').value;
