@@ -1,244 +1,300 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- 150-char meta description -->
-  <meta name="description" content="نمونه صفحه پرتفولیو تک‌صفحه‌ای با تم تیره و افکت‌های نوری؛ شامل بخش معرفی، تجربه‌ها، پروژه‌های نمونه و تماس — آماده میزبانی در GitHub Pages." />
-  <title>Portfolio - Neon Dark</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+  <title>گردونه شانس — ورود</title>
   <style>
     :root{
-      --bg:#0e0a17;
-      --panel:#1a1226;
-      --accent:#7b3cf9;
-      --accent-2:#a36cff;
-      --muted:#bfb6d6;
-      --card:#20122b;
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#06b6d4;
+      --muted:#9aa6b2;
       --glass: rgba(255,255,255,0.03);
-      --radius:14px;
     }
-    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      background: radial-gradient(1200px 600px at 50% 10%, rgba(123,60,249,0.12), transparent 8%),
-                  radial-gradient(900px 400px at 10% 80%, rgba(163,108,255,0.06), transparent 6%),
-                  var(--bg);
-      color:#e7e2ff;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a{color:var(--accent);text-decoration:none}
-    header{
-      position:fixed;left:0;right:0;top:0;height:64px;
-      display:flex;align-items:center;justify-content:space-between;padding:0 32px;
-      backdrop-filter: blur(6px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-      z-index:20;
-    }
-    .logo{
-      width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 30px rgba(123,60,249,0.18);
-      font-weight:800;color:#fff;
-    }
-    nav{display:flex;gap:20px;align-items:center}
-    nav a{font-weight:500;color:rgba(255,255,255,0.75)}
-    .container{max-width:1100px;margin:120px auto 80px;padding:0 24px}
-    .hero{display:flex;gap:36px;align-items:flex-start}
-    .hero-left{flex:1;max-width:680px}
-    .eyebrow{font-size:14px;color:var(--muted);margin-bottom:18px}
-    h1{font-size:44px;line-height:1.05;margin:0 0 12px;font-weight:800;letter-spacing:0.2px}
-    .sub{color:rgba(255,255,255,0.85);font-weight:600;margin-bottom:18px;font-size:18px}
-    p.lead{color:rgba(255,255,255,0.6);max-width:62ch;line-height:1.7}
-    .hero-right{width:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-    .avatar{
-      width:220px;height:220px;border-radius:999px;background:radial-gradient(circle at 30% 30%, rgba(163,108,255,0.22), rgba(123,60,249,0.22)),
-      linear-gradient(180deg,#2a1637,#170818);
-      box-shadow:0 30px 80px rgba(163,108,255,0.12), inset 0 -6px 20px rgba(0,0,0,0.4);
-      display:flex;align-items:center;justify-content:center;position:relative;
-      overflow:hidden;border:4px solid rgba(255,255,255,0.03)
-    }
-    .avatar img{width:140px;height:140px;object-fit:cover;border-radius:20px;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.6))}
-    .work-section{margin-top:64px}
-    .section-title{font-size:22px;margin-bottom:20px;color:#efecff}
-    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      border-radius:12px;padding:18px;box-shadow:0 10px 40px rgba(7,3,12,0.6);
-      border:1px solid rgba(255,255,255,0.03);min-height:120px;
-      display:flex;gap:12px;align-items:center;
-    }
-    .card .icon{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
-    .card h4{margin:0;font-size:16px}
-    .card p{margin:6px 0 0;color:rgba(255,255,255,0.6);font-size:14px}
-    /* central planet */
-    .orbit-wrap{display:flex;flex-direction:column;align-items:center;margin:64px 0}
-    .orbit-planet{
-      width:160px;height:160px;border-radius:999px;display:flex;align-items:center;justify-content:center;
-      background:radial-gradient(circle at 35% 35%, rgba(163,108,255,0.18), rgba(123,60,249,0.12)), linear-gradient(180deg,#310c48,#120616);
-      box-shadow:0 40px 120px rgba(123,60,249,0.18), inset 0 -8px 30px rgba(0,0,0,0.5);
-      border:1px solid rgba(255,255,255,0.03)
-    }
-    .icon-big{font-weight:800;font-size:36px;color:rgba(255,255,255,0.95)}
-    .projects{display:grid;grid-template-columns:1fr;gap:48px;margin-top:36px}
-    .project{
-      display:flex;gap:20px;align-items:center;justify-content:space-between;
-      align-items:flex-start;
-    }
-    .project .meta{max-width:520px}
-    .project .meta h3{margin:0 0 10px;font-size:20px}
-    .project .meta p{margin:0;color:rgba(255,255,255,0.7)}
-    .project .thumb{width:420px;height:220px;border-radius:12px;background:linear-gradient(180deg,#18081a,#1e0c2a);
-      display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.03);
-      box-shadow:0 30px 80px rgba(123,60,249,0.08)}
-    .project .thumb img{width:92%;height:86%;object-fit:cover;border-radius:8px;filter:grayscale(0.02) contrast(0.95)}
-    .contact{margin-top:88px;padding:28px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
-    .contact p{color:rgba(255,255,255,0.72)}
-    footer{max-width:1100px;margin:40px auto 80px;padding:0 24px;color:rgba(255,255,255,0.45);font-size:13px}
-
-    /* responsive */
-    @media (max-width:900px){
-      .hero{flex-direction:column;align-items:center}
-      .hero-right{order:-1;margin-bottom:8px}
-      .cards{grid-template-columns:1fr}
-      .project{flex-direction:column}
-      .project .thumb{width:100%;height:200px}
-    }
-
-    /* small UI touches */
-    .muted{color:var(--muted)}
-    .btn{
-      display:inline-block;padding:8px 14px;border-radius:999px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      box-shadow:0 10px 30px rgba(123,60,249,0.18);color:white;border:none;
-    }
-
-    /* smooth scroll */
-    html{scroll-behavior:smooth}
+    *{box-sizing:border-box;font-family: "Vazirmatn", "Arial", sans-serif}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071025 0%, #0f1724 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:24px;}
+    .wrap{width:100%;max-width:980px;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);}
+    h1{margin:6px 0 14px;font-size:20px}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:start}
+    /* form */
+    form{background:var(--glass);padding:14px;border-radius:10px}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-bottom:12px;font-size:15px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:#042d33;font-weight:600;cursor:pointer}
+    .muted{font-size:13px;color:var(--muted)}
+    .error{color:#ffb4b4;background:rgba(255,80,80,0.06);padding:8px;border-radius:8px;margin-bottom:10px}
+    /* wheel area */
+    .wheel-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:14px;border-radius:10px;text-align:center}
+    canvas{width:100%;height:auto;max-width:380px;border-radius:50%;background:transparent}
+    .center-label{margin-top:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .result{margin-top:12px;padding:10px;border-radius:8px;background:rgba(6,182,212,0.08);color:var(--accent);font-weight:700}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr; } canvas{max-width:320px} }
   </style>
 </head>
 <body>
-  <header>
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="logo">Σ</div>
-      <div class="muted" style="font-size:13px">Portfolio</div>
+  <div class="wrap" role="main">
+    <h1>گردونه شانس — ورود و ثبت‌نام</h1>
+    <div class="grid">
+      <!-- فرم ثبت -->
+      <div>
+        <form id="entryForm" novalidate autocomplete="off">
+          <div id="formError" class="error" style="display:none"></div>
+
+          <label for="fname">نام</label>
+          <input id="fname" name="fname" type="text" placeholder="مثال: مصطفی" required />
+
+          <label for="lname">فامیل</label>
+          <input id="lname" name="lname" type="text" placeholder="مثال: ارکھی" required />
+
+          <label for="age">سن</label>
+          <input id="age" name="age" type="number" placeholder="مثال: 30" min="1" max="120" required />
+
+          <div style="display:flex;gap:10px;margin-top:8px;align-items:center">
+            <button class="btn" id="submitBtn" type="submit">ثبت و رفتن به گردونه</button>
+            <div class="muted">بعد از ثبت فقط یکبار می‌توانید بچرخانید.</div>
+          </div>
+          <p class="small" style="margin-top:10px">توجه: این نمونه با ذخیرهٔ محلی کار می‌کند. برای ذخیرهٔ سرور-محور از Firebase/Google Sheets/API استفاده کنید.</p>
+        </form>
+      </div>
+
+      <!-- گردونه -->
+      <div class="wheel-card" aria-live="polite">
+        <canvas id="wheel" width="800" height="800" role="img" aria-label="گردونه شانس"></canvas>
+        <div class="center-label">
+          <button class="btn" id="spinBtn" disabled>بچرخان</button>
+        </div>
+        <div id="resultBox" class="result" style="display:none"></div>
+        <div id="alreadyMsg" class="muted" style="margin-top:10px;display:none"></div>
+      </div>
     </div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#work">Work</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+  </div>
 
-  <main class="container" id="home">
-    <!-- HERO -->
-    <section class="hero" aria-label="hero">
-      <div class="hero-left">
-        <div class="eyebrow">Hello! I am <a href="#" style="color:var(--accent)">Ibrahim Memon</a></div>
-        <h1>I'm a Software Engineer.</h1>
-        <div class="sub">A self-taught UI/UX designer, functioning in the industry for 3+ years now.</div>
-        <p class="lead">I make meaningful and delightful digital products that create an equilibrium between user needs and business goals. Currently exploring accessible, cross-functional product design and engineering.</p>
-      </div>
+<script>
+/* ----- تنظیمات گردونه ----- */
+const segments = [
+  {label: "۵۰% تخفیف", color:"#ffb86b"},
+  {label: "همراه با هدیه", color:"#ffd97a"},
+  {label: "هیچ‌چی :(", color:"#9aa6b2"},
+  {label: "کد تخفیف ۲۰%", color:"#8bd3c7"},
+  {label: "ارسال رایگان", color:"#a7f3d0"},
+  {label: "بلیت قرعه‌کشی", color:"#c7b7ff"},
+  {label: "باز هم شانس", color:"#fca5a5"},
+  {label: "کارت هدیه", color:"#fde68a"}
+];
+const wheel = document.getElementById('wheel');
+const ctx = wheel.getContext('2d');
+const center = {x: wheel.width/2, y: wheel.height/2};
+const radius = Math.min(wheel.width, wheel.height)/2 - 10;
 
-      <aside class="hero-right" aria-hidden="false">
-        <div class="avatar">
-          <!-- جایگزین کنید: /assets/avatar.png -->
-          <img src="https://via.placeholder.com/300x300.png?text=Avatar" alt="avatar placeholder">
-        </div>
-      </aside>
-    </section>
+/* رسم اولیه */
+function drawWheel(){
+  const segAngle = 2*Math.PI / segments.length;
+  ctx.clearRect(0,0,wheel.width,wheel.height);
+  ctx.save();
+  ctx.translate(center.x, center.y);
+  for(let i=0;i<segments.length;i++){
+    const start = i*segAngle;
+    const end = start + segAngle;
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,radius,start,end);
+    ctx.closePath();
+    ctx.fillStyle = segments[i].color;
+    ctx.fill();
+    // نوشته
+    ctx.save();
+    ctx.fillStyle = "#042028";
+    ctx.rotate(start + segAngle/2);
+    ctx.textAlign = "right";
+    ctx.font = "bold 28px Vazirmatn, Arial";
+    ctx.fillText(segments[i].label, radius - 18, 8);
+    ctx.restore();
+  }
+  // نشانگر بالای گردونه
+  ctx.restore();
+  // draw pointer (top center)
+  ctx.fillStyle = "#fffb";
+  ctx.beginPath();
+  ctx.moveTo(center.x - 10, 10);
+  ctx.lineTo(center.x + 10, 10);
+  ctx.lineTo(center.x, 40);
+  ctx.closePath();
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+}
+drawWheel();
 
-    <!-- Work Experience -->
-    <section class="work-section" id="work" aria-label="work">
-      <div class="section-title">Work Experience</div>
-      <div class="cards">
-        <div class="card">
-          <div class="icon">C</div>
-          <div>
-            <h4>CIB on the Mobile</h4>
-            <p>Mobile app redesign — product & UX improvements</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="icon">P</div>
-          <div>
-            <h4>CIB Mobile • Visual</h4>
-            <p>Design system & component library</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="icon">U</div>
-          <div>
-            <h4>UI Improvements</h4>
-            <p>Interaction microcopy, accessibility audits</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="icon">R</div>
-          <div>
-            <h4>Research & Testing</h4>
-            <p>Usability tests and KPI tracking</p>
-          </div>
-        </div>
-      </div>
-    </section>
+/* چرخش */
+let isSpinning = false;
+const spinBtn = document.getElementById('spinBtn');
+const resultBox = document.getElementById('resultBox');
+const alreadyMsg = document.getElementById('alreadyMsg');
 
-    <!-- Orbit / Skills -->
-    <div class="orbit-wrap" aria-hidden="true">
-      <div style="text-align:center;color:rgba(255,255,255,0.75);margin-bottom:14px">I'm currently looking to join a <span style="color:var(--accent)">cross-functional team</span></div>
-      <div class="orbit-planet"><div class="icon-big">Σ</div></div>
-    </div>
+function spinOnce(){
+  if(isSpinning) return;
+  isSpinning = true;
+  spinBtn.disabled = true;
+  resultBox.style.display = 'none';
+  // انتخاب تصادفی یک بخش
+  const chosenIndex = Math.floor(Math.random()*segments.length);
+  // محاسبهٔ زاویهٔ نهایی که نشانگر روی آن بخش قرار گیرد
+  const segAngle = 360 / segments.length;
+  const randomness = Math.random() * segAngle; // کمی تصادف اضافی
+  // هدف: چرخش چند دور + زاویه تا برگردد به chosenIndex
+  const finalAngleDeg = 360*4 + (360 - (chosenIndex * segAngle + segAngle/2)) + randomness;
+  const finalAngleRad = finalAngleDeg * Math.PI/180;
+  const duration = 4200; // ms
 
-    <!-- Projects -->
-    <section id="projects" class="projects" aria-label="projects">
-      <div class="project">
-        <div class="meta">
-          <div style="color:var(--muted);font-size:13px;margin-bottom:6px">Featured Project</div>
-          <h3>Example Project</h3>
-          <p>A web app for visualizing personalized data. View top artists, top tracks and detailed audio information. Create and save playlists of recommended tracks based on existing playlists.</p>
-        </div>
-        <div class="thumb">
-          <!-- جایگزین کنید: /assets/project1.png -->
-          <img src="https://via.placeholder.com/640x360.png?text=Project+Thumb" alt="project thumbnail">
-        </div>
-      </div>
+  // انیمیشن با requestAnimationFrame
+  const start = performance.now();
+  const startAngle = currentRotation || 0;
+  (function animate(t){
+    const elapsed = t - start;
+    const progress = Math.min(elapsed/duration, 1);
+    // easeOutCubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const angle = startAngle + (finalAngleRad - startAngle)*ease;
+    currentRotation = angle;
+    // رسم با rotate
+    ctx.save();
+    ctx.clearRect(0,0,wheel.width,wheel.height);
+    ctx.translate(center.x, center.y);
+    ctx.rotate(angle);
+    // draw segments rotated
+    const segAngleRad = 2*Math.PI / segments.length;
+    for(let i=0;i<segments.length;i++){
+      const s = i*segAngleRad;
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.arc(0,0,radius,s,s+segAngleRad);
+      ctx.closePath();
+      ctx.fillStyle = segments[i].color;
+      ctx.fill();
+      ctx.save();
+      ctx.rotate(s + segAngleRad/2);
+      ctx.fillStyle = "#042028";
+      ctx.textAlign = "right";
+      ctx.font = "bold 28px Vazirmatn, Arial";
+      ctx.fillText(segments[i].label, radius - 18, 8);
+      ctx.restore();
+    }
+    ctx.restore();
+    // pointer
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.moveTo(center.x - 10, 10);
+    ctx.lineTo(center.x + 10, 10);
+    ctx.lineTo(center.x, 40);
+    ctx.closePath();
+    ctx.fill();
 
-      <div class="project">
-        <div class="meta">
-          <div style="color:var(--muted);font-size:13px;margin-bottom:6px">Featured Project</div>
-          <h3>Example Project</h3>
-          <p>Interaction flows, wireframes, and hi-fi prototype showing purchase funnel and dashboard metrics.</p>
-        </div>
-        <div class="thumb">
-          <!-- جایگزین کنید: /assets/project2.png -->
-          <img src="https://via.placeholder.com/640x360.png?text=Project+Thumb" alt="project thumbnail">
-        </div>
-      </div>
-    </section>
+    if(progress < 1){
+      requestAnimationFrame(animate);
+    } else {
+      // پایان؛ محاسبهٔ نتیجه دقیق با توجه به زاویهٔ نهایی
+      const normalizedDeg = (finalAngleDeg % 360);
+      const index = Math.floor(((360 - normalizedDeg + segAngle/2) % 360) / segAngle) % segments.length;
+      showResult(index);
+      isSpinning = false;
+    }
+  })(start);
+}
 
-    <!-- Contact -->
-    <section id="contact" class="contact" aria-label="contact">
-      <h3 style="margin-top:0">Contact</h3>
-      <p>I'm currently looking to join a team that values improving people's lives through accessible design. Have a project in mind? Let's connect.</p>
-      <p style="margin-top:14px;font-weight:700">ibrahimmemon90@example.com</p>
-      <div style="margin-top:12px;display:flex;gap:10px">
-        <a class="btn" href="mailto:ibrahimmemon90@example.com">Email me</a>
-        <a class="btn" href="#" style="background:transparent;border:1px solid rgba(255,255,255,0.06)">Download CV</a>
-      </div>
-    </section>
-  </main>
+/* نتیجه را نشان بده و ذخیره کن که کاربر چرخانده */
+function showResult(index){
+  resultBox.textContent = "نتیجه: " + segments[index].label;
+  resultBox.style.display = 'block';
+  // ذخیرهٔ نتیجه در localStorage به عنوان علامت اینکه کاربر چرخانده
+  const user = JSON.parse(localStorage.getItem('wheel_user')||'null');
+  if(user){
+    user.spun = true;
+    user.result = segments[index].label;
+    user.resultIndex = index;
+    user.time = new Date().toISOString();
+    localStorage.setItem('wheel_user', JSON.stringify(user));
+    alreadyMsg.textContent = `کاربر ${user.fname} ${user.lname} در تاریخ ${new Date(user.time).toLocaleString('fa-IR')} چرخانده است.`;
+    alreadyMsg.style.display = 'block';
+  }
+}
 
-  <footer>
-    © <span id="year"></span> Portfolio — Built with ❤️ — Replace images in /assets/
-  </footer>
+/* فرم */
+const form = document.getElementById('entryForm');
+const formError = document.getElementById('formError');
+const submitBtn = document.getElementById('submitBtn');
 
-  <script>
-    // small scripts
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // replace placeholders: smooth fallback if images missing
-    window.addEventListener('error', function(e){
-      if(e.target.tagName === 'IMG') e.target.style.opacity = '0.9';
-    }, true);
-  </script>
+form.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  formError.style.display = 'none';
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const age = document.getElementById('age').value.trim();
+
+  if(!fname || !lname || !age){
+    formError.textContent = 'لطفاً همهٔ فیلدها را پر کنید.';
+    formError.style.display = 'block';
+    return;
+  }
+  const ageNum = Number(age);
+  if(Number.isNaN(ageNum) || ageNum < 1 || ageNum > 120){
+    formError.textContent = 'لطفاً سن معتبر وارد کنید.';
+    formError.style.display = 'block';
+    return;
+  }
+
+  // ذخیره در localStorage
+  const userObj = {
+    fname, lname, age: ageNum,
+    created: new Date().toISOString(),
+    spun: false
+  };
+  localStorage.setItem('wheel_user', JSON.stringify(userObj));
+  // فعال کردن دکمهٔ بچرخان
+  spinBtn.disabled = false;
+  // اطلاع‌رسانی کوچک
+  formError.style.display = 'none';
+  alert('ثبت انجام شد. اکنون می‌توانید گردونه را بچرخانید.');
+});
+
+/* در بارگذاری صفحه: اگر کاربر ثبت‌نام کرده باشد، دکمهٔ بچرخان فعال شود یا پیام نمایش داده شود */
+let currentRotation = 0;
+window.addEventListener('load', ()=>{
+  drawWheel();
+  const user = JSON.parse(localStorage.getItem('wheel_user')||'null');
+  if(user){
+    // اگر قبلاً چرخانده شده، دکمه غیرفعال و نتیجه را نمایش بده
+    if(user.spun){
+      spinBtn.disabled = true;
+      alreadyMsg.textContent = `شما قبلاً چرخانده‌اید — نتیجه: ${user.result}`;
+      alreadyMsg.style.display = 'block';
+      resultBox.style.display = 'block';
+      resultBox.textContent = `نتیجه: ${user.result}`;
+    } else {
+      spinBtn.disabled = false;
+      alreadyMsg.style.display = 'none';
+    }
+    // پر کردن فرم با دادهٔ کاربر (اختیاری ولی مفید)
+    document.getElementById('fname').value = user.fname || '';
+    document.getElementById('lname').value = user.lname || '';
+    document.getElementById('age').value = user.age || '';
+  }
+});
+
+/* اتصال دکمهٔ بچرخان */
+spinBtn.addEventListener('click', ()=> {
+  const user = JSON.parse(localStorage.getItem('wheel_user')||'null');
+  if(!user){
+    alert('ابتدا فرم را ثبت کنید.');
+    return;
+  }
+  if(user.spun){
+    alert('شما قبلاً گردونه را چرخانده‌اید.');
+    spinBtn.disabled = true;
+    return;
+  }
+  spinOnce();
+});
+</script>
 </body>
 </html>
