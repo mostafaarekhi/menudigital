@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با لوگو ثابت</title>
+<title>گردونه شانس با لوگو ثابت و تصاویر وسط</title>
 <style>
 body {
   font-family: sans-serif;
@@ -58,7 +58,7 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <body>
 
 <!-- لوگو ثابت -->
-<img id="logo" src="https://barista-und-espresso.de/cdn/shop/articles/kostnad-for-att-oppna-ett-cafe-979328_1024x1024.webp?v=1740514475" alt="لوگو">
+<img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
 
 <div id="form-container">
   <h2>ثبت اطلاعات</h2>
@@ -76,7 +76,7 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
   <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
+<form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
 <input type="hidden" name="name" id="hiddenName">
 <input type="hidden" name="family" id="hiddenFamily">
 <input type="hidden" name="age" id="hiddenAge">
@@ -96,14 +96,14 @@ const saveBtn = document.getElementById('save-btn');
 const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
 const segAngle = 360 / segments.length;
 
-// تصاویر full-section
+// تصاویر هر بخش
 const images = [
-  "https://i1.delgarm.com//images/news/a18/1398/03/25/1560591940_G3cW9.jpg",
-  "https://www.menobuzz.com/blog/wp-content/uploads/2024/07/iced-latte.jpg",
-  "https://static4.bartarinha.ir/servev2/yPz06xXrDzTu/Bumv1zAHak0,/6.jpg",
-  "https://last-cdn.com/2022/04/18/QkcIFf7n3Mj65tPJ3hGqJykGF4FmPHILPz2DuMit.jpg",
-  "https://s100.divarcdn.com/static/photo/neda/webp_post/ioMdGS-7I8pZwIgNuItyhg/a5fc17d6-96d3-4e26-9e93-4255bf4763e5.webp",
-  "https://coffeestore.ir/wp-content/uploads/2025/05/cafe-frappe-1024x731.jpg"
+  "https://i.ibb.co/5vFJzZp/discount5.png",
+  "https://i.ibb.co/3m2gL5H/free-shipping.png",
+  "https://i.ibb.co/QdQnVJq/discount10.png",
+  "https://i.ibb.co/9nhgLwK/no-prize.png",
+  "https://i.ibb.co/0BfKdJ6/discount20.png",
+  "https://i.ibb.co/7Yc08kT/special-code.png"
 ];
 
 let loadedImages = [];
@@ -129,7 +129,7 @@ function preloadImages(callback){
   }
 }
 
-// رسم گردونه full-section با stroke
+// رسم گردونه و تصویر وسط هر بخش
 function drawWheel(angle){
   if(!imagesLoaded) return;
   const cx=150, cy=150, r=140;
@@ -139,20 +139,31 @@ function drawWheel(angle){
   ctx.rotate(angle*Math.PI/180);
 
   for(let i=0;i<segments.length;i++){
+    const startRad = i * segAngle * Math.PI/180;
+    const endRad = (i+1) * segAngle * Math.PI/180;
+    const midRad = (startRad + endRad)/2;
+
+    // رسم clip بخش
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+    ctx.arc(0,0,r,startRad,endRad);
     ctx.closePath();
-
     ctx.save();
     ctx.clip();
+
+    // تصویر وسط بخش
     const img = loadedImages[i];
-    ctx.drawImage(img, -r, -r, r*2, r*2);
+    const imgSize = 60;
+    const imgX = r/2 * Math.cos(midRad) - imgSize/2;
+    const imgY = r/2 * Math.sin(midRad) - imgSize/2;
+    ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
+
     ctx.restore();
 
+    // stroke بخش
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+    ctx.arc(0,0,r,startRad,endRad);
     ctx.closePath();
     ctx.lineWidth = 4;
     ctx.strokeStyle = "#ffffff";
