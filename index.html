@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس با تصاویر full-section</title>
+<title>گردونه شانس با تصاویر full-section و مرز</title>
 <style>
 body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
 #form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
@@ -36,7 +36,7 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
+<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
 <input type="hidden" name="name" id="hiddenName">
 <input type="hidden" name="family" id="hiddenFamily">
 <input type="hidden" name="age" id="hiddenAge">
@@ -56,14 +56,14 @@ const saveBtn = document.getElementById('save-btn');
 const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
 const segAngle = 360 / segments.length;
 
-// لینک تصاویر full-section (باید مربع و اندازه کافی بزرگ باشند)
+// لینک تصاویر full-section (مربع و بزرگ)
 const images = [
-  "https://fruitbasket.limepack.com/blog/wp-content/uploads/2024/03/modern-cafe-house.jpg",
-  "https://www.cafecentral-leipzig.de/media/cafe-central/images/cafecentral-home01.jpg",
-  "https://cafe-reinhardt.de/wp-content/uploads/2021/05/auswahl_cr-Reinhardt_07_02_2018-175-von-218_34-960x600-1.jpg",
-  "https://static.wixstatic.com/media/7822fa_b4c6f9a0cf744bdbb9b608921fc0f0d5~mv2.jpg/v1/fill/w_640,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/7822fa_b4c6f9a0cf744bdbb9b608921fc0f0d5~mv2.jpg",
-  "https://lh3.googleusercontent.com/proxy/_iutiMWD_BxvomehzSXNyXL9VeAJCnElPddNGery3Po-sH5Uux0u_Ikaa4eWkgHjlUG62XLmy13gojBVizVxUxP3X-KRdlnHDqFJRyMKVxg-nuxSqfdu2q_93K4rkTjRKDJOcE1SPozTKH9FZA",
-  "https://s3-eu-west-1.amazonaws.com/static.koeln.de/000/000/040/563/versions/neues-interieuer_722x406_669a777393c74.png"
+  "https://s3-eu-west-1.amazonaws.com/static.koeln.de/000/000/040/563/versions/neues-interieuer_722x406_669a777393c74.png",
+  "https://www.stwhh.de/fileadmin/_processed_/3/5/csm_Cafe_DellArte_innen_Gastraum_e30d09dd12.jpg",
+  "https://cafe-pfau.de/wp-content/uploads/2020/05/pfau_street-1024x682.jpg",
+  "https://www.eben-ezer.de/files/ebenezer/artikel/Cafe%20Vielfalt%20Innenraum.jpg",
+  "https://www.people-abroad.de/blog/wp-content/uploads/2020/06/cafe-meerwiesen-cafe-mannheim.jpg",
+  "https://static.wixstatic.com/media/22a932_3dceaf78b748431080109730722541b8~mv2.png/v1/fill/w_640,h_532,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22a932_3dceaf78b748431080109730722541b8~mv2.png"
 ];
 
 let loadedImages = [];
@@ -89,7 +89,7 @@ function preloadImages(callback){
   }
 }
 
-// رسم گردونه full-section
+// رسم گردونه full-section با stroke
 function drawWheel(angle){
   if(!imagesLoaded) return;
   const cx=150, cy=150, r=140;
@@ -104,15 +104,23 @@ function drawWheel(angle){
     ctx.moveTo(0,0);
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.closePath();
+
     ctx.save();
-    ctx.clip(); // فقط داخل این بخش
-
-    // رسم تصویر کل بخش
+    ctx.clip(); // فقط داخل بخش
     const img = loadedImages[i];
-    ctx.drawImage(img, -r, -r, r*2, r*2);
-
+    ctx.drawImage(img, -r, -r, r*2, r*2); // تصویر full-section
     ctx.restore();
+
+    // stroke بین بخش‌ها
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+    ctx.closePath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
   }
+
   ctx.restore();
 }
 
