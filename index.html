@@ -16,7 +16,6 @@
       background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
       margin: 0;
     }
-
     #form-container, #wheel-container {
       background: white;
       padding: 25px;
@@ -25,7 +24,6 @@
       text-align: center;
       transition: 0.3s;
     }
-
     input {
       display: block;
       margin: 10px auto;
@@ -34,7 +32,6 @@
       border: 1px solid #ccc;
       width: 200px;
     }
-
     button {
       background: #007BFF;
       color: white;
@@ -44,9 +41,7 @@
       cursor: pointer;
       font-weight: bold;
     }
-
     button:hover { background: #0056b3; }
-
     #wheel-container {
       display: none;
       flex-direction: column;
@@ -54,12 +49,10 @@
       justify-content: center;
       gap: 20px;
     }
-
     canvas {
       border-radius: 50%;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-
     #pointer {
       width: 0; 
       height: 0; 
@@ -68,7 +61,6 @@
       border-bottom: 30px solid red;
       margin-bottom: -20px;
     }
-
     #result {
       font-size: 20px;
       font-weight: bold;
@@ -152,10 +144,10 @@
       resultBox.style.display = 'none';
       spinBtn.disabled = true;
 
-      const totalRotations = 360 * 6; // چرخش‌های کامل برای ظاهر طبیعی
-      const randomDeg = Math.random() * 360;
-      const finalAngle = totalRotations + randomDeg;
-
+      const totalRotations = 360 * 6;
+      const randomOffset = Math.random() * (segAngle - 4) + 2; // همیشه داخل بخش، نه روی مرز
+      const targetIndex = Math.floor(Math.random() * segments.length);
+      const stopAngle = totalRotations + (targetIndex * segAngle + randomOffset);
       const startAngle = currentAngle;
       const start = performance.now();
       const duration = 4500;
@@ -163,18 +155,18 @@
       requestAnimationFrame(function animate(now){
         const t = Math.min((now - start)/duration, 1);
         const easeOut = 1 - Math.pow(1 - t, 3);
-        const angle = startAngle + (finalAngle - startAngle) * easeOut;
+        const angle = startAngle + (stopAngle - startAngle) * easeOut;
         drawWheel(angle);
         if(t < 1){
           requestAnimationFrame(animate);
         } else {
           currentAngle = angle % 360;
 
-          // محاسبه بخش برنده دقیق بر اساس زاویه نهایی
-          const normalized = (360 - currentAngle + segAngle/2) % 360;
-          const index = Math.floor(normalized / segAngle);
-          const winner = segments[index];
+          // موقعیت واقعی فلش در بالای دایره است => زاویه 270 درجه (محور Y منفی)
+          const adjusted = (360 - currentAngle + 90) % 360;
+          const index = Math.floor(adjusted / segAngle) % segments.length;
 
+          const winner = segments[index];
           resultBox.innerText = "🎉 نتیجه: " + winner;
           resultBox.style.display = 'block';
           spinBtn.disabled = false;
