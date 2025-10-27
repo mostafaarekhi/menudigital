@@ -147,7 +147,7 @@ document.getElementById('submit').onclick = () => {
 
 // چرخش گردونه
 function spinWheel(){
-  if(spinning || localStorage.getItem("spun") === "true") return;
+  if(spinning) return;
 
   spinning = true;
   resultBox.style.display = 'none';
