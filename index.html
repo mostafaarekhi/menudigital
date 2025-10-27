@@ -57,17 +57,18 @@ const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪
 const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
 const segAngle = 360 / segments.length;
 
-// لینک یا مسیر تصاویر هر بخش
+// مسیر یا لینک تصاویر
 const images = [
-  "https://fruitbasket.limepack.com/blog/wp-content/uploads/2024/03/modern-cafe-house.jpg",
-  "img2.png",
-  "img3.png",
-  "img4.png",
-  "img5.png",
-  "img6.png"
+  "https://i.ibb.co/5vFJzZp/discount5.png",
+  "https://i.ibb.co/3m2gL5H/free-shipping.png",
+  "https://i.ibb.co/QdQnVJq/discount10.png",
+  "https://i.ibb.co/9nhgLwK/no-prize.png",
+  "https://i.ibb.co/0BfKdJ6/discount20.png",
+  "https://i.ibb.co/7Yc08kT/special-code.png"
 ];
 
 let loadedImages = [];
+let imagesLoaded = false;
 let currentAngle = 0;
 let spinning = false;
 let winner = "";
@@ -80,7 +81,10 @@ function preloadImages(callback){
     img.src = images[i];
     img.onload = ()=>{
       count++;
-      if(count === images.length) callback();
+      if(count === images.length){
+        imagesLoaded = true;
+        callback();
+      }
     }
     loadedImages.push(img);
   }
@@ -88,6 +92,7 @@ function preloadImages(callback){
 
 // رسم گردونه با تصاویر
 function drawWheel(angle){
+  if(!imagesLoaded) return;
   const cx=150, cy=150, r=140;
   ctx.clearRect(0,0,300,300);
   ctx.save();
@@ -101,7 +106,6 @@ function drawWheel(angle){
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
 
-    // رسم تصویر
     ctx.save();
     ctx.rotate((i+0.5)*segAngle*Math.PI/180);
     const img = loadedImages[i];
@@ -128,7 +132,7 @@ document.getElementById('submit').onclick = ()=>{
 
 // چرخش گردونه
 function spinWheel(){
-  if(spinning) return;
+  if(spinning || !imagesLoaded) return;
   spinning=true;
   resultBox.style.display='none';
   saveBtn.style.display='none';
