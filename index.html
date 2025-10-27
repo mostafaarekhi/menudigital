@@ -5,14 +5,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>گردونه شانس</title>
 <style>
-body { font-family: sans-serif; direction: rtl; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%); margin: 0;}
-#form-container, #wheel-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); text-align: center;}
-input { display: block; margin: 10px auto; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; width: 200px;}
-button { background: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;}
+body {
+  font-family: sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+  margin: 0;
+  padding-top: 20px;
+}
+img#logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+#form-container, #wheel-container {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  text-align: center;
+  margin-bottom: 20px;
+}
+input {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
 button:hover { background: #0056b3; }
-#wheel-container { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
-canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
-#pointer { width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-bottom:30px solid red; margin-bottom:-20px; transform: rotate(180deg);}
+#wheel-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+canvas {
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+#pointer {
+  width:0;
+  height:0;
+  border-left:20px solid transparent;
+  border-right:20px solid transparent;
+  border-bottom:30px solid red;
+  margin-bottom:-20px;
+  transform: rotate(180deg);
+}
 #result { font-size:20px; font-weight:bold; color:#333; display:none;}
 #save-btn { display:none; margin-top:10px; background:#28a745;}
 #save-btn:hover { background:#1e7e34;}
@@ -20,28 +74,31 @@ canvas { border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.3);}
 </head>
 <body>
 
+<!-- لوگوی ثابت -->
+<img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
+
 <div id="form-container">
-<h2>ثبت اطلاعات</h2>
-<input type="text" id="name" placeholder="نام">
-<input type="text" id="family" placeholder="نام خانوادگی">
-<input type="number" id="age" placeholder="سن">
-<button id="submit">ثبت</button>
+  <h2>ثبت اطلاعات</h2>
+  <input type="text" id="name" placeholder="نام">
+  <input type="text" id="family" placeholder="نام خانوادگی">
+  <input type="number" id="age" placeholder="سن">
+  <button id="submit">ثبت</button>
 </div>
 
 <div id="wheel-container">
-<div id="pointer"></div>
-<canvas id="wheel" width="300" height="300"></canvas>
-<button id="spin">بچرخ!</button>
-<div id="result"></div>
-<button id="save-btn">ثبت جایزه در گوگل شیت</button>
+  <div id="pointer"></div>
+  <canvas id="wheel" width="300" height="300"></canvas>
+  <button id="spin">بچرخ!</button>
+  <div id="result"></div>
+  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
 <form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
-<input type="hidden" name="name" id="hiddenName">
-<input type="hidden" name="family" id="hiddenFamily">
-<input type="hidden" name="age" id="hiddenAge">
-<input type="hidden" name="prize" id="hiddenPrize">
-<button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
+  <input type="hidden" name="name" id="hiddenName">
+  <input type="hidden" name="family" id="hiddenFamily">
+  <input type="hidden" name="age" id="hiddenAge">
+  <input type="hidden" name="prize" id="hiddenPrize">
+  <button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
 </form>
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -73,13 +130,14 @@ function drawWheel(angle){
     ctx.fillStyle=colors[i];
     ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
     ctx.fill();
-    ctx.save();
-    ctx.rotate((i+0.5)*segAngle*Math.PI/180);
-    ctx.fillStyle="#fff";
-    ctx.font="bold 14px sans-serif";
-    ctx.textAlign="right";
-    ctx.fillText(segments[i], r-10, 5);
-    ctx.restore();
+    // مرز بین بخش‌ها
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
+    ctx.closePath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
   }
   ctx.restore();
 }
@@ -125,7 +183,6 @@ function spinWheel(){
       resultBox.innerText="🎉 نتیجه: "+winner;
       resultBox.style.display='block';
       saveBtn.style.display='inline-block';
-
       spinning=false;
       spinBtn.disabled=false;
     }
