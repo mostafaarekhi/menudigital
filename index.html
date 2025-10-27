@@ -137,12 +137,6 @@ document.getElementById('submit').onclick = () => {
   }
   form.style.display = 'none';
   wheelBox.style.display = 'flex';
-  // اگر قبلاً چرخیده بود، دکمه غیرفعال شود
-  if(localStorage.getItem("spun") === "true"){
-    spinBtn.disabled = true;
-    resultBox.innerText = "شما قبلاً گردونه را چرخانده‌اید!";
-    resultBox.style.display = 'block';
-  }
 }
 
 // چرخش گردونه
@@ -173,39 +167,32 @@ function spinWheel(){
       const adjusted = (currentAngle + 90) % 360;
       const index = Math.floor((360 - adjusted) / segAngle) % segments.length;
       const winner = segments[index];
+
+      // نمایش نتیجه
       resultBox.innerText = "🎉 نتیجه: " + winner;
       resultBox.style.display = 'block';
+
+      // ارسال به گوگل شیت
+      const prizeData = {
+        name: document.getElementById('name').value,
+        family: document.getElementById('family').value,
+        age: document.getElementById('age').value,
+        prize: winner
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbxKtjEqk6-5BZmdeRN8TEvRG6Q2vOFFlhI5Za1dFxuH71zgrEtRCtEotji34rjS1_ZJtA/exec', {
+        method: 'POST',
+        body: JSON.stringify(prizeData),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => console.log('ارسال شد', data))
+      .catch(err => console.error('خطا در ارسال', err));
+
+      spinBtn.disabled = false;
       spinning = false;
     }
   });
-}
-  
-// بعد از اینکه winner مشخص شد:
-const prizeData = {
-  name: document.getElementById('name').value,
-  family: document.getElementById('family').value,
-  age: document.getElementById('age').value,
-  prize: winner
-};
-
-fetch('https://script.google.com/macros/s/AKfycbxKtjEqk6-5BZmdeRN8TEvRG6Q2vOFFlhI5Za1dFxuH71zgrEtRCtEotji34rjS1_ZJtA/exec', {  // اینجا URL وب اپ را جایگزین کن
-  method: 'POST',
-  body: JSON.stringify(prizeData),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-.then(res => res.json())
-.then(data => console.log('ارسال شد', data))
-.catch(err => console.error('خطا در ارسال', err));
-
-// چک اولیه برای وقتی صفحه تازه باز می‌شود
-if(localStorage.getItem("spun") === "true"){
-  form.style.display = 'none';
-  wheelBox.style.display = 'flex';
-  spinBtn.disabled = true;
-  resultBox.innerText = "شما قبلاً گردونه را چرخانده‌اید!";
-  resultBox.style.display = 'block';
 }
 
 spinBtn.onclick = spinWheel;
