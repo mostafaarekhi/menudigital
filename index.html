@@ -81,7 +81,7 @@ canvas {
   <h2>ثبت اطلاعات</h2>
   <input type="text" id="name" placeholder="نام">
   <input type="text" id="family" placeholder="نام خانوادگی">
-  <input type="number" id="age" placeholder="سن">
+  <input type="tel" id="phone" placeholder="شماره موبایل">
   <button id="submit">ثبت</button>
 </div>
 
@@ -93,10 +93,10 @@ canvas {
   <button id="save-btn">ثبت جایزه در گوگل شیت</button>
 </div>
 
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbwslhkpYuPLd0BJc6dkKmxh2U7pmFLcj_VIxZQB3_L3jLTYzA1I_G-FDE1LjhBWvpWF/exec" method="post" target="hidden_iframe">
+<form id="gsForm" action="YOUR_WEB_APP_URL" method="post" target="hidden_iframe">
   <input type="hidden" name="name" id="hiddenName">
   <input type="hidden" name="family" id="hiddenFamily">
-  <input type="hidden" name="age" id="hiddenAge">
+  <input type="hidden" name="phone" id="hiddenPhone">
   <input type="hidden" name="prize" id="hiddenPrize">
   <button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
 </form>
@@ -160,8 +160,8 @@ drawWheel(0);
 document.getElementById('submit').onclick = () => {
   const name = document.getElementById('name').value.trim();
   const family = document.getElementById('family').value.trim();
-  const age = document.getElementById('age').value.trim();
-  if(!name || !family || !age){ alert("لطفاً همه فیلدها را پر کنید"); return;}
+  const phone = document.getElementById('phone').value.trim();
+  if(!name || !family || !phone){ alert("لطفاً همه فیلدها را پر کنید"); return;}
   form.style.display='none';
   wheelBox.style.display='flex';
 }
@@ -205,7 +205,7 @@ function spinWheel(){
 saveBtn.onclick = () => {
   document.getElementById('hiddenName').value=document.getElementById('name').value;
   document.getElementById('hiddenFamily').value=document.getElementById('family').value;
-  document.getElementById('hiddenAge').value=document.getElementById('age').value;
+  document.getElementById('hiddenPhone').value=document.getElementById('phone').value;
   document.getElementById('hiddenPrize').value=winner;
 
   document.getElementById('gsSubmit').click();
