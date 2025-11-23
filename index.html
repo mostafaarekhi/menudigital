@@ -1,238 +1,300 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سایت حرفه‌ای مستفا</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>وبسایت شخصی</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Vazirmatn',sans-serif;}
-body{background:#121212; color:#f0f0f0; scroll-behavior:smooth; line-height:1.6; overflow-x:hidden;}
+/* ---------- RESET ---------- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'IRANSans',sans-serif;}
+body{background:#111;color:#eee;line-height:1.7;overflow-x:hidden;}
 a{text-decoration:none;color:inherit;}
-/* Navbar */
-.navbar{position:fixed;top:0;width:100%;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;padding:10px 20px;z-index:999;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
-.navbar .logo{font-weight:bold;font-size:1.5rem;}
-.navbar ul{display:flex;gap:20px;list-style:none;}
-.navbar ul li a{color:#f0f0f0;transition:0.3s;}
-.navbar ul li a:hover{color:#ff5722;}
-/* هیرو */
-.hero{height:80vh; display:flex; align-items:center; justify-content:center; overflow:hidden; text-align:center; perspective:1000px; margin-top:50px;}
-.hero::before{content:""; position:absolute; inset:0; background:url('assets/hero.jpg') center/cover no-repeat; transform:translateZ(0); will-change:transform; transition:transform 0.2s; z-index:1; filter:brightness(0.6);}
-.hero-content{position:relative; z-index:2; transform:translateY(0); transition:transform 0.3s;}
-.hero h1{font-size:3rem;margin-bottom:20px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;color:#fff;}
-.hero p{font-size:1.3rem;margin-bottom:30px;opacity:0;transform:translateY(50px);transition:all 1s ease;color:#ccc;}
-.hero button{padding:12px 25px;background:#ff5722;border:none;border-radius:50px;color:#fff;font-weight:bold;cursor:pointer;opacity:0;transform:translateY(50px);transition:all 0.3s ease;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
-.hero button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+section{padding:70px 20px;position:relative;}
+h2{font-size:28px;margin-bottom:25px;text-align:right;}
 
-/* بخش عنوان */
-.section-title{text-align:center;font-size:2rem;margin:50px 0 30px;color:#ff5722;}
-
-/* درباره من */
-.about{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;padding:40px 20px;gap:20px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;}
-.about img{width:320px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}
-.about-text{max-width:600px;}
-.about-text h2{font-size:2rem;margin-bottom:20px;}
-.about-text p{font-size:1.1rem;color:#ccc;}
-
-/* خدمات */
-.services{display:flex;flex-wrap:wrap;justify-content:center;padding:60px 20px;gap:20px;}
-.service-card{flex:1 1 250px;padding:25px;border-radius:25px;text-align:center;color:#fff;perspective:1000px;transition:all 0.5s ease;transform:translateY(50px);opacity:0;box-shadow:0 10px 25px rgba(0,0,0,0.5);}
-.service-card:hover{transform:rotateY(10deg) translateY(-10px);box-shadow:0 20px 30px rgba(0,0,0,0.7);}
-.service-card i{font-size:2.5rem;margin-bottom:15px;}
-.service-card h3{font-size:1.5rem;margin-bottom:10px;}
-.service-card p{font-size:1rem;}
-
-/* نمونه کار ویدیو */
-.portfolio-video{padding:60px 20px;text-align:center;opacity:0;transform:scale(0.8);transition:all 0.8s ease;}
-.video-slider{height:400px; overflow:hidden; position:relative;}
-.video-slider video{width:90%;height:auto;object-fit:cover;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5);position:absolute;left:50%;transform:translateX(-50%);transition:transform 0.3s,opacity 0.3s;}
-
-/* پروژه‌ها */
-.projects{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;padding:60px 20px;}
-.project-card{background:#1e1e1e;border-radius:20px;padding:25px;flex:1 1 250px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.5);transition:all 0.5s ease;transform:translateY(50px);opacity:0;}
-.project-card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 20px 35px rgba(0,0,0,0.7);}
-.project-card h3{margin-bottom:12px;}
-.project-card p{font-size:0.95rem;color:#ccc;}
-
-/* گالری */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:60px 20px;}
-.gallery img{width:100%;border-radius:15px;transform:scale(0.9);opacity:0;transition:all 0.6s ease;box-shadow:0 8px 20px rgba(0,0,0,0.5);filter:brightness(0.8);}
-.gallery img:hover{transform:scale(1.05);box-shadow:0 15px 30px rgba(0,0,0,0.7);}
-
-/* نظرات */
-.testimonials{padding:60px 20px;background:#1a1a1a;text-align:center;overflow:hidden;position:relative;}
-.testimonial-wrapper{display:flex;gap:20px;transition:transform 0.5s ease;}
-.testimonial-card{background:#222;border-radius:20px;padding:25px;min-width:300px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.5);transform:translateY(50px);opacity:0;transition:all 0.5s ease;}
-.testimonial-card img{width:60px;height:60px;border-radius:50%;position:absolute;top:-30px;left:50%;transform:translateX(-50%);border:3px solid #fff;}
-.testimonial-card i{font-size:2rem;color:#ff5722;margin-bottom:10px;display:block;}
-.testimonial-card p{margin-top:40px;color:#ccc;}
-.testimonial-controls{margin-top:20px;}
-.testimonial-controls button{padding:10px 15px;margin:0 5px;border:none;border-radius:50%;cursor:pointer;background:#ff5722;color:#fff;font-size:1.2rem;}
-
-/* تماس با من */
-.contact{padding:60px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;}
-.contact button{padding:20px 40px;border:none;border-radius:25px;cursor:pointer;color:#fff;font-weight:bold;transition:all 0.3s ease;display:flex;align-items:center;gap:10px;font-size:1.2rem;position:relative;overflow:hidden;width:250px;}
-.contact button i{font-size:1.5rem;}
-.contact button::after{content:"";position:absolute;width:100%;height:100%;top:0;left:-100%;background:rgba(255,255,255,0.2);transform:skewX(-20deg);transition:all 0.5s ease;}
-.contact button:hover::after{left:100%;}
-.social-1{background:#3b5998;}
-.social-2{background:#00acee;}
-.social-3{background:#E1306C;}
-
-/* موبایل */
-@media(max-width:768px){
-  .navbar ul{flex-direction:column;gap:10px;}
-  .about{flex-direction:column;text-align:center;}
-  .about img{margin-bottom:20px; width:80%;}
-  .service-card, .project-card{flex:1 1 90%; margin:auto;}
-  .video-slider video{width:90%; height:auto;}
-  .gallery{grid-template-columns:1fr;}
-  .testimonial-wrapper{flex-direction:column;align-items:center;}
-  .testimonial-card{min-width:90%; margin-bottom:20px;}
+/* ---------- NAVBAR ---------- */
+nav{
+  width:100%;position:fixed;top:0;left:0;z-index:999;
+  background:#000c;padding:15px 25px;backdrop-filter:blur(10px);
+  display:flex;justify-content:space-between;align-items:center;
 }
+nav .logo{font-size:20px;font-weight:bold;color:#fff;}
+nav ul{display:flex;gap:25px;list-style:none;}
+nav ul li{font-size:16px;}
+.menu-toggle{display:none;cursor:pointer;color:#fff;font-size:22px;}
+
+@media(max-width:768px){
+  nav ul{position:absolute;top:60px;right:0;width:100%;
+         background:#000d;flex-direction:column;display:none;padding:15px;}
+  nav ul.show{display:flex;}
+  .menu-toggle{display:block;}
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  height:80vh;background:url('assets/hero.jpg') center/cover no-repeat;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding-top:80px;
+}
+.hero h1{font-size:40px;margin-bottom:10px;color:#fff;}
+.hero p{font-size:18px;color:#ccc;}
+
+/* ---------- ABOUT ---------- */
+.about{display:flex;gap:40px;align-items:center;}
+.about img{width:350px;border-radius:15px;object-fit:cover;}
+.about-text p{color:#ccc;font-size:16px;}
+
+@media(max-width:768px){
+  .about{flex-direction:column;text-align:center;}
+  .about img{width:85%;}
+  h2{text-align:center;}
+}
+
+/* ---------- SERVICES ---------- */
+.services{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
+.service-card{
+  width:290px;background:#1a1a1a;border-radius:20px;padding:25px;
+  text-align:right;position:relative;overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.6);
+}
+.service-card .icon{
+  font-size:35px;margin-bottom:15px;
+  background:linear-gradient(45deg,#ff4,#f0f,#4ff);
+  width:60px;height:60px;border-radius:50%;
+  display:flex;justify-content:center;align-items:center;
+}
+
+/* ---------- VIDEO WORKS ---------- */
+.video-section{text-align:right;}
+.video-container{
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
+}
+.video-container video{
+  width:280px;border-radius:20px;
+  background:#000;box-shadow:0 10px 30px #000;
+}
+
+/* ---------- PROJECTS ---------- */
+.projects{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
+.project-card{
+  width:310px;background:#1a1a1a;border-radius:20px;padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.6);text-align:right;
+}
+
+/* ---------- GALLERY ---------- */
+.gallery{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:15px;
+}
+.gallery img{
+  width:100%;border-radius:15px;object-fit:cover;
+  filter:brightness(0.8);
+}
+
+/* ---------- TESTIMONIALS ---------- */
+.testimonials{overflow:hidden;}
+.testimonial-wrapper{
+  display:flex;gap:20px;transition:0.4s;
+}
+.testimonial-card{
+  min-width:330px;background:#222;padding:25px;border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.6);position:relative;
+}
+.testimonial-card img{
+  width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:10px;
+}
+.quote-icon{
+  position:absolute;top:20px;left:20px;font-size:22px;color:#777;
+}
+.controls{
+  margin-top:20px;display:flex;gap:15px;justify-content:center;
+}
+.controls button{
+  background:#333;border:0;padding:10px 15px;border-radius:10px;
+  font-size:20px;color:#fff;cursor:pointer;
+}
+
+@media(max-width:768px){
+  .testimonial-wrapper{
+    flex-direction:row;
+    overflow-x:scroll;
+    scroll-snap-type:x mandatory;
+  }
+  .testimonial-card{
+    scroll-snap-align:center;
+    min-width:85%;
+  }
+}
+
+/* ---------- CONTACT ---------- */
+.contact-buttons{
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
+}
+.contact-buttons a{
+  width:180px;background:#222;padding:15px;border-radius:15px;
+  text-align:center;font-size:18px;display:flex;
+  justify-content:center;align-items:center;gap:10px;
+  box-shadow:0 10px 25px #000;
+}
+.contact-buttons img{width:24px;height:24px;}
 </style>
 </head>
+
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
-  <div class="logo">مستفا</div>
-  <ul>
-    <li><a href="#hero">خانه</a></li>
-    <li><a href="#about">درباره من</a></li>
+<!-- ---------------- NAVBAR ---------------- -->
+<nav>
+  <div class="logo">لوگو</div>
+  <div class="menu-toggle">☰</div>
+  <ul id="navList">
     <li><a href="#services">خدمات</a></li>
-    <li><a href="#portfolio">نمونه کار</a></li>
-    <li><a href="#projects">پروژه‌ها</a></li>
-    <li><a href="#gallery">گالری</a></li>
-    <li><a href="#testimonials">نظرات</a></li>
+    <li><a href="#works">نمونه کار</a></li>
     <li><a href="#contact">تماس</a></li>
   </ul>
 </nav>
 
-<!-- هیرو -->
-<section class="hero" id="hero">
-  <div class="hero-content">
-    <h1>سلام، من مستفا هستم</h1>
-    <p>طراح وب و توسعه‌دهنده حرفه‌ای</p>
-    <button>شروع کنید</button>
+<!-- ---------------- HERO ---------------- -->
+<section class="hero">
+  <div>
+    <h1>سلام، من مصطفی هستم</h1>
+    <p>طراح وب، تولیدکننده محتوا و توسعه‌دهنده</p>
   </div>
 </section>
 
-<!-- درباره من -->
-<section class="about" id="about">
-  <div class="section-title">درباره من</div>
-  <img src="assets/about.jpg" alt="تصویر من">
+<!-- ---------------- ABOUT ---------------- -->
+<section class="about">
+  <img src="assets/about.jpg" alt="درباره من">
   <div class="about-text">
-    <p>من یک توسعه‌دهنده وب با تجربه در طراحی رابط کاربری و ایجاد تجربه کاربری جذاب هستم. پروژه‌های زیادی در زمینه وب و موبایل انجام داده‌ام.</p>
+    <h2>درباره من</h2>
+    <p>
+      سال‌هاست در حوزه طراحی، برندینگ و توسعه وب فعالیت می‌کنم.  
+      نتیجه کارم همیشه باید چشم‌نواز، دقیق و کارآمد باشد.
+    </p>
   </div>
 </section>
 
-<!-- خدمات -->
-<section class="services" id="services">
-  <div class="section-title">خدمات من</div>
-  <div class="service-card" style="background: linear-gradient(135deg,#ff9a9e,#fad0c4)">
-    <i class="fas fa-laptop-code"></i>
-    <h3>طراحی وب</h3>
-    <p>ایجاد وبسایت‌های ریسپانسیو و مدرن</p>
-  </div>
-  <div class="service-card" style="background: linear-gradient(135deg,#a1c4fd,#c2e9fb)">
-    <i class="fas fa-mobile-alt"></i>
-    <h3>توسعه موبایل</h3>
-    <p>اپلیکیشن‌های اندروید و iOS</p>
-  </div>
-  <div class="service-card" style="background: linear-gradient(135deg,#fbc2eb,#a6c1ee)">
-    <i class="fas fa-paint-brush"></i>
-    <h3>طراحی گرافیک</h3>
-    <p>لوگو و هویت بصری برند</p>
-  </div>
-</section>
+<!-- ---------------- SERVICES ---------------- -->
+<section id="services">
+  <h2>خدمات</h2>
+  <div class="services">
 
-<!-- نمونه کار ویدیو -->
-<section class="portfolio-video" id="portfolio">
-  <div class="section-title">نمونه کار ویدیویی</div>
-  <div class="video-slider">
-    <video src="assets/portfolio1.mp4" autoplay muted loop></video>
-    <video src="assets/portfolio2.mp4" autoplay muted loop style="top:400px;"></video>
-    <video src="assets/portfolio3.mp4" autoplay muted loop style="top:800px;"></video>
-  </div>
-</section>
-
-<!-- پروژه‌ها -->
-<section class="projects" id="projects">
-  <div class="section-title">پروژه‌های انجام شده</div>
-  <div class="project-card">
-    <h3>پروژه اول</h3>
-    <p>توضیحات کوتاه پروژه و نکات مهم</p>
-  </div>
-  <div class="project-card">
-    <h3>پروژه دوم</h3>
-    <p>توضیحات کوتاه پروژه و نکات مهم</p>
-  </div>
-</section>
-
-<!-- گالری -->
-<section class="gallery" id="gallery">
-  <div class="section-title">گالری</div>
-  <img src="assets/gallery1.jpg" alt="نمونه کار 1">
-  <img src="assets/gallery2.jpg" alt="نمونه کار 2">
-  <img src="assets/gallery3.jpg" alt="نمونه کار 3">
-  <img src="assets/gallery4.jpg" alt="نمونه کار 4">
-</section>
-
-<!-- نظرات -->
-<section class="testimonials" id="testimonials">
-  <div class="section-title">نظرات کارفرماها</div>
-  <div class="testimonial-wrapper">
-    <div class="testimonial-card">
-      <img src="assets/client1.jpg" alt="کارفرما 1">
-      <i class="fas fa-quote-left"></i>
-      <p>مستفا کارش عالیه و پروژه ما رو دقیق و به موقع تحویل داد.</p>
+    <div class="service-card">
+      <div class="icon">💡</div>
+      <h3>طراحی برند</h3>
+      <p>ساخت هویت بصری اصولی برای رشد کسب‌وکار</p>
     </div>
-    <div class="testimonial-card">
-      <img src="assets/client2.jpg" alt="کارفرما 2">
-      <i class="fas fa-quote-left"></i>
-      <p>همکاری با مستفا بسیار راحت و حرفه‌ای بود.</p>
+
+    <div class="service-card">
+      <div class="icon">🎨</div>
+      <h3>طراحی UI/UX</h3>
+      <p>ایجاد تجربه کاربری روان و جذاب</p>
     </div>
-    <div class="testimonial-card">
-      <img src="assets/client3.jpg" alt="کارفرما 3">
-      <i class="fas fa-quote-left"></i>
-      <p>نتیجه نهایی فراتر از انتظار بود و طراحی شگفت انگیز بود.</p>
+
+    <div class="service-card">
+      <div class="icon">⚙️</div>
+      <h3>طراحی سایت</h3>
+      <p>ساخت سایت حرفه‌ای با کدنویسی اختصاصی</p>
     </div>
-  </div>
-  <div class="testimonial-controls">
-    <button id="prev"><i class="fas fa-arrow-left"></i></button>
-    <button id="next"><i class="fas fa-arrow-right"></i></button>
+
   </div>
 </section>
 
-<!-- تماس با من -->
-<section class="contact" id="contact">
-  <div class="section-title">ارتباط با من</div>
-  <button class="social-1"><i class="fab fa-facebook-f"></i> فیسبوک</button>
-  <button class="social-2"><i class="fab fa-twitter"></i> توییتر</button>
-  <button class="social-3"><i class="fab fa-instagram"></i> اینستاگرام</button>
+<!-- ---------------- VIDEO WORKS ---------------- -->
+<section id="works" class="video-section">
+  <h2>نمونه کارهای ویدیویی</h2>
+  <div class="video-container">
+    <video controls src="assets/v1.mp4"></video>
+    <video controls src="assets/v2.mp4"></video>
+  </div>
 </section>
 
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- ---------------- PROJECTS ---------------- -->
+<section>
+  <h2>پروژه‌های انجام شده</h2>
+  <div class="projects">
+
+    <div class="project-card">
+      <h3>پروژه برندینگ</h3>
+      <p>طراحی کامل هویت بصری یک کسب‌وکار نوپا</p>
+    </div>
+
+    <div class="project-card">
+      <h3>طراحی سایت فروشگاهی</h3>
+      <p>توسعه پنل مدیریت، UI و فرانت حرفه‌ای</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ---------------- GALLERY ---------------- -->
+<section>
+  <h2>گالری نمونه کارها</h2>
+  <div class="gallery">
+    <img src="assets/g1.jpg">
+    <img src="assets/g2.jpg">
+    <img src="assets/g3.jpg">
+  </div>
+</section>
+
+<!-- ---------------- TESTIMONIALS ---------------- -->
+<section class="testimonials">
+  <h2>نظرات کارفرماها</h2>
+
+  <div class="testimonial-wrapper" id="testimonialSlider">
+
+    <div class="testimonial-card">
+      <div class="quote-icon">❝</div>
+      <img src="assets/p1.jpg">
+      <p>کار بسیار تمیز و باکیفیت. دقیق و تحویل به‌موقع!</p>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">❝</div>
+      <img src="assets/p2.jpg">
+      <p>یکی از بهترین تجربه‌های کاری که داشتم.</p>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">❝</div>
+      <img src="assets/p3.jpg">
+      <p>سلیقه عالی، ارتباط حرفه‌ای، خروجی فوق‌العاده.</p>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button onclick="prev()">❮</button>
+    <button onclick="next()">❯</button>
+  </div>
+</section>
+
+<!-- ---------------- CONTACT ---------------- -->
+<section id="contact">
+  <h2>ارتباط با من</h2>
+
+  <div class="contact-buttons">
+    <a href="#"><img src="assets/instagram.png"> اینستاگرام</a>
+    <a href="#"><img src="assets/telegram.png"> تلگرام</a>
+    <a href="#"><img src="assets/whatsapp.png"> واتساپ</a>
+    <a href="#"><img src="assets/phone.png"> تماس مستقیم</a>
+  </div>
+</section>
+
+<!-- ---------------- JS ---------------- -->
 <script>
-// ورود انیمیشن
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-      entry.target.style.opacity=1;
-      entry.target.style.transform='translateY(0)';
-    }
-  });
-},{threshold:0.2});
-document.querySelectorAll('.hero h1,.hero p,.hero button,.about,.service-card,.portfolio-video,.project-card,.gallery img,.testimonial-card').forEach(el=>observer.observe(el));
+const navBtn = document.querySelector(".menu-toggle");
+const navList = document.getElementById("navList");
+navBtn.onclick = ()=> navList.classList.toggle("show");
 
-// اسلایدر نظرات
-const wrapper=document.querySelector('.testimonial-wrapper');
-const cards=document.querySelectorAll('.testimonial-card');
-let index=0;
-document.getElementById('next').onclick=()=>{index=(index+1)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
-document.getElementById('prev').onclick=()=>{index=(index-1+cards.length)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
+let index = 0;
+function showSlide(){
+  document.getElementById("testimonialSlider").style.transform =
+    `translateX(-${index * 360}px)`;
+}
+function next(){ index = (index+1)%3; showSlide(); }
+function prev(){ index = (index+2)%3; showSlide(); }
 </script>
+
 </body>
 </html>
