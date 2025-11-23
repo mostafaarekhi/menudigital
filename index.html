@@ -7,28 +7,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Vazirmatn',sans-serif;}
-body{
-  background:#121212; color:#f0f0f0;
-  scroll-behavior:smooth; line-height:1.6; overflow-x:hidden;
-}
-
-/* هیرو پارالاکس */
-.hero{
-  height:80vh; position:relative; display:flex; align-items:center; justify-content:center;
-  overflow:hidden; text-align:center; perspective:1000px;
-}
-.hero::before{
-  content:""; position:absolute; inset:0;
-  background:url('assets/hero.jpg') center/cover no-repeat;
-  transform:translateZ(0);
-  will-change:transform; transition:transform 0.2s;
-  z-index:1; filter:brightness(0.6);
-}
+body{background:#121212; color:#f0f0f0; scroll-behavior:smooth; line-height:1.6; overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+/* Navbar */
+.navbar{position:fixed;top:0;width:100%;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;padding:10px 20px;z-index:999;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
+.navbar .logo{font-weight:bold;font-size:1.5rem;}
+.navbar ul{display:flex;gap:20px;list-style:none;}
+.navbar ul li a{color:#f0f0f0;transition:0.3s;}
+.navbar ul li a:hover{color:#ff5722;}
+/* هیرو */
+.hero{height:80vh; display:flex; align-items:center; justify-content:center; overflow:hidden; text-align:center; perspective:1000px; margin-top:50px;}
+.hero::before{content:""; position:absolute; inset:0; background:url('assets/hero.jpg') center/cover no-repeat; transform:translateZ(0); will-change:transform; transition:transform 0.2s; z-index:1; filter:brightness(0.6);}
 .hero-content{position:relative; z-index:2; transform:translateY(0); transition:transform 0.3s;}
 .hero h1{font-size:3rem;margin-bottom:20px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;color:#fff;}
 .hero p{font-size:1.3rem;margin-bottom:30px;opacity:0;transform:translateY(50px);transition:all 1s ease;color:#ccc;}
 .hero button{padding:12px 25px;background:#ff5722;border:none;border-radius:50px;color:#fff;font-weight:bold;cursor:pointer;opacity:0;transform:translateY(50px);transition:all 0.3s ease;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
 .hero button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+
+/* بخش عنوان */
+.section-title{text-align:center;font-size:2rem;margin:50px 0 30px;color:#ff5722;}
 
 /* درباره من */
 .about{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;padding:40px 20px;gap:20px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;}
@@ -45,7 +42,7 @@ body{
 .service-card h3{font-size:1.5rem;margin-bottom:10px;}
 .service-card p{font-size:1rem;}
 
-/* نمونه کار ویدیو پارالاکس */
+/* نمونه کار ویدیو */
 .portfolio-video{padding:60px 20px;text-align:center;opacity:0;transform:scale(0.8);transition:all 0.8s ease;}
 .video-slider{height:400px; overflow:hidden; position:relative;}
 .video-slider video{width:90%;height:auto;object-fit:cover;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5);position:absolute;left:50%;transform:translateX(-50%);transition:transform 0.3s,opacity 0.3s;}
@@ -70,12 +67,12 @@ body{
 .testimonial-card i{font-size:2rem;color:#ff5722;margin-bottom:10px;display:block;}
 .testimonial-card p{margin-top:40px;color:#ccc;}
 .testimonial-controls{margin-top:20px;}
-.testimonial-controls button{padding:8px 15px;margin:0 5px;border:none;border-radius:10px;cursor:pointer;background:#ff5722;color:#fff;}
+.testimonial-controls button{padding:10px 15px;margin:0 5px;border:none;border-radius:50%;cursor:pointer;background:#ff5722;color:#fff;font-size:1.2rem;}
 
 /* تماس با من */
-.contact{padding:60px 20px;text-align:center;}
-.contact h2{margin-bottom:30px;font-size:2rem;}
-.contact button{padding:12px 25px;margin:8px;border:none;border-radius:50px;cursor:pointer;color:#fff;font-weight:bold;transition:all 0.3s ease;position:relative;overflow:hidden;}
+.contact{padding:60px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;}
+.contact button{padding:20px 40px;border:none;border-radius:25px;cursor:pointer;color:#fff;font-weight:bold;transition:all 0.3s ease;display:flex;align-items:center;gap:10px;font-size:1.2rem;position:relative;overflow:hidden;width:250px;}
+.contact button i{font-size:1.5rem;}
 .contact button::after{content:"";position:absolute;width:100%;height:100%;top:0;left:-100%;background:rgba(255,255,255,0.2);transform:skewX(-20deg);transition:all 0.5s ease;}
 .contact button:hover::after{left:100%;}
 .social-1{background:#3b5998;}
@@ -84,6 +81,7 @@ body{
 
 /* موبایل */
 @media(max-width:768px){
+  .navbar ul{flex-direction:column;gap:10px;}
   .about{flex-direction:column;text-align:center;}
   .about img{margin-bottom:20px; width:80%;}
   .service-card, .project-card{flex:1 1 90%; margin:auto;}
@@ -96,8 +94,23 @@ body{
 </head>
 <body>
 
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">مستفا</div>
+  <ul>
+    <li><a href="#hero">خانه</a></li>
+    <li><a href="#about">درباره من</a></li>
+    <li><a href="#services">خدمات</a></li>
+    <li><a href="#portfolio">نمونه کار</a></li>
+    <li><a href="#projects">پروژه‌ها</a></li>
+    <li><a href="#gallery">گالری</a></li>
+    <li><a href="#testimonials">نظرات</a></li>
+    <li><a href="#contact">تماس</a></li>
+  </ul>
+</nav>
+
 <!-- هیرو -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-content">
     <h1>سلام، من مستفا هستم</h1>
     <p>طراح وب و توسعه‌دهنده حرفه‌ای</p>
@@ -106,16 +119,17 @@ body{
 </section>
 
 <!-- درباره من -->
-<section class="about">
+<section class="about" id="about">
+  <div class="section-title">درباره من</div>
   <img src="assets/about.jpg" alt="تصویر من">
   <div class="about-text">
-    <h2>درباره من</h2>
     <p>من یک توسعه‌دهنده وب با تجربه در طراحی رابط کاربری و ایجاد تجربه کاربری جذاب هستم. پروژه‌های زیادی در زمینه وب و موبایل انجام داده‌ام.</p>
   </div>
 </section>
 
 <!-- خدمات -->
-<section class="services">
+<section class="services" id="services">
+  <div class="section-title">خدمات من</div>
   <div class="service-card" style="background: linear-gradient(135deg,#ff9a9e,#fad0c4)">
     <i class="fas fa-laptop-code"></i>
     <h3>طراحی وب</h3>
@@ -133,9 +147,9 @@ body{
   </div>
 </section>
 
-<!-- نمونه کار ویدیو اسلایدر -->
-<section class="portfolio-video">
-  <h2>نمونه کار ویدیویی</h2>
+<!-- نمونه کار ویدیو -->
+<section class="portfolio-video" id="portfolio">
+  <div class="section-title">نمونه کار ویدیویی</div>
   <div class="video-slider">
     <video src="assets/portfolio1.mp4" autoplay muted loop></video>
     <video src="assets/portfolio2.mp4" autoplay muted loop style="top:400px;"></video>
@@ -144,7 +158,8 @@ body{
 </section>
 
 <!-- پروژه‌ها -->
-<section class="projects">
+<section class="projects" id="projects">
+  <div class="section-title">پروژه‌های انجام شده</div>
   <div class="project-card">
     <h3>پروژه اول</h3>
     <p>توضیحات کوتاه پروژه و نکات مهم</p>
@@ -156,7 +171,8 @@ body{
 </section>
 
 <!-- گالری -->
-<section class="gallery">
+<section class="gallery" id="gallery">
+  <div class="section-title">گالری</div>
   <img src="assets/gallery1.jpg" alt="نمونه کار 1">
   <img src="assets/gallery2.jpg" alt="نمونه کار 2">
   <img src="assets/gallery3.jpg" alt="نمونه کار 3">
@@ -164,8 +180,8 @@ body{
 </section>
 
 <!-- نظرات -->
-<section class="testimonials">
-  <h2>نظرات کارفرماها</h2>
+<section class="testimonials" id="testimonials">
+  <div class="section-title">نظرات کارفرماها</div>
   <div class="testimonial-wrapper">
     <div class="testimonial-card">
       <img src="assets/client1.jpg" alt="کارفرما 1">
@@ -184,22 +200,22 @@ body{
     </div>
   </div>
   <div class="testimonial-controls">
-    <button id="prev">قبلی</button>
-    <button id="next">بعدی</button>
+    <button id="prev"><i class="fas fa-arrow-left"></i></button>
+    <button id="next"><i class="fas fa-arrow-right"></i></button>
   </div>
 </section>
 
 <!-- تماس با من -->
-<section class="contact">
-  <h2>ارتباط با من</h2>
-  <button class="social-1">فیسبوک</button>
-  <button class="social-2">توییتر</button>
-  <button class="social-3">اینستاگرام</button>
+<section class="contact" id="contact">
+  <div class="section-title">ارتباط با من</div>
+  <button class="social-1"><i class="fab fa-facebook-f"></i> فیسبوک</button>
+  <button class="social-2"><i class="fab fa-twitter"></i> توییتر</button>
+  <button class="social-3"><i class="fab fa-instagram"></i> اینستاگرام</button>
 </section>
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
-// Intersection Observer برای ورود و پارالاکس سبک
+// ورود انیمیشن
 const observer=new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
@@ -218,6 +234,5 @@ let index=0;
 document.getElementById('next').onclick=()=>{index=(index+1)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
 document.getElementById('prev').onclick=()=>{index=(index-1+cards.length)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
 </script>
-
 </body>
 </html>
