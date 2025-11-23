@@ -1,219 +1,222 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گردونه شانس</title>
+<title>سایت حرفه‌ای مستفا</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body {
-  font-family: sans-serif;
-  direction: rtl;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
-  margin: 0;
-  padding-top: 20px;
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Vazirmatn',sans-serif;}
+body{scroll-behavior:smooth;background:#f9f9f9;line-height:1.6;overflow-x:hidden;}
+
+/* هیرو با پارالاکس */
+.hero{
+  height:100vh; position:relative; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff; text-align:center; perspective:1000px;
 }
-img#logo {
-  width: 120px;
-  margin-bottom: 20px;
+.hero::before{
+  content:""; position:absolute; inset:0;
+  background:url('assets/hero.jpg') center/cover no-repeat;
+  transform:translateZ(0);
+  will-change:transform; transition:transform 0.2s;
+  z-index:1;
 }
-#form-container, #wheel-container {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  text-align: center;
-  margin-bottom: 20px;
+.hero-content{position:relative; z-index:2; transform:translateY(0); transition:transform 0.3s;}
+.hero h1{font-size:3rem;margin-bottom:20px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;}
+.hero p{font-size:1.3rem;margin-bottom:30px;opacity:0;transform:translateY(50px);transition:all 1s ease;}
+.hero button{padding:12px 25px;background:#ff5722;border:none;border-radius:50px;color:#fff;font-weight:bold;cursor:pointer;opacity:0;transform:translateY(50px);transition:all 0.3s ease;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
+.hero button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+
+/* درباره من */
+.about{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;padding:80px 20px;gap:40px;opacity:0;transform:translateY(50px);transition:all 0.8s ease;}
+.about img{width:320px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+.about-text{max-width:600px;}
+.about-text h2{font-size:2rem;margin-bottom:20px;}
+.about-text p{font-size:1.1rem;color:#555;}
+
+/* خدمات */
+.services{display:flex;flex-wrap:wrap;justify-content:center;padding:80px 20px;gap:30px;}
+.service-card{flex:1 1 250px;padding:25px;border-radius:25px;text-align:center;color:#fff;perspective:1000px;transition:all 0.5s ease;transform:translateY(50px);opacity:0;}
+.service-card:hover{transform:rotateY(10deg) translateY(-10px);box-shadow:0 20px 30px rgba(0,0,0,0.3);}
+.service-card i{font-size:2.5rem;margin-bottom:15px;}
+.service-card h3{font-size:1.5rem;margin-bottom:10px;}
+.service-card p{font-size:1rem;}
+
+/* نمونه کار ویدیو پارالاکس اسلایدر عمودی */
+.portfolio-video{padding:80px 20px;text-align:center;opacity:0;transform:scale(0.8);transition:all 0.8s ease;}
+.video-slider{height:500px; overflow:hidden; position:relative;}
+.video-slider video{width:300px;height:500px;object-fit:cover;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.2);position:absolute;left:50%;transform:translateX(-50%);transition:transform 0.3s,opacity 0.3s;}
+
+/* پروژه‌ها */
+.projects{display:flex;flex-wrap:wrap;justify-content:center;gap:25px;padding:80px 20px;}
+.project-card{background:#fff;border-radius:20px;padding:25px;flex:1 1 250px;text-align:center;box-shadow:0 10px 20px rgba(0,0,0,0.1);transition:all 0.5s ease;transform:translateY(50px);opacity:0;}
+.project-card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 20px 35px rgba(0,0,0,0.15);}
+.project-card h3{margin-bottom:12px;}
+.project-card p{font-size:0.95rem;color:#555;}
+
+/* گالری */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:80px 20px;}
+.gallery img{width:100%;border-radius:15px;transform:scale(0.9);opacity:0;transition:all 0.6s ease;box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.gallery img:hover{transform:scale(1.05);box-shadow:0 15px 30px rgba(0,0,0,0.25);}
+
+/* نظرات اسلایدر پارالاکس */
+.testimonials{padding:80px 20px;background:#eee;text-align:center;overflow:hidden;position:relative;}
+.testimonial-wrapper{display:flex;gap:30px;transition:transform 0.5s ease;}
+.testimonial-card{background:#fff;border-radius:20px;padding:25px;min-width:300px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.1);transform:translateY(50px);opacity:0;transition:all 0.5s ease;}
+.testimonial-card img{width:60px;height:60px;border-radius:50%;position:absolute;top:-30px;left:50%;transform:translateX(-50%);border:3px solid #fff;}
+.testimonial-card i{font-size:2rem;color:#ff5722;margin-bottom:10px;display:block;}
+.testimonial-card p{margin-top:40px;color:#555;}
+.testimonial-controls{margin-top:20px;}
+.testimonial-controls button{padding:8px 15px;margin:0 5px;border:none;border-radius:10px;cursor:pointer;background:#ff5722;color:#fff;}
+
+/* تماس با من */
+.contact{padding:80px 20px;text-align:center;}
+.contact h2{margin-bottom:30px;font-size:2rem;}
+.contact button{padding:12px 25px;margin:8px;border:none;border-radius:50px;cursor:pointer;color:#fff;font-weight:bold;transition:all 0.3s ease;position:relative;overflow:hidden;}
+.contact button::after{content:"";position:absolute;width:100%;height:100%;top:0;left:-100%;background:rgba(255,255,255,0.2);transform:skewX(-20deg);transition:all 0.5s ease;}
+.contact button:hover::after{left:100%;}
+.social-1{background:#3b5998;}
+.social-2{background:#00acee;}
+.social-3{background:#E1306C;}
+
+@media(max-width:768px){
+  .about{flex-direction:column;text-align:center;}
+  .about img{margin-bottom:20px;}
+  .testimonial-wrapper{flex-direction:column;align-items:center;}
 }
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
-}
-button {
-  background: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-button:hover { background: #0056b3; }
-#wheel-container {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-canvas {
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-}
-#pointer {
-  width:0;
-  height:0;
-  border-left:20px solid transparent;
-  border-right:20px solid transparent;
-  border-bottom:30px solid red;
-  margin-bottom:-20px;
-  transform: rotate(180deg);
-}
-#result { font-size:20px; font-weight:bold; color:#333; display:none;}
-#save-btn { display:none; margin-top:10px; background:#28a745;}
-#save-btn:hover { background:#1e7e34;}
 </style>
 </head>
 <body>
 
-<!-- لوگوی ثابت بالای صفحه -->
-<img id="logo" src="YOUR_LOGO_URL" alt="لوگو">
+<!-- هیرو -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>سلام، من مستفا هستم</h1>
+    <p>طراح وب و توسعه‌دهنده حرفه‌ای</p>
+    <button>شروع کنید</button>
+  </div>
+</section>
 
-<div id="form-container">
-  <h2>ثبت اطلاعات</h2>
-  <input type="text" id="name" placeholder="نام">
-  <input type="text" id="family" placeholder="نام خانوادگی">
-  <input type="tel" id="phone" placeholder="شماره موبایل">
-  <button id="submit">ثبت</button>
-</div>
+<!-- درباره من -->
+<section class="about">
+  <img src="assets/about.jpg" alt="تصویر من">
+  <div class="about-text">
+    <h2>درباره من</h2>
+    <p>من یک توسعه‌دهنده وب با تجربه در طراحی رابط کاربری و ایجاد تجربه کاربری جذاب هستم. پروژه‌های زیادی در زمینه وب و موبایل انجام داده‌ام.</p>
+  </div>
+</section>
 
-<div id="wheel-container">
-  <div id="pointer"></div>
-  <canvas id="wheel" width="300" height="300"></canvas>
-  <button id="spin">بچرخ!</button>
-  <div id="result"></div>
-  <button id="save-btn">ثبت جایزه در گوگل شیت</button>
-</div>
+<!-- خدمات -->
+<section class="services">
+  <div class="service-card" style="background: linear-gradient(135deg,#ff9a9e,#fad0c4)">
+    <i class="fas fa-laptop-code"></i>
+    <h3>طراحی وب</h3>
+    <p>ایجاد وبسایت‌های ریسپانسیو و مدرن</p>
+  </div>
+  <div class="service-card" style="background: linear-gradient(135deg,#a1c4fd,#c2e9fb)">
+    <i class="fas fa-mobile-alt"></i>
+    <h3>توسعه موبایل</h3>
+    <p>اپلیکیشن‌های اندروید و iOS</p>
+  </div>
+  <div class="service-card" style="background: linear-gradient(135deg,#fbc2eb,#a6c1ee)">
+    <i class="fas fa-paint-brush"></i>
+    <h3>طراحی گرافیک</h3>
+    <p>لوگو و هویت بصری برند</p>
+  </div>
+</section>
 
-<form id="gsForm" action="https://script.google.com/macros/s/AKfycbyPVJfyt3csB1UJ8Xm0CuarBJKIa_itKPt-bvQN0UnJrYltaCxACAxlecJgb7wD1HlN/exec" method="post" target="hidden_iframe">
-  <input type="hidden" name="name" id="hiddenName">
-  <input type="hidden" name="family" id="hiddenFamily">
-  <input type="hidden" name="phone" id="hiddenPhone">
-  <input type="hidden" name="prize" id="hiddenPrize">
-  <button type="submit" id="gsSubmit" style="display:none;">ارسال</button>
-</form>
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+<!-- نمونه کار ویدیو اسلایدر پارالاکس -->
+<section class="portfolio-video">
+  <h2>نمونه کار ویدیویی</h2>
+  <div class="video-slider">
+    <video src="assets/portfolio1.mp4" autoplay muted loop></video>
+    <video src="assets/portfolio2.mp4" autoplay muted loop style="top:500px;"></video>
+    <video src="assets/portfolio3.mp4" autoplay muted loop style="top:1000px;"></video>
+  </div>
+</section>
 
+<!-- پروژه‌ها -->
+<section class="projects">
+  <div class="project-card">
+    <h3>پروژه اول</h3>
+    <p>توضیحات کوتاه پروژه و نکات مهم</p>
+  </div>
+  <div class="project-card">
+    <h3>پروژه دوم</h3>
+    <p>توضیحات کوتاه پروژه و نکات مهم</p>
+  </div>
+</section>
+
+<!-- گالری -->
+<section class="gallery">
+  <img src="assets/gallery1.jpg" alt="نمونه کار 1">
+  <img src="assets/gallery2.jpg" alt="نمونه کار 2">
+  <img src="assets/gallery3.jpg" alt="نمونه کار 3">
+  <img src="assets/gallery4.jpg" alt="نمونه کار 4">
+</section>
+
+<!-- نظرات اسلایدر پارالاکس -->
+<section class="testimonials">
+  <h2>نظرات کارفرماها</h2>
+  <div class="testimonial-wrapper">
+    <div class="testimonial-card">
+      <img src="assets/client1.jpg" alt="کارفرما 1">
+      <i class="fas fa-quote-left"></i>
+      <p>مستفا کارش عالیه و پروژه ما رو دقیق و به موقع تحویل داد.</p>
+    </div>
+    <div class="testimonial-card">
+      <img src="assets/client2.jpg" alt="کارفرما 2">
+      <i class="fas fa-quote-left"></i>
+      <p>همکاری با مستفا بسیار راحت و حرفه‌ای بود.</p>
+    </div>
+    <div class="testimonial-card">
+      <img src="assets/client3.jpg" alt="کارفرما 3">
+      <i class="fas fa-quote-left"></i>
+      <p>نتیجه نهایی فراتر از انتظار بود و طراحی شگفت انگیز بود.</p>
+    </div>
+  </div>
+  <div class="testimonial-controls">
+    <button id="prev">قبلی</button>
+    <button id="next">بعدی</button>
+  </div>
+</section>
+
+<!-- تماس با من -->
+<section class="contact">
+  <h2>ارتباط با من</h2>
+  <button class="social-1">فیسبوک</button>
+  <button class="social-2">توییتر</button>
+  <button class="social-3">اینستاگرام</button>
+</section>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
-const form = document.getElementById('form-container');
-const wheelBox = document.getElementById('wheel-container');
-const ctx = document.getElementById('wheel').getContext('2d');
-const resultBox = document.getElementById('result');
-const spinBtn = document.getElementById('spin');
-const saveBtn = document.getElementById('save-btn');
-
-const segments = ["تخفیف ۵٪","ارسال رایگان","تخفیف ۱۰٪","هیچ جایزه‌ای","تخفیف ۲۰٪","کد ویژه"];
-const colors = ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#F473B9","#FF8E00"];
-const segAngle = 360 / segments.length;
-
-let currentAngle = 0;
-let spinning = false;
-let winner = "";
-
-// رسم گردونه با متن وسط هر بخش
-function drawWheel(angle){
-  const cx = 150, cy = 150, r = 140;
-  ctx.clearRect(0,0,300,300);
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(angle*Math.PI/180);
-
-  for(let i=0;i<segments.length;i++){
-    // بخش رنگی
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.fillStyle = colors[i];
-    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
-    ctx.fill();
-
-    // مرز سفید
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.arc(0,0,r,i*segAngle*Math.PI/180,(i+1)*segAngle*Math.PI/180);
-    ctx.closePath();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#ffffff";
-    ctx.stroke();
-
-    // متن وسط هر بخش
-    ctx.save();
-    ctx.rotate((i + 0.5) * segAngle * Math.PI/180);
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 14px sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(segments[i], r - 10, 5);
-    ctx.restore();
-  }
-  ctx.restore();
-}
-
-drawWheel(0);
-
-document.getElementById('submit').onclick = () => {
-  const name = document.getElementById('name').value.trim();
-  const family = document.getElementById('family').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  if(!name || !family || !phone){ alert("لطفاً همه فیلدها را پر کنید"); return;}
-  form.style.display='none';
-  wheelBox.style.display='flex';
-}
-
-function spinWheel(){
-  if(spinning) return;
-  spinning=true;
-  resultBox.style.display='none';
-  saveBtn.style.display='none';
-  spinBtn.disabled=true;
-
-  const totalRotations=360*6;
-  const randomOffset=Math.random()*(segAngle-4)+2;
-  const targetIndex=Math.floor(Math.random()*segments.length);
-  const stopAngle=totalRotations+(targetIndex*segAngle+randomOffset);
-  const startAngle=currentAngle;
-  const start=performance.now();
-  const duration=4500;
-
-  requestAnimationFrame(function animate(now){
-    const t=Math.min((now-start)/duration,1);
-    const easeOut=1-Math.pow(1-t,3);
-    const angle=startAngle+(stopAngle-startAngle)*easeOut;
-    drawWheel(angle);
-    if(t<1){ requestAnimationFrame(animate); }
-    else{
-      currentAngle=angle%360;
-      const adjusted=(currentAngle+90)%360;
-      const index=Math.floor((360-adjusted)/segAngle)%segments.length;
-      winner=segments[index];
-
-      resultBox.innerText="🎉 نتیجه: "+winner;
-      resultBox.style.display='block';
-      saveBtn.style.display='inline-block';
-      spinning=false;
-      spinBtn.disabled=false;
+// Intersection Observer برای ورود و پارالاکس سبک
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      entry.target.style.opacity=1;
+      entry.target.style.transform='translateY(0)';
     }
   });
-}
+},{threshold:0.2});
+document.querySelectorAll('.hero h1,.hero p,.hero button,.about,.service-card,.portfolio-video,.project-card,.gallery img,.testimonial-card').forEach(el=>observer.observe(el));
 
-saveBtn.onclick = () => {
-  document.getElementById('hiddenName').value=document.getElementById('name').value;
-  document.getElementById('hiddenFamily').value=document.getElementById('family').value;
-  document.getElementById('hiddenPhone').value=document.getElementById('phone').value;
-  document.getElementById('hiddenPrize').value=winner;
+// پارالاکس هیرو
+window.addEventListener('scroll',()=>{document.querySelector('.hero::before');});
+document.addEventListener('scroll',function(){
+  const heroBg=document.querySelector('.hero::before');
+  const scrolled=window.scrollY*0.3;
+  // فقط نمونه: برای حرکت پس‌زمینه می‌توان CSS تغییر داد
+});
 
-  document.getElementById('gsSubmit').click();
-  alert('اطلاعات شما ثبت شد!');
-  saveBtn.style.display='none';
-}
-
-spinBtn.onclick = spinWheel;
+// اسلایدر نظرات
+const wrapper=document.querySelector('.testimonial-wrapper');
+const cards=document.querySelectorAll('.testimonial-card');
+let index=0;
+document.getElementById('next').onclick=()=>{index=(index+1)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
+document.getElementById('prev').onclick=()=>{index=(index-1+cards.length)%cards.length;wrapper.style.transform=`translateX(${-index*330}px)`;}
 </script>
 </body>
 </html>
