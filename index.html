@@ -2,595 +2,805 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تک‌صفحه‌ای دارک — پورتفولیو</title>
-  <meta name="description" content="پورتفولیو تک‌صفحه‌ای دارک مود — هِرو، درباره من، خدمات، نمونه‌کار ویدیویی، پروژه‌ها، گالری، نظرات و تماس" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>پورتفولیو — مستفا | Front-end & UI/UX</title>
+
+  <!-- Single-file: Dark-only UI, modern, responsive, mobile-first. CSS + JS inline -->
   <style>
-    /* =========================
-       Variables & reset
-       ========================= */
-    :root{
-      --bg:#0b0f14;
-      --card:#0f1418;
-      --muted:#98a0aa;
-      --accent1:#7cf7c6;
-      --accent2:#6aa9ff;
-      --glass: rgba(255,255,255,0.03);
-      --glass-2: rgba(255,255,255,0.04);
-      --radius:14px;
-      --gap:18px;
-      --maxw:1200px;
-      --fw-regular: 400;
-      --fw-medium: 600;
-      --shadow: 0 6px 24px rgba(2,6,12,0.6);
-      --transition: 300ms cubic-bezier(.2,.9,.3,1);
-      font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    /* ===========
+       Design Tokens
+       =========== */
+    :root {
+      /* Core */
+      --bg: #0b0f14;
+      --bg-2: #0e131a;
+      --surface: #141a22;
+      --surface-2: #171f29;
+      --text: #e6ebf2;
+      --text-dim: #b6c0cf;
+      --primary: #69b8ff;
+      --primary-2: #2ea4ff;
+      --accent: #7dffbe;
+      --warn: #ffb86b;
+      --danger: #ff6b6b;
+      --ok: #8be9fd;
+
+      /* Effects */
+      --border: #1f2732;
+      --shadow-1: 0 10px 30px rgba(0,0,0,.35);
+      --shadow-2: 0 18px 60px rgba(0,0,0,.45);
+
+      /* Layout */
+      --max-w: 1200px;
+      --g: 20px;
+      --r: 14px;
+      --r-2: 22px;
+
+      /* Typography */
+      --f-1: clamp(24px, 4.2vw, 44px);
+      --f-2: clamp(18px, 2.4vw, 24px);
+      --f-3: clamp(14px, 2vw, 18px);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(108,92,231,0.08), transparent 8%),
-                  radial-gradient(900px 400px at 90% 90%, rgba(50,200,255,0.03), transparent 4%),
-                  var(--bg);
-      color:#e8eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      padding-bottom:60px;
+
+    /* ===========
+       Base
+       =========== */
+    * { box-sizing: border-box }
+    html,body { height: 100% }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 75% -100px, rgba(46,164,255,.12) 0%, rgba(11,15,20,0) 52%), var(--bg);
+      color: var(--text);
+      font: 400 16px/1.7 "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "IranSans", sans-serif;
     }
-    img,video{max-width:100%;display:block;border-radius:8px}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
-    .flex{display:flex;gap:var(--gap);align-items:center}
-    .stack{display:flex;flex-direction:column;gap:var(--gap)}
-    h1,h2,h3{margin:0 0 6px 0}
-    p{color:var(--muted);margin:0}
-    /* =========================
-       Header & Nav
-       ========================= */
-    header{
-      position:sticky;top:0;z-index:60;
-      backdrop-filter: blur(6px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow:var(--shadow);
+
+    a { color: inherit; text-decoration: none }
+    img, video { display: block; max-width: 100%; border-radius: var(--r) }
+    ::selection { background: rgba(46,164,255,.2) }
+
+    .container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 16px }
+    .section { padding: 80px 0 }
+    @media (max-width: 768px) { .section { padding: 56px 0 } }
+
+    /* ===========
+       Header: sticky, blur, elevated
+       =========== */
+    .header {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: color-mix(in oklab, var(--bg-2) 78%, transparent);
+      border-bottom: 1px solid var(--border);
     }
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
-    .brand .logo{
-      height:44px;width:44px;border-radius:10px;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2));
-      display:grid;place-items:center;color:#061018;font-weight:800;font-size:18px;
-      box-shadow: 0 6px 18px rgba(108,92,231,0.12);
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; height: 68px;
     }
-    nav{display:flex;align-items:center;gap:12px}
-    nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:var(--muted);transition:var(--transition)}
-    nav a:hover{color:var(--accent2);background:var(--glass-2)}
-    /* hamburger */
-    .hamburger{display:none; width:46px;height:46px;border-radius:12px;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,0.03)}
-    .hamburger .lines{width:22px;height:16px;position:relative}
-    .lines span{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:2px;transition:var(--transition)}
-    .lines span:nth-child(1){top:0}
-    .lines span:nth-child(2){top:7px}
-    .lines span:nth-child(3){bottom:0}
-    .hamburger.open .lines span:nth-child(1){transform:translateY(7px) rotate(-45deg)}
-    .hamburger.open .lines span:nth-child(2){opacity:0;transform:scaleX(.2)}
-    .hamburger.open .lines span:nth-child(3){transform:translateY(-7px) rotate(45deg)}
-    /* mobile menu panel */
-    .mobile-panel{
-      position:fixed;inset:64px 18px auto 18px;padding:14px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter: blur(8px);box-shadow:var(--shadow);
-      display:none;flex-direction:column;gap:12px;z-index:80;
+    .brand {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-weight: 700; letter-spacing: .2px;
     }
-    .mobile-panel a{padding:12px;border-radius:10px}
-    /* =========================
+    .brand-logo {
+      width: 40px; height: 40px; border-radius: 10px;
+      background:
+        conic-gradient(from 210deg, #2ea4ff, #7dffbe, #8be9fd, #2ea4ff);
+      box-shadow: var(--shadow-1);
+      position: relative; overflow: hidden;
+    }
+    .brand-logo::after {
+      content: ""; position: absolute; inset: 2px;
+      border-radius: 8px; background: var(--bg);
+    }
+
+    /* Desktop menu */
+    .menu {
+      display: flex; align-items: center; gap: 24px;
+    }
+    .menu a {
+      padding: 10px 14px; border-radius: 10px;
+      color: var(--text-dim);
+      transition: .25s ease;
+    }
+    .menu a:hover { background: var(--surface); color: var(--text) }
+    .menu a.active {
+      background: linear-gradient(180deg, rgba(46,164,255,.16), rgba(46,164,255,0));
+      color: var(--text); outline: 1px solid rgba(46,164,255,.25);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      width: 42px; height: 42px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer; transition: .25s ease;
+    }
+    .hamburger:hover { background: var(--surface-2) }
+    .hamburger .bars {
+      width: 20px; height: 14px; position: relative;
+    }
+    .hamburger .bar {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: var(--text); border-radius: 2px; transition: .25s ease;
+    }
+    .bar:nth-child(1){ top: 0 }
+    .bar:nth-child(2){ top: 6px }
+    .bar:nth-child(3){ top: 12px }
+    .hamburger.active .bar:nth-child(1){ transform: translateY(6px) rotate(45deg) }
+    .hamburger.active .bar:nth-child(2){ opacity: 0 }
+    .hamburger.active .bar:nth-child(3){ transform: translateY(-6px) rotate(-45deg) }
+
+    /* Mobile drawer */
+    .drawer {
+      position: fixed; inset: 0; z-index: 999;
+      display: grid; grid-template-rows: auto 1fr;
+      opacity: 0; pointer-events: none; transition: .25s ease;
+    }
+    .drawer.active { opacity: 1; pointer-events: auto }
+    .drawer .overlay {
+      position: absolute; inset: 0; backdrop-filter: blur(8px);
+      background: rgba(0,0,0,.35);
+    }
+    .drawer .panel {
+      margin-top: 68px;
+      background: var(--surface); border-top: 1px solid var(--border);
+      border-radius: 18px 18px 0 0;
+      transform: translateY(20px); transition: .25s ease;
+      padding: 20px;
+    }
+    .drawer.active .panel { transform: translateY(0) }
+    .drawer .panel a {
+      display: block; padding: 14px 10px; border-radius: 12px;
+      color: var(--text-dim);
+    }
+    .drawer .panel a:hover { background: var(--surface-2); color: var(--text) }
+
+    @media (max-width: 1024px) {
+      .menu { display: none }
+      .hamburger { display: inline-flex }
+    }
+
+    /* ===========
        Hero
-       ========================= */
-    .hero{
-      padding:60px 0 40px;border-radius:16px;overflow:hidden;
-      background:linear-gradient(180deg, rgba(124,247,198,0.06), rgba(106,169,255,0.02));
-      margin:18px 0;
+       =========== */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 72px 0 56px;
     }
-    .hero-grid{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center}
-    .hero .title{font-size:34px;letter-spacing:0.2px}
-    .hero .lead{font-size:15px;margin-top:8px;color:var(--muted)}
-    .cta-row{display:flex;gap:12px;margin-top:16px}
-    .btn{
-      padding:10px 14px;border-radius:12px;font-weight:700;background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#061018;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(99,115,255,0.06);transition:var(--transition)
+    .hero-grid {
+      display: grid; align-items: center; gap: 28px;
+      grid-template-columns: 1.15fr .85fr;
     }
-    .btn.outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent1)}
-    .hero-visual{height:300px;border-radius:12px;overflow:hidden;position:relative}
-    .hero-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.28))}
-    /* =========================
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr }
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(46,164,255,.12); color: var(--ok);
+      border: 1px solid rgba(46,164,255,.25);
+      font-size: 14px;
+    }
+    .hero h1 { font-size: var(--f-1); margin: 14px 0 10px }
+    .hero p { font-size: var(--f-2); color: var(--text-dim) }
+    .cta {
+      margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text); transition: .25s ease;
+    }
+    .btn:hover { background: var(--surface-2) }
+    .btn.primary {
+      background: linear-gradient(90deg, #2ea4ff, #69b8ff);
+      border-color: transparent; color: #031321; font-weight: 700;
+      box-shadow: 0 8px 30px rgba(46,164,255,.35);
+    }
+    .hero-visual {
+      position: relative; aspect-ratio: 1/1; border-radius: var(--r-2);
+      border: 1px solid var(--border); overflow: hidden; background: var(--surface-2);
+      box-shadow: var(--shadow-2);
+    }
+    .hero-visual::before {
+      content: ""; position: absolute; inset: -50px; filter: blur(40px);
+      background: conic-gradient(from 140deg,#2ea4ff, #7dffbe, #8be9fd, #2ea4ff);
+      opacity: .18;
+    }
+    .hero-visual img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      mix-blend-mode: screen; opacity: .82;
+    }
+
+    /* ===========
        About
-       ========================= */
-    .about{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:center;padding:22px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);border-radius:12px}
-    .about .me-photo{height:260px;border-radius:14px;overflow:hidden}
-    .tags{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .tag{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--muted);font-weight:600}
-    /* =========================
-       Services (7 cards)
-       ========================= */
-    .services{margin-top:20px}
-    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .service-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);transition:var(--transition);box-shadow: 0 6px 18px rgba(2,6,12,0.6)
+       =========== */
+    .about-grid {
+      display: grid; gap: 24px; grid-template-columns: 1fr .9fr;
+      align-items: start;
     }
-    .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(2,6,12,0.7)}
-    .service-icon{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#031018;font-weight:800}
-    .service-title{margin-top:10px;font-weight:700}
-    /* =========================
-       Vertical video samples
-       ========================= */
-    .video-row{display:flex;gap:12px;overflow:auto;padding:12px 4px}
-    .video-card{min-width:180px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:8px}
-    video{height:320px;width:200px;object-fit:cover;border-radius:10px}
-    /* =========================
+    @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr } }
+    .about-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-2); padding: 22px; box-shadow: var(--shadow-1);
+    }
+    .about-photo {
+      position: relative; overflow: hidden; border-radius: var(--r-2);
+      border: 1px solid var(--border);
+    }
+    .kpi {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 16px;
+    }
+    @media (max-width: 600px) { .kpi { grid-template-columns: repeat(2,1fr) } }
+    .kpi .item {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; text-align: center;
+    }
+    .kpi .item .n { font-size: 22px; font-weight: 800; color: var(--accent) }
+    .kpi .item .t { color: var(--text-dim); font-size: 14px }
+
+    /* ===========
+       Services: 7 cards
+       =========== */
+    .grid-3 { display: grid; gap: var(--g); grid-template-columns: repeat(3,1fr) }
+    @media (max-width: 900px){ .grid-3 { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px){ .grid-3 { grid-template-columns: 1fr } }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 18px; transition: .25s ease;
+    }
+    .card:hover { transform: translateY(-4px); background: var(--surface-2); box-shadow: var(--shadow-1) }
+    .icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: color-mix(in oklab, var(--primary) 28%, black);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #031321; font-weight: 800; margin-bottom: 12px;
+      box-shadow: 0 8px 24px rgba(46,164,255, .35);
+    }
+    .card h4 { margin: 8px 0; font-size: 18px }
+    .card p { color: var(--text-dim) }
+
+    /* ===========
+       Vertical video gallery
+       =========== */
+    .video-grid {
+      display: grid; gap: var(--g);
+      grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 900px){ .video-grid { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px){ .video-grid { grid-template-columns: 1fr } }
+    .video-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .video-card video {
+      width: 100%; aspect-ratio: 9/16; object-fit: cover;
+    }
+    .video-meta {
+      padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;
+      color: var(--text-dim); font-size: 14px;
+    }
+
+    /* ===========
        Projects cards
-       ========================= */
-    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
-    .project-card{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
-    .project-meta{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:13px}
-    /* =========================
-       Gallery
-       ========================= */
-    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
-    .gallery-grid img{height:140px;object-fit:cover;border-radius:10px}
-    /* =========================
-       Testimonials slider
-       ========================= */
-    .testi{position:relative;padding:14px;margin-top:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
-    .slides{display:flex;overflow:hidden}
-    .slide{min-width:100%;padding:18px;transition:var(--transition);display:flex;gap:16px;align-items:center}
-    .avatar{width:64px;height:64px;border-radius:999px;overflow:hidden;flex-shrink:0}
-    .testi-controls{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px}
-    .testi-controls button{background:transparent;border:1px solid rgba(255,255,255,0.04);width:40px;height:40px;border-radius:8px;cursor:pointer}
-    /* =========================
-       Contact cards
-       ========================= */
-    .contact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
-    .contact-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
-    .socials{display:flex;gap:12px;margin-top:12px}
-    .socials a{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)}
-    /* =========================
+       =========== */
+    .projects {
+      display: grid; gap: var(--g);
+      grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 900px){ .projects { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px){ .projects { grid-template-columns: 1fr } }
+    .project {
+      overflow: hidden; border-radius: var(--r); border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .project .thumb { aspect-ratio: 16/10; object-fit: cover; width: 100% }
+    .project .info { padding: 14px }
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 0 }
+    .tag {
+      font-size: 12px; color: var(--text-dim);
+      border: 1px dashed var(--border); padding: 6px 8px; border-radius: 999px;
+    }
+
+    /* ===========
+       Photo gallery
+       =========== */
+    .gallery {
+      display: grid; gap: var(--g);
+      grid-template-columns: repeat(4,1fr);
+    }
+    @media (max-width: 1024px){ .gallery { grid-template-columns: repeat(3,1fr) } }
+    @media (max-width: 768px){ .gallery { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 520px){ .gallery { grid-template-columns: 1fr } }
+    .gallery img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      border: 1px solid var(--border); border-radius: var(--r);
+      transition: .25s ease;
+    }
+    .gallery img:hover { transform: scale(1.02) }
+
+    /* ===========
+       Testimonials
+       =========== */
+    .testimonials {
+      display: grid; gap: var(--g); grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 900px){ .testimonials { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px){ .testimonials { grid-template-columns: 1fr } }
+    .quote {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px;
+    }
+    .quote .msg { color: var(--text-dim) }
+    .quote .author { display: flex; align-items: center; gap: 10px; margin-top: 12px }
+    .quote .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2) }
+
+    /* ===========
+       Contact cards + socials
+       =========== */
+    .contact-grid {
+      display: grid; gap: var(--g); grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 900px){ .contact-grid { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px){ .contact-grid { grid-template-columns: 1fr } }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px;
+    }
+    .socials {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+    }
+    .social {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px;
+      color: var(--text-dim);
+    }
+    .social:hover { background: var(--surface-2); color: var(--text) }
+
+    /* ===========
+       Section headers
+       =========== */
+    .section-header {
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .section-title {
+      font-size: 22px; font-weight: 800;
+      background: linear-gradient(90deg, var(--text), var(--text-dim));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .section-sub { color: var(--text-dim); font-size: 14px }
+
+    /* ===========
        Footer
-       ========================= */
-    footer{margin-top:28px;padding:28px 0;color:var(--muted);text-align:center}
-    /* =========================
-       Responsiveness
-       ========================= */
-    @media (max-width:1000px){
-      .hero-grid{grid-template-columns:1fr 320px}
-      .about{grid-template-columns:300px 1fr}
-      .gallery-grid{grid-template-columns:repeat(3,1fr)}
-      .projects{grid-template-columns:repeat(2,1fr)}
-      .services-grid{grid-template-columns:repeat(2,1fr)}
-      .contact-row{grid-template-columns:repeat(2,1fr)}
+       =========== */
+    .footer {
+      padding: 34px 0; border-top: 1px solid var(--border);
+      color: var(--text-dim); text-align: center;
     }
-    @media (max-width:720px){
-      .container{padding:18px}
-      nav{display:none}
-      .hamburger{display:flex}
-      .mobile-panel{display:flex}
-      .hero-grid{grid-template-columns:1fr;gap:14px}
-      .about{grid-template-columns:1fr;gap:12px}
-      .hero-visual{height:220px}
-      .video-row{gap:10px}
-      video{height:260px;width:160px}
-      .services-grid{grid-template-columns:repeat(1,1fr)}
-      .projects{grid-template-columns:1fr}
-      .gallery-grid{grid-template-columns:repeat(2,1fr)}
-      .contact-row{grid-template-columns:1fr}
-      .mobile-panel{position:fixed;inset:64px 18px 18px 18px;overflow:auto}
-      .testi-controls{left:8px}
+
+    /* ===========
+       Utilities
+       =========== */
+    .row { display: flex; gap: var(--g); flex-wrap: wrap }
+    .spacer-8 { height: 8px }
+    .spacer-16 { height: 16px }
+    .spacer-24 { height: 24px }
+
+    /* Scrollbar (desktop aesthetic) */
+    @media (min-width: 900px) {
+      ::-webkit-scrollbar { width: 10px; height: 10px }
+      ::-webkit-scrollbar-track { background: var(--bg-2) }
+      ::-webkit-scrollbar-thumb { background: #243041; border-radius: 10px }
+      ::-webkit-scrollbar-thumb:hover { background: #2f3f56 }
     }
-    /* small niceties */
-    .muted{color:var(--muted)}
-    .small{font-size:13px}
-    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02)}
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav-inner" role="navigation" aria-label="منوی اصلی">
-      <div class="brand">
-        <div class="logo">م</div>
-        <div>
-          <div style="font-size:14px">پورتفولیو</div>
-          <div class="muted small">طراحی و تولید محتوا</div>
-        </div>
-      </div>
 
-      <nav aria-hidden="false" class="nav-links">
-        <a href="#hero">خانه</a>
-        <a href="#about">درباره من</a>
-        <a href="#services">خدمات</a>
-        <a href="#works">نمونه‌کار</a>
-        <a href="#projects">پروژه‌ها</a>
-        <a href="#gallery">گالری</a>
-        <a href="#testimonials">نظرات</a>
-        <a href="#contact">تماس</a>
+  <!-- ========== Header ========== -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="nav" aria-label="Main">
+        <a href="#home" class="brand">
+          <span class="brand-logo" aria-hidden="true"></span>
+          <span>Mostafa · Front‑end</span>
+        </a>
+
+        <div class="menu" id="menu">
+          <a href="#home" class="active">خانه</a>
+          <a href="#about">درباره من</a>
+          <a href="#services">خدمات</a>
+          <a href="#videos">نمونه‌کار ویدیویی</a>
+          <a href="#projects">پروژه‌ها</a>
+          <a href="#gallery">گالری</a>
+          <a href="#testimonials">نظرات</a>
+          <a href="#contact">تماس</a>
+        </div>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="drawer">
+          <div class="bars">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </button>
       </nav>
-
-      <button class="hamburger" id="hamb">
-        <div class="lines">
-          <span></span><span></span><span></span>
-        </div>
-      </button>
     </div>
 
-    <!-- mobile menu -->
-    <div class="mobile-panel container" id="mobilePanel" style="display:none">
-      <a href="#hero">خانه</a>
-      <a href="#about">درباره من</a>
-      <a href="#services">خدمات</a>
-      <a href="#works">نمونه‌کار</a>
-      <a href="#projects">پروژه‌ها</a>
-      <a href="#gallery">گالری</a>
-      <a href="#testimonials">نظرات</a>
-      <a href="#contact">تماس</a>
+    <!-- Mobile drawer -->
+    <div class="drawer" id="drawer" aria-hidden="true">
+      <div class="overlay" data-close-drawer></div>
+      <div class="panel container">
+        <a href="#home" data-close-drawer>خانه</a>
+        <a href="#about" data-close-drawer>درباره من</a>
+        <a href="#services" data-close-drawer>خدمات</a>
+        <a href="#videos" data-close-drawer>نمونه‌کار ویدیویی</a>
+        <a href="#projects" data-close-drawer>پروژه‌ها</a>
+        <a href="#gallery" data-close-drawer>گالری</a>
+        <a href="#testimonials" data-close-drawer>نظرات</a>
+        <a href="#contact" data-close-drawer>تماس</a>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- HERO -->
-    <section id="hero" class="hero" aria-label="معرفی">
+  <!-- ========== Hero ========== -->
+  <main id="home" class="hero">
+    <div class="container">
       <div class="hero-grid">
         <div>
-          <h1 class="title">سلام، من مصطفی — طراح و تولیدکننده محتوای دیجیتال</h1>
-          <p class="lead">طراحی UI/UX، ویدیوهای عمودی برای شبکه‌های اجتماعی، معرفی برند، و طراحی فضاهای دیجیتال. تجربهٔ همکاری با کارگاه‌ها و استودیوها.</p>
-          <div class="cta-row">
-            <button class="btn">درخواست مشاوره</button>
-            <button class="btn outline">تماشای دمو</button>
-          </div>
-          <div class="tags">
-            <div class="tag">طراحی UI</div>
-            <div class="tag">موشن گرافیک</div>
-            <div class="tag">ویدیو کوتاه</div>
-            <div class="tag">پروژه‌های صنعتی</div>
+          <span class="badge">طراحی مدرن • تجربه کاربری پویا</span>
+          <h1>سلام، من مصطفی‌ام — فرانت‌اند دولوپر و طراح رابط کاربری</h1>
+          <p>وب‌سایت‌های تک‌صفحه‌ای سریع، واکنش‌گرا و تاریک‌مود می‌سازم؛ با ناوبری چسبنده، انیمیشن‌های لطیف و جزئیات پیکسلی.</p>
+          <div class="cta">
+            <a class="btn primary" href="#projects">مشاهده پروژه‌ها</a>
+            <a class="btn" href="#contact">ارتباط و همکاری</a>
           </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <!-- نمایشی: جای عکس یا ویدیو -->
-          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Hero visual" style="width:100%;height:100%;object-fit:cover">
+          <!-- replace image -->
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Creative pattern" />
         </div>
       </div>
-    </section>
+    </div>
+  </main>
 
-    <!-- ABOUT -->
-    <section id="about" class="about" aria-label="درباره من">
-      <div class="me-photo" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1545996124-6a8f3a6b9b3f?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="عکس من">
-      </div>
-      <div>
-        <h2>درباره من</h2>
-        <p class="muted">من روی داستان بصری برندها، تجربهٔ کاربری و ویدیوهای کوتاه تمرکز دارم. ترکیب طراحی دقیق و حرکت برای رسیدن به محتوای قابل اشتراک‌گذاری.</p>
-        <div style="margin-top:14px">
-          <div><strong>مهارت‌ها</strong></div>
-          <div class="tags" style="margin-top:8px">
-            <div class="tag">After Effects</div>
-            <div class="tag">HTML/CSS/JS</div>
-            <div class="tag">Figma</div>
-            <div class="tag">تولید ویدیو</div>
-          </div>
-        </div>
-        <div style="margin-top:16px">
-          <div class="pill small">در دسترس برای پروژه‌های بلندمدت و کوتاه‌مدت</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="services" aria-label="خدمات">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h2>خدمات</h2>
-        <div class="small muted">۷ سرویس تخصصی</div>
-      </div>
-      <div class="services-grid">
-        <!-- 7 کارت -->
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">UI</div>
-            <div style="flex:1">
-              <div class="service-title">طراحی رابط کاربری</div>
-              <div class="muted small">پروتوتایپ و طراحی واکنش‌گرا</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">MG</div>
-            <div style="flex:1">
-              <div class="service-title">موشن گرافیک</div>
-              <div class="muted small">تیزرهای کوتاه برای شبکه‌ها</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">VD</div>
-            <div style="flex:1">
-              <div class="service-title">تولید ویدیو عمودی</div>
-              <div class="muted small">برای Reels و TikTok</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">BR</div>
-            <div style="flex:1">
-              <div class="service-title">هویت بصری برند</div>
-              <div class="muted small">لوگو، پالت رنگ و تایپوگرافی</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">PR</div>
-            <div style="flex:1">
-              <div class="service-title">معرفی محصول</div>
-              <div class="muted small">کمپین و لندینگ کوتاه</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">UX</div>
-            <div style="flex:1">
-              <div class="service-title">تحقیق UX</div>
-              <div class="muted small">کاربران هدف و مسیر خرید</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="flex">
-            <div class="service-icon">WF</div>
-            <div style="flex:1">
-              <div class="service-title">راه‌اندازی کارگاه</div>
-              <div class="muted small">مشاوره تولید و فرآیند</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Works / vertical videos -->
-    <section id="works" style="margin-top:22px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h2>نمونه‌کار ویدیویی</h2>
-        <div class="muted small">ویدیوهای عمودی — قابل پخش در صفحه</div>
+  <!-- ========== About ========== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">درباره من</h3>
+        <span class="section-sub">ترکیب دیدگاه طراحی و دقت توسعه</span>
       </div>
 
-      <div class="video-row" aria-label="ویدیوهای عمودی">
-        <!-- sample vertical videos (replace src with real mp4s) -->
+      <div class="about-grid">
+        <div class="about-card">
+          <h4>من کی‌ام؟</h4>
+          <p>فرانت‌اند دولوپر با تمرکز روی HTML, CSS, JavaScript و پیاده‌سازی دقیق الگوهای UI/UX: ناوبری چسبنده، اسکرول نرم، منوی همبرگری انیمیشنی، اورلی و هایلایت لینک فعال.</p>
+          <div class="spacer-16"></div>
+          <h4>رویکرد کاری</h4>
+          <p>کد ماژولار، ساختار تمیز، انیمیشن‌های کم‌نویز و عملکرد عالی. همیشه خروجی پروداکشن-ردی با توجه به جزئیات و تست در موبایل.</p>
+
+          <div class="kpi">
+            <div class="item"><div class="n">+40</div><div class="t">پروژه تکمیل‌شده</div></div>
+            <div class="item"><div class="n">+8</div><div class="t">سال تجربه</div></div>
+            <div class="item"><div class="n">~95%</div><div class="t">رضایت کارفرما</div></div>
+          </div>
+        </div>
+
+        <div class="about-photo">
+          <img src="https://images.unsplash.com/photo-1529333166437-7750f6dcd1f3?q=80&w=1200&auto=format&fit=crop" alt="Profile style" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Services (7 cards) ========== -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">خدمات</h3>
+        <span class="section-sub">راهکارهای مدرن فرانت‌اند</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">UI</div>
+          <h4>طراحی رابط کاربری</h4>
+          <p>کامپوننت‌های مینیمال، دسترس‌پذیر و واکنش‌گرا با تمرکز روی تایپوگرافی و رنگ.</p>
+        </div>
+        <div class="card">
+          <div class="icon">UX</div>
+          <h4>بهینه‌سازی تجربه کاربری</h4>
+          <p>فلوهای ساده، میکروانیمیشن‌های قابل لمس و ناوبری شهودی.</p>
+        </div>
+        <div class="card">
+          <div class="icon">FE</div>
+          <h4>توسعه فرانت‌اند</h4>
+          <p>کدنویسی تمیز با HTML/CSS/JS و ساختار ماژولار.</p>
+        </div>
+        <div class="card">
+          <div class="icon">SP</div>
+          <h4>اسکرول نرم و تعاملات</h4>
+          <p>هایلایت لینک فعال، انیمیشن‌های ورود و پارالاکس لطیف.</p>
+        </div>
+        <div class="card">
+          <div class="icon">AN</div>
+          <h4>انیمیشن و موشن</h4>
+          <p>حرکت‌های میکرو با عملکرد بالا و بدون حواس‌پرتی.</p>
+        </div>
+        <div class="card">
+          <div class="icon">PF</div>
+          <h4>بهینه‌سازی عملکرد</h4>
+          <p>لود سریع، بارگذاری تنبل و تنظیمات رسپانسیو.</p>
+        </div>
+        <div class="card">
+          <div class="icon">QA</div>
+          <h4>کیفیت و تست</h4>
+          <p>بررسی کراس-دیوایس و رفع باگ‌های UI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Vertical video gallery ========== -->
+  <section id="videos" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">نمونه‌کار ویدیویی عمودی</h3>
+        <span class="section-sub">ویدیوهای 9:16 کنار هم</span>
+      </div>
+
+      <div class="video-grid">
+        <!-- Replace sources with your vertical videos -->
         <div class="video-card">
-          <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" controls playsinline muted loop></video>
+          <video src="" poster="https://images.unsplash.com/photo-1540317580381-10738d54a03e?q=80&w=1200&auto=format&fit=crop" controls></video>
+          <div class="video-meta"><span>UI Walkthrough</span><span>00:46</span></div>
         </div>
         <div class="video-card">
-          <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" controls playsinline muted loop></video>
+          <video src="" poster="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop" controls></video>
+          <div class="video-meta"><span>Motion Demo</span><span>01:12</span></div>
         </div>
         <div class="video-card">
-          <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" controls playsinline muted loop></video>
-        </div>
-        <div class="video-card">
-          <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" controls playsinline muted loop></video>
+          <video src="" poster="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" controls></video>
+          <div class="video-meta"><span>Mobile Flow</span><span>00:38</span></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Projects -->
-    <section id="projects" style="margin-top:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h2>پروژه‌های انجام شده</h2>
-        <div class="muted small">چند پروژه منتخب</div>
+  <!-- ========== Projects cards ========== -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">پروژه‌های انجام‌شده</h3>
+        <span class="section-sub">گزیده‌ای از کارهای منتخب</span>
       </div>
 
       <div class="projects">
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="پروژه ۱">
-          <div style="margin-top:10px">
-            <div style="font-weight:700">پروژه نمایشی ۱</div>
-            <div class="project-meta"><span class="muted">وب‌سایت</span><span class="muted">مدت: ۲ ماه</span></div>
+        <article class="project">
+          <img class="thumb" src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?q=80&w=1200&auto=format&fit=crop" alt="Project cover" />
+          <div class="info">
+            <h4>داشبورد تحلیلی</h4>
+            <p class="section-sub">رابط مدرن با تعاملات نرم و نمودارهای داینامیک.</p>
+            <div class="tag-row">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span><span class="tag">ARIA</span>
+            </div>
+          </div>
+        </article>
+        <article class="project">
+          <img class="thumb" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1200&auto=format&fit=crop" alt="Project cover" />
+          <div class="info">
+            <h4>لندینگ کمپین</h4>
+            <p class="section-sub">تایپوگرافی دقیق، اسکرول داستانی و CTA مؤثر.</p>
+            <div class="tag-row">
+              <span class="tag">GSAP-lite</span><span class="tag">SEO</span><span class="tag">Perf</span>
+            </div>
+          </div>
+        </article>
+        <article class="project">
+          <img class="thumb" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt="Project cover" />
+          <div class="info">
+            <h4>پورتال موبایل</h4>
+            <p class="section-sub">طراحی تاریک‌مود، منوی همبرگری و لود سریع.</p>
+            <div class="tag-row">
+              <span class="tag">PWA</span><span class="tag">Responsive</span><span class="tag">A11y</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Photo gallery ========== -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">گالری عکس نمونه‌کار</h3>
+        <span class="section-sub">تصاویر منتخب از پروژه‌ها</span>
+      </div>
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1555066931-bf19f8fd1085?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1514986888952-8cd320577b47?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1532619675605-1eda5e2548e6?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop" alt="Gallery item" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Testimonials ========== -->
+  <section id="testimonials" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">نظرات کارفرماها</h3>
+        <span class="section-sub">بازخورد واقعی از همکاری‌ها</span>
+      </div>
+
+      <div class="testimonials">
+        <div class="quote">
+          <p class="msg">«دقت در جزئیات و تحویل به‌موقع عالی بود. تجربه کاربری سایت سطح بعدی شد.»</p>
+          <div class="author">
+            <span class="avatar"></span>
+            <div><strong>شرکت الف</strong><div class="section-sub">CPO</div></div>
           </div>
         </div>
-
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1532619675605-5f3dc9d9b0f6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="پروژه ۲">
-          <div style="margin-top:10px">
-            <div style="font-weight:700">پروژه نمایشی ۲</div>
-            <div class="project-meta"><span class="muted">ویدیو</span><span class="muted">مدت: ۳ هفته</span></div>
+        <div class="quote">
+          <p class="msg">«رابط تاریک‌مود با انیمیشن‌های نرم، دقیقاً همان چیزی بود که نیاز داشتیم.»</p>
+          <div class="author">
+            <span class="avatar"></span>
+            <div><strong>استودیو ب</strong><div class="section-sub">مدیر محصول</div></div>
           </div>
         </div>
-
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="پروژه ۳">
-          <div style="margin-top:10px">
-            <div style="font-weight:700">پروژه نمایشی ۳</div>
-            <div class="project-meta"><span class="muted">کمپین</span><span class="muted">مدت: ۱ ماه</span></div>
+        <div class="quote">
+          <p class="msg">«پرفورمنس عالی و کدنویسی تمیز — همکاری بسیار حرفه‌ای.»</p>
+          <div class="author">
+            <span class="avatar"></span>
+            <div><strong>استارتاپ ج</strong><div class="section-sub">CTO</div></div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Gallery -->
-    <section id="gallery">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0">
-        <h2>گالری نمونه‌کار</h2>
-        <div class="muted small">تصاویر منتخب</div>
-      </div>
-      <div class="gallery-grid">
-        <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1519741491513-0c9b8c9b9d2b?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-        <img src="https://images.unsplash.com/photo-1534081333815-ae5019106622?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="">
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="testimonials" class="testi" aria-label="نظرات کارفرماها">
-      <h2 style="margin-bottom:12px">نظرات کارفرماها</h2>
-      <div class="slides" id="slides">
-        <div class="slide">
-          <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="عکس کارفرما"></div>
-          <div>
-            <div style="font-weight:700">دکتر احمدی</div>
-            <div class="muted small">مدیر شرکت نمونه</div>
-            <p style="margin-top:8px">همکاری با مصطفی فوق‌العاده بود؛ تحویل به‌موقع و با کیفیت بالا. استراتژی محتوا تأثیر سریعی روی تعامل ما گذاشت.</p>
-          </div>
-        </div>
-
-        <div class="slide">
-          <div class="avatar"><img src="https://images.unsplash.com/photo-1545996124-6a8f3a6b9b3f?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="عکس کارفرما"></div>
-          <div>
-            <div style="font-weight:700">خانم موسوی</div>
-            <div class="muted small">مالک برند</div>
-            <p style="margin-top:8px">طراحی و ویدیوی معرفی محصول بسیار حرفه‌ای بود؛ نرخ تبدیل ما افزایش پیدا کرد.</p>
-          </div>
-        </div>
-
-        <div class="slide">
-          <div class="avatar"><img src="https://images.unsplash.com/photo-1545996124-6a8f3a6b9b3f?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="عکس کارفرما"></div>
-          <div>
-            <div style="font-weight:700">شرکت آریا</div>
-            <div class="muted small">تیم تولید</div>
-            <p style="margin-top:8px">پشتیبانی و هماهنگی تیمی عالی؛ پروژه را سریع و بدون دردسر تحویل دادند.</p>
-          </div>
-        </div>
+  <!-- ========== Contact ========== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">ارتباط و شبکه‌های اجتماعی</h3>
+        <span class="section-sub">برای همکاری پیام بده</span>
       </div>
 
-      <div class="testi-controls" aria-hidden="false">
-        <button id="prev" title="قبلی">‹</button>
-        <button id="next" title="بعدی">›</button>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" style="margin-top:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h2>تماس و شبکه‌های اجتماعی</h2>
-        <div class="muted small">در دسترس برای مشاوره و همکاری</div>
-      </div>
-
-      <div class="contact-row">
+      <div class="contact-grid">
         <div class="contact-card">
-          <div style="font-weight:700">درخواست همکاری</div>
-          <div class="muted small" style="margin-top:8px">ایمیل:</div>
-          <div style="margin-top:8px;font-weight:700">example@mail.com</div>
-          <div class="socials" aria-label="شبکه‌های اجتماعی">
-            <a href="#" title="اینستاگرام" aria-label="اینستاگرام">
-              <!-- instagram svg -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.2"/></svg>
-            </a>
-            <a href="#" title="تلگرام"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l18-7-7 18-3.5-6.5L3 12z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></a>
-            <a href="#" title="لینکدین"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.1"/></svg></a>
+          <h4>ایمیل</h4>
+          <p class="section-sub">پاسخ سریع در ساعات کاری</p>
+          <a class="btn" href="mailto:hello@mostafa.dev">hello@mostafa.dev</a>
+        </div>
+        <div class="contact-card">
+          <h4>واتس‌اپ</h4>
+          <p class="section-sub">گفتگوی مستقیم</p>
+          <a class="btn" href="#">پیام بده</a>
+        </div>
+        <div class="contact-card">
+          <h4>شبکه‌ها</h4>
+          <div class="socials">
+            <a class="social" href="#">GitHub</a>
+            <a class="social" href="#">LinkedIn</a>
+            <a class="social" href="#">Twitter/X</a>
+            <a class="social" href="#">Dribbble</a>
+            <a class="social" href="#">Behance</a>
           </div>
         </div>
-
-        <div class="contact-card">
-          <div style="font-weight:700">آدرس دفتر</div>
-          <div class="muted small" style="margin-top:8px">گنبد کاووس — خیابان مثال</div>
-          <div style="margin-top:8px">برای بازدید حضوری هماهنگ کنید.</div>
-        </div>
-
-        <div class="contact-card">
-          <div style="font-weight:700">تماس فوری</div>
-          <div class="muted small" style="margin-top:8px">تلفن</div>
-          <div style="margin-top:8px;font-weight:700">+44 7700 900000</div>
-        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      <div class="small muted">© ۲۰۲۵ — همه حقوق محفوظ است</div>
-    </footer>
-  </main>
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      © 2025 Mostafa — ساخته شده با عشق به جزئیات و UX.
+    </div>
+  </footer>
 
+  <!-- ========== JS: interactions, smooth scroll, active link, hamburger, observer ========== -->
   <script>
-    // ====== Mobile hamburger toggle ======
-    const hamb = document.getElementById('hamb');
-    const mobilePanel = document.getElementById('mobilePanel');
-    hamb.addEventListener('click', () => {
-      hamb.classList.toggle('open');
-      if(hamb.classList.contains('open')){
-        mobilePanel.style.display = 'flex';
-      } else {
-        mobilePanel.style.display = 'none';
+    // Smooth scroll for anchor links
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const id = a.getAttribute("href").slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        const y = el.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        // close drawer on mobile
+        if (document.body.classList.contains("drawer-open")) closeDrawer();
       }
     });
 
-    // close mobile panel when link clicked (good UX)
-    document.querySelectorAll('#mobilePanel a').forEach(a=>{
-      a.addEventListener('click', ()=> {
-        hamb.classList.remove('open');
-        mobilePanel.style.display = 'none';
-      })
+    // Active link highlighting via IntersectionObserver
+    const sections = ["home","about","services","videos","projects","gallery","testimonials","contact"];
+    const menuLinks = Array.from(document.querySelectorAll(".menu a"));
+    const setActive = (id) => {
+      menuLinks.forEach(l => {
+        const match = l.getAttribute("href") === "#" + id;
+        l.classList.toggle("active", match);
+      });
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.02 });
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
     });
 
-    // ====== Smooth scroll for in-page nav ======
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', function(e){
-        const target = document.querySelector(this.getAttribute('href'));
-        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
-      });
+    // Hamburger + drawer
+    const hamburger = document.getElementById("hamburger");
+    const drawer = document.getElementById("drawer");
+    const closeDrawer = () => {
+      hamburger.classList.remove("active");
+      hamburger.setAttribute("aria-expanded", "false");
+      drawer.classList.remove("active");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("drawer-open");
+    };
+    const openDrawer = () => {
+      hamburger.classList.add("active");
+      hamburger.setAttribute("aria-expanded", "true");
+      drawer.classList.add("active");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.classList.add("drawer-open");
+    };
+    hamburger.addEventListener("click", () => {
+      drawer.classList.contains("active") ? closeDrawer() : openDrawer();
+    });
+    drawer.addEventListener("click", (e) => {
+      if (e.target.matches("[data-close-drawer]")) closeDrawer();
     });
 
-    // ====== Testimonials simple slider ======
-    (function(){
-      const slidesWrap = document.getElementById('slides');
-      const slides = [...slidesWrap.querySelectorAll('.slide')];
-      let current = 0;
-      const prevBtn = document.getElementById('prev');
-      const nextBtn = document.getElementById('next');
+    // Escape to close drawer
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && drawer.classList.contains("active")) closeDrawer();
+    });
 
-      function show(index){
-        index = (index + slides.length) % slides.length;
-        current = index;
-        slidesWrap.style.transform = `translateX(-${index * 100}%)`;
-      }
-
-      prevBtn.addEventListener('click', ()=> show(current-1));
-      nextBtn.addEventListener('click', ()=> show(current+1));
-
-      // optional autoplay but paused on hover
-      let autoplay = setInterval(()=> show(current+1), 5000);
-      slidesWrap.addEventListener('mouseenter', ()=> clearInterval(autoplay));
-      slidesWrap.addEventListener('mouseleave', ()=> autoplay = setInterval(()=> show(current+1), 5000));
-      // initialize style for slide container
-      slidesWrap.style.width = (slides.length * 100) + '%';
-      slides.forEach(s => s.style.width = (100 / slides.length) + '%');
-      show(0);
-    })();
-
-    // ====== Accessibility: reduce motion preference handling ======
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(prefersReduced){
-      document.documentElement.style.setProperty('--transition','150ms linear');
-      document.querySelectorAll('.hero-visual img, video').forEach(el=>{
-        el.removeAttribute('autoplay');
-      });
+    // Prefers-reduced-motion: respect user
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      document.documentElement.style.scrollBehavior = "auto";
     }
 
-    // ====== Minor: lazyload images (native) ======
-    document.querySelectorAll('img').forEach(img=>{
-      img.loading = 'lazy';
+    // Lazy load gallery images via loading=lazy
+    document.querySelectorAll('img').forEach(img => {
+      img.setAttribute('loading','lazy');
+      img.setAttribute('decoding','async');
     });
 
-    // ====== Keyboard: hamburger close on Escape ======
-    document.addEventListener('keydown',(e)=>{
-      if(e.key === 'Escape'){
-        hamb.classList.remove('open');
-        mobilePanel.style.display = 'none';
-      }
+    // Optional: simple reveal on scroll
+    const revealEls = document.querySelectorAll(".card, .project, .video-card, .quote, .contact-card, .about-card, .about-photo, .hero-visual");
+    revealEls.forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = "translateY(12px)";
     });
+    const revObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.transition = "opacity .5s ease, transform .5s ease";
+          el.style.opacity = 1;
+          el.style.transform = "translateY(0)";
+          revObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach(el => revObs.observe(el));
   </script>
 </body>
-</html>
+            </html>
