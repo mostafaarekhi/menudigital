@@ -3,205 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پورتفولیو تک‌صفحه‌ای دارک</title>
+<title>سایت تک‌صفحه‌ای دارک مود</title>
 <style>
-/* ======= Reset ======= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #111; color: #eee; scroll-behavior: smooth; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-section { padding: 60px 20px; }
-
-/* ======= Navbar ======= */
-nav { position: fixed; top:0; width: 100%; background: #111; display:flex; justify-content:flex-end; align-items:center; padding: 20px 50px; z-index:1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-nav a { margin-left: 30px; font-weight: 600; transition: color 0.3s; }
-nav a:hover { color: #1abc9c; }
-
-/* ======= Hero ======= */
-.hero { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background: linear-gradient(135deg,#1c1c1c,#111); }
-.hero h1 { font-size:3em; margin-bottom:20px; }
-.hero p { font-size:1.2em; color:#aaa; max-width:600px; }
-.hero button { margin-top:20px; padding:10px 25px; border:none; background:#1abc9c; color:#111; font-weight:600; cursor:pointer; border-radius:5px; transition:0.3s; }
-.hero button:hover { background:#16a085; }
-
-/* ======= About ======= */
-.about { display:flex; align-items:center; gap:40px; flex-wrap:wrap; }
-.about img { width:300px; border-radius:15px; }
-.about .text { flex:1; }
-.about h2 { margin-bottom:15px; font-size:2em; }
-.about p { line-height:1.6; color:#ccc; }
-
-/* ======= Services ======= */
-.services { background:#1b1b1b; display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-.service-card { background:#222; padding:20px; border-radius:12px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; cursor:pointer; }
-.service-card:hover { transform: translateY(-10px); box-shadow:0 10px 20px rgba(0,0,0,0.5);}
-.service-card h3 { margin-bottom:10px; }
-.service-card p { color:#aaa; }
-
-/* ======= Portfolio Video ======= */
-.portfolio-videos { display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
-.portfolio-videos video { border-radius:12px; width:100%; }
-
-/* ======= Projects ======= */
-.projects { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-.project-card { background:#222; border-radius:12px; overflow:hidden; transition: transform 0.3s; cursor:pointer; }
-.project-card:hover { transform: scale(1.05);}
-.project-card img { width:100%; }
-.project-card h4 { padding:10px; }
-
-/* ======= Gallery ======= */
-.gallery { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
-.gallery img { border-radius:10px; transition: transform 0.3s; cursor:pointer; }
-.gallery img:hover { transform: scale(1.1); }
-
-/* ======= Testimonials ======= */
-.testimonials { position:relative; overflow:hidden; }
-.testimonial-wrapper { display:flex; transition: transform 0.5s ease; }
-.testimonial { min-width:100%; background:#222; padding:40px 20px; border-radius:15px; text-align:center; }
-.testimonial img { width:80px; height:80px; border-radius:50%; margin-bottom:15px; }
-.testimonial p { color:#ccc; font-style:italic; }
-.testimonial h4 { margin-top:10px; color:#1abc9c; }
-
-.testimonial-btn { position:absolute; top:50%; transform:translateY(-50%); background:#1abc9c; border:none; color:#111; padding:10px; border-radius:50%; cursor:pointer; }
-.prev { left:10px; }
-.next { right:10px; }
-
-/* ======= Contact ======= */
-.contact { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-.contact-card { background:#222; padding:20px; border-radius:12px; text-align:center; transition: transform 0.3s; }
-.contact-card:hover { transform: translateY(-10px);}
-.contact-card a { color:#1abc9c; }
-
-/* ======= Footer ======= */
-footer { text-align:center; padding:20px; background:#111; color:#666; margin-top:40px; }
-
-/* ======= Responsive ======= */
-@media(max-width:768px){
-  nav { justify-content:center; }
-  .about { flex-direction:column; text-align:center;}
-  .about img { width:80%; }
-  .testimonial-wrapper { flex-direction:column; }
-}
+  /* ===== Global ===== */
+  * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+  body {background:#111; color:#fff; scroll-behavior:smooth;}
+  a {text-decoration:none; color:inherit;}
+  section {padding:80px 20px; position:relative;}
+  h1,h2,h3,h4,h5,h6 {margin-bottom:20px;}
+  .container {max-width:1200px; margin:0 auto;}
+  /* ===== Navbar ===== */
+  nav {display:flex; justify-content:space-between; align-items:center; padding:20px 40px; position:fixed; width:100%; top:0; background:rgba(17,17,17,0.9); z-index:100;}
+  nav .logo {font-size:24px; font-weight:bold;}
+  nav ul {display:flex; gap:20px;}
+  nav ul li {list-style:none;}
+  nav ul li a {padding:5px 10px; transition:0.3s; border-radius:5px;}
+  nav ul li a:hover {background:#222;}
+  /* ===== Hero ===== */
+  .hero {display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background:linear-gradient(135deg,#1e1e1e,#111);}
+  .hero h1 {font-size:48px; margin-bottom:20px;}
+  .hero p {font-size:20px; max-width:600px;}
+  /* ===== About ===== */
+  .about {display:flex; align-items:center; gap:40px; flex-wrap:wrap;}
+  .about img {width:300px; border-radius:20px; box-shadow:0 0 30px rgba(0,255,255,0.2);}
+  .about .text {flex:1; min-width:250px;}
+  /* ===== Services ===== */
+  .services {display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px;}
+  .service-card {background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; text-align:center; transition:0.5s; position:relative; overflow:hidden;}
+  .service-card::before {content:''; position:absolute; width:200%; height:200%; background:linear-gradient(45deg,#00ffff,#ff00ff); top:-50%; left:-50%; transform:rotate(45deg); transition:0.5s; opacity:0.1;}
+  .service-card:hover::before {opacity:0.4; transform:rotate(0deg);}
+  .service-card h3 {margin-bottom:10px;}
+  /* ===== Portfolio Video ===== */
+  .portfolio-videos {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
+  .portfolio-videos video {width:300px; border-radius:20px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
+  /* ===== Projects ===== */
+  .projects {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
+  .project-card {background:rgba(255,255,255,0.05); border-radius:20px; padding:20px; transition:0.5s; overflow:hidden; position:relative;}
+  .project-card:hover {transform:translateY(-10px); box-shadow:0 0 20px rgba(0,255,255,0.5);}
+  /* ===== Gallery ===== */
+  .gallery {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
+  .gallery img {width:100%; border-radius:15px; transition:0.3s;}
+  .gallery img:hover {transform:scale(1.05);}
+  /* ===== Testimonials ===== */
+  .testimonials {overflow:hidden; position:relative;}
+  .slides {display:flex; transition:0.5s;}
+  .slide {min-width:100%; box-sizing:border-box; padding:20px; text-align:center;}
+  .slide p {font-style:italic;}
+  .dots {display:flex; justify-content:center; margin-top:20px; gap:10px;}
+  .dot {width:12px; height:12px; border-radius:50%; background:#555; cursor:pointer;}
+  .dot.active {background:#0ff;}
+  .testimonial-controls {position:absolute; top:50%; transform:translateY(-50%); width:100%; display:flex; justify-content:space-between; padding:0 20px;}
+  .testimonial-controls div {background:rgba(0,255,255,0.2); padding:10px; border-radius:50%; cursor:pointer; transition:0.3s;}
+  .testimonial-controls div:hover {background:#0ff;}
+  /* ===== Contact ===== */
+  .contact {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
+  .contact-card {background:rgba(255,255,255,0.05); border-radius:20px; padding:20px; text-align:center; transition:0.3s;}
+  .contact-card:hover {background:rgba(0,255,255,0.1);}
+  /* ===== Abstract Shapes ===== */
+  section::before {content:""; position:absolute; width:150%; height:150%; background:radial-gradient(circle,#0ff 20%,transparent 20%) no-repeat; top:-50%; left:-50%; opacity:0.05; transform:rotate(45deg);}
+  /* ===== Responsive ===== */
+  @media(max-width:768px){
+    .hero h1 {font-size:36px;}
+    nav ul {gap:10px;}
+    .about {flex-direction:column; text-align:center;}
+    .testimonial-controls {display:none;}
+  }
 </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav>
-  <a href="#hero">خانه</a>
-  <a href="#portfolio">نمونه کار</a>
-  <a href="#contact">تماس</a>
+  <div class="logo">Logo</div>
+  <ul>
+    <li><a href="#hero">خانه</a></li>
+    <li><a href="#portfolio">نمونه کار</a></li>
+    <li><a href="#contact">تماس</a></li>
+  </ul>
 </nav>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <section class="hero" id="hero">
-  <h1>سلام! من مصطفی</h1>
-  <p>این پورتفولیوی من است. در اینجا خدمات، پروژه‌ها و نمونه کارهای من را مشاهده خواهید کرد.</p>
-  <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">تماس بگیرید</button>
+  <h1>سلام، من طراح وب هستم</h1>
+  <p>سایتی تک‌صفحه‌ای دارک مود با طراحی مدرن، کارت‌ها، ویدیوها و افکت‌های جذاب.</p>
 </section>
 
-<!-- About Section -->
+<!-- About -->
 <section class="about" id="about">
-  <img src="https://via.placeholder.com/300x300.png?text=عکس+من" alt="عکس من">
   <div class="text">
     <h2>درباره من</h2>
-    <p>من یک طراح و توسعه‌دهنده هستم که در زمینه طراحی سایت و تولید محتوا فعالیت می‌کنم. هدف من ارائه بهترین خدمات با بالاترین کیفیت است.</p>
+    <p>من متخصص طراحی و توسعه وب با تجربه در ایجاد سایت‌های مدرن و واکنش‌گرا هستم. هر پروژه‌ای را با تمرکز روی UX و افکت‌های بصری خلق می‌کنم.</p>
   </div>
+  <img src="https://via.placeholder.com/300x400" alt="عکس درباره من">
 </section>
 
-<!-- Services Section -->
+<!-- Services -->
 <section class="services" id="services">
-  <div class="service-card"><h3>سرویس ۱</h3><p>توضیح کوتاه درباره سرویس ۱.</p></div>
-  <div class="service-card"><h3>سرویس ۲</h3><p>توضیح کوتاه درباره سرویس ۲.</p></div>
-  <div class="service-card"><h3>سرویس ۳</h3><p>توضیح کوتاه درباره سرویس ۳.</p></div>
-  <div class="service-card"><h3>سرویس ۴</h3><p>توضیح کوتاه درباره سرویس ۴.</p></div>
-  <div class="service-card"><h3>سرویس ۵</h3><p>توضیح کوتاه درباره سرویس ۵.</p></div>
-  <div class="service-card"><h3>سرویس ۶</h3><p>توضیح کوتاه درباره سرویس ۶.</p></div>
-  <div class="service-card"><h3>سرویس ۷</h3><p>توضیح کوتاه درباره سرویس ۷.</p></div>
+  <div class="container">
+    <h2>خدمات من</h2>
+    <div class="services">
+      <div class="service-card"><h3>طراحی وب</h3><p>ایجاد سایت‌های واکنش‌گرا و مدرن.</p></div>
+      <div class="service-card"><h3>سئو</h3><p>بهینه‌سازی سایت برای موتورهای جستجو.</p></div>
+      <div class="service-card"><h3>UI/UX</h3><p>طراحی رابط کاربری و تجربه کاربری عالی.</p></div>
+      <div class="service-card"><h3>برندینگ</h3><p>خلق هویت برند بصری جذاب.</p></div>
+      <div class="service-card"><h3>توسعه فرانت‌اند</h3><p>کدنویسی صفحات وب با بهترین استانداردها.</p></div>
+      <div class="service-card"><h3>توسعه بک‌اند</h3><p>پیاده‌سازی سرور و دیتابیس قدرتمند.</p></div>
+      <div class="service-card"><h3>پشتیبانی</h3><p>حفظ و ارتقا سایت پس از تحویل.</p></div>
+    </div>
+  </div>
 </section>
 
 <!-- Portfolio Videos -->
 <section class="portfolio-videos" id="portfolio">
-  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
-  <video src="https://www.w3schools.com/html/movie.mp4" controls></video>
-  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+  <h2>نمونه کار ویدیو</h2>
+  <div class="portfolio-videos">
+    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+  </div>
 </section>
 
 <!-- Projects -->
-<section class="projects">
-  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۱" alt=""><h4>پروژه ۱</h4></div>
-  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۲" alt=""><h4>پروژه ۲</h4></div>
-  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۳" alt=""><h4>پروژه ۳</h4></div>
+<section class="projects" id="projects">
+  <h2>پروژه‌های انجام شده</h2>
+  <div class="projects">
+    <div class="project-card"><h3>پروژه 1</h3><p>توضیح مختصر پروژه 1</p></div>
+    <div class="project-card"><h3>پروژه 2</h3><p>توضیح مختصر پروژه 2</p></div>
+    <div class="project-card"><h3>پروژه 3</h3><p>توضیح مختصر پروژه 3</p></div>
+  </div>
 </section>
 
 <!-- Gallery -->
-<section class="gallery">
-  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۱" alt="">
-  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۲" alt="">
-  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۳" alt="">
-  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۴" alt="">
-  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۵" alt="">
+<section class="gallery" id="gallery">
+  <h2>گالری نمونه کار</h2>
+  <div class="gallery">
+    <img src="https://via.placeholder.com/150" alt="">
+    <img src="https://via.placeholder.com/150" alt="">
+    <img src="https://via.placeholder.com/150" alt="">
+    <img src="https://via.placeholder.com/150" alt="">
+    <img src="https://via.placeholder.com/150" alt="">
+  </div>
 </section>
 
 <!-- Testimonials -->
-<section class="testimonials">
-  <button class="testimonial-btn prev" onclick="prevTestimonial()">&#10094;</button>
-  <div class="testimonial-wrapper">
-    <div class="testimonial">
-      <img src="https://via.placeholder.com/80" alt="Client 1">
-      <p>این یک نظر کارفرما است. خدمات عالی و حرفه‌ای.</p>
-      <h4>کارفرما ۱</h4>
-    </div>
-    <div class="testimonial">
-      <img src="https://via.placeholder.com/80" alt="Client 2">
-      <p>کاملاً راضی هستم. همکاری بسیار خوب بود.</p>
-      <h4>کارفرما ۲</h4>
-    </div>
-    <div class="testimonial">
-      <img src="https://via.placeholder.com/80" alt="Client 3">
-      <p>توصیه می‌کنم! کیفیت کار بی‌نظیر بود.</p>
-      <h4>کارفرما ۳</h4>
-    </div>
+<section class="testimonials" id="testimonials">
+  <h2>نظرات کارفرمایان</h2>
+  <div class="slides">
+    <div class="slide"><p>"عالی بود، پروژه ما دقیقا همانطور که می‌خواستیم انجام شد."</p><strong>- کارفرما 1</strong></div>
+    <div class="slide"><p>"خیلی حرفه‌ای و پاسخگو، کاملا راضی هستم."</p><strong>- کارفرما 2</strong></div>
+    <div class="slide"><p>"طراحی فوق‌العاده و تیم عالی!"</p><strong>- کارفرما 3</strong></div>
   </div>
-  <button class="testimonial-btn next" onclick="nextTestimonial()">&#10095;</button>
+  <div class="testimonial-controls">
+    <div id="prev">&#10094;</div>
+    <div id="next">&#10095;</div>
+  </div>
+  <div class="dots"></div>
 </section>
 
 <!-- Contact -->
 <section class="contact" id="contact">
-  <div class="contact-card">
-    <h3>ایمیل</h3>
-    <a href="mailto:info@example.com">info@example.com</a>
-  </div>
-  <div class="contact-card">
-    <h3>تلفن</h3>
-    <a href="tel:+982100000000">+98 210 000 0000</a>
-  </div>
-  <div class="contact-card">
-    <h3>شبکه اجتماعی</h3>
-    <a href="#">اینستاگرام</a>
-  </div>
+  <h2>تماس با من</h2>
+  <div class="contact-card">ایمیل: example@mail.com</div>
+  <div class="contact-card">تلفن: 09123456789</div>
+  <div class="contact-card">اینستاگرام: @username</div>
 </section>
 
-<footer>
-  تمام حقوق محفوظ است &copy; 2025
-</footer>
-
 <script>
-// ======= Testimonials Slider =======
-let currentSlide = 0;
-const testimonials = document.querySelectorAll('.testimonial');
-const wrapper = document.querySelector('.testimonial-wrapper');
+  // Testimonials slider
+  const slides = document.querySelectorAll('.slide');
+  const slidesWrap = document.querySelector('.slides');
+  const dotsWrap = document.querySelector('.dots');
+  let current = 0;
+  
+  function renderDots() {
+    dotsWrap.innerHTML='';
+    slides.forEach((_,i)=>{
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i===current?' active':'');
+      dot.addEventListener('click',()=>{current=i; updateSlider();});
+      dotsWrap.appendChild(dot);
+    });
+  }
 
-function showSlide(index) {
-  if(index < 0) currentSlide = testimonials.length -1;
-  else if(index >= testimonials.length) currentSlide = 0;
-  else currentSlide = index;
-  wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-}
+  function updateSlider(){
+    slidesWrap.style.transform = `translateX(-${current*100}%)`;
+    document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  }
 
-function prevTestimonial(){ showSlide(currentSlide -1); }
-function nextTestimonial(){ showSlide(currentSlide +1); }
+  document.getElementById('prev').onclick = ()=>{current = (current-1+slides.length)%slides.length; updateSlider();}
+  document.getElementById('next').onclick = ()=>{current = (current+1)%slides.length; updateSlider();}
 
+  renderDots(); updateSlider();
 </script>
+
 </body>
 </html>
