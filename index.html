@@ -3,76 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سایت تک‌صفحه‌ای دارک مود</title>
+<title>سایت تک‌صفحه‌ای مدرن دارک مود</title>
 <style>
-  /* ===== Global ===== */
-  * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-  body {background:#111; color:#fff; scroll-behavior:smooth;}
-  a {text-decoration:none; color:inherit;}
-  section {padding:80px 20px; position:relative;}
-  h1,h2,h3,h4,h5,h6 {margin-bottom:20px;}
-  .container {max-width:1200px; margin:0 auto;}
-  /* ===== Navbar ===== */
-  nav {display:flex; justify-content:space-between; align-items:center; padding:20px 40px; position:fixed; width:100%; top:0; background:rgba(17,17,17,0.9); z-index:100;}
-  nav .logo {font-size:24px; font-weight:bold;}
-  nav ul {display:flex; gap:20px;}
-  nav ul li {list-style:none;}
-  nav ul li a {padding:5px 10px; transition:0.3s; border-radius:5px;}
-  nav ul li a:hover {background:#222;}
-  /* ===== Hero ===== */
-  .hero {display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background:linear-gradient(135deg,#1e1e1e,#111);}
-  .hero h1 {font-size:48px; margin-bottom:20px;}
-  .hero p {font-size:20px; max-width:600px;}
-  /* ===== About ===== */
-  .about {display:flex; align-items:center; gap:40px; flex-wrap:wrap;}
-  .about img {width:300px; border-radius:20px; box-shadow:0 0 30px rgba(0,255,255,0.2);}
-  .about .text {flex:1; min-width:250px;}
-  /* ===== Services ===== */
-  .services {display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px;}
-  .service-card {background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; text-align:center; transition:0.5s; position:relative; overflow:hidden;}
-  .service-card::before {content:''; position:absolute; width:200%; height:200%; background:linear-gradient(45deg,#00ffff,#ff00ff); top:-50%; left:-50%; transform:rotate(45deg); transition:0.5s; opacity:0.1;}
-  .service-card:hover::before {opacity:0.4; transform:rotate(0deg);}
-  .service-card h3 {margin-bottom:10px;}
-  /* ===== Portfolio Video ===== */
-  .portfolio-videos {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
-  .portfolio-videos video {width:300px; border-radius:20px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
-  /* ===== Projects ===== */
-  .projects {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-  .project-card {background:rgba(255,255,255,0.05); border-radius:20px; padding:20px; transition:0.5s; overflow:hidden; position:relative;}
-  .project-card:hover {transform:translateY(-10px); box-shadow:0 0 20px rgba(0,255,255,0.5);}
-  /* ===== Gallery ===== */
-  .gallery {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
-  .gallery img {width:100%; border-radius:15px; transition:0.3s;}
-  .gallery img:hover {transform:scale(1.05);}
-  /* ===== Testimonials ===== */
-  .testimonials {overflow:hidden; position:relative;}
-  .slides {display:flex; transition:0.5s;}
-  .slide {min-width:100%; box-sizing:border-box; padding:20px; text-align:center;}
-  .slide p {font-style:italic;}
-  .dots {display:flex; justify-content:center; margin-top:20px; gap:10px;}
-  .dot {width:12px; height:12px; border-radius:50%; background:#555; cursor:pointer;}
-  .dot.active {background:#0ff;}
-  .testimonial-controls {position:absolute; top:50%; transform:translateY(-50%); width:100%; display:flex; justify-content:space-between; padding:0 20px;}
-  .testimonial-controls div {background:rgba(0,255,255,0.2); padding:10px; border-radius:50%; cursor:pointer; transition:0.3s;}
-  .testimonial-controls div:hover {background:#0ff;}
-  /* ===== Contact ===== */
-  .contact {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-  .contact-card {background:rgba(255,255,255,0.05); border-radius:20px; padding:20px; text-align:center; transition:0.3s;}
-  .contact-card:hover {background:rgba(0,255,255,0.1);}
-  /* ===== Abstract Shapes ===== */
-  section::before {content:""; position:absolute; width:150%; height:150%; background:radial-gradient(circle,#0ff 20%,transparent 20%) no-repeat; top:-50%; left:-50%; opacity:0.05; transform:rotate(45deg);}
-  /* ===== Responsive ===== */
-  @media(max-width:768px){
-    .hero h1 {font-size:36px;}
-    nav ul {gap:10px;}
-    .about {flex-direction:column; text-align:center;}
-    .testimonial-controls {display:none;}
-  }
+/* ===== Global ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+body{background:#111;color:#fff;scroll-behavior:smooth;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+section{padding:80px 20px;position:relative;overflow:hidden;}
+h1,h2,h3,h4,h5,h6{margin-bottom:20px;}
+.container{max-width:1200px;margin:0 auto;}
+
+/* ===== Navbar ===== */
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;position:fixed;width:100%;top:0;background:rgba(17,17,17,0.9);z-index:100;}
+nav .logo{font-size:24px;font-weight:bold;}
+nav ul{display:flex;gap:20px;}
+nav ul li{list-style:none;}
+nav ul li a{padding:5px 10px;transition:0.3s;border-radius:5px;}
+nav ul li a:hover{background:#222;}
+
+/* ===== Hero ===== */
+.hero{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;text-align:center;background:#111;position:relative;overflow:hidden;}
+.hero h1{font-size:48px;margin-bottom:20px;animation:fadeIn 1.5s ease forwards;}
+.hero p{font-size:20px;max-width:600px;animation:fadeIn 2s ease forwards;opacity:0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+/* Animated background lines */
+.hero::before{content:"";position:absolute;top:0;left:0;width:200%;height:200%;background:repeating-linear-gradient(45deg,rgba(0,255,255,0.05) 0 2px,transparent 2px 20px);animation:moveLines 10s linear infinite;z-index:0;}
+@keyframes moveLines{0%{transform:translate(0,0);}100%{transform:translate(-50px,50px);}}
+
+/* ===== About ===== */
+.about{display:flex;align-items:center;gap:40px;flex-wrap:wrap;position:relative;z-index:1;}
+.about img{width:300px;border-radius:20px;box-shadow:0 0 30px rgba(0,255,255,0.2);opacity:0;transform:translateX(50px);transition:1s;}
+.about .text{flex:1;min-width:250px;opacity:0;transform:translateX(-50px);transition:1s;}
+
+/* ===== Services ===== */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.service-card{background:rgba(255,255,255,0.05);padding:30px;border-radius:20px;text-align:center;transition:0.5s;position:relative;overflow:hidden;opacity:0;transform:translateY(50px);}
+.service-card::before{content:'';position:absolute;width:200%;height:200%;background:linear-gradient(45deg,#00ffff,#ff00ff);top:-50%;left:-50%;transform:rotate(45deg);transition:0.5s;opacity:0.1;}
+.service-card:hover::before{opacity:0.4;transform:rotate(0deg);}
+.service-card h3{margin-bottom:10px;}
+
+/* ===== Portfolio Video ===== */
+.portfolio-videos{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;position:relative;z-index:1;}
+.portfolio-videos video{width:300px;border-radius:20px;box-shadow:0 0 20px rgba(0,255,255,0.3);transform:scale(0.9);transition:0.5s;}
+.portfolio-videos video:hover{transform:scale(1);}
+
+/* ===== Projects ===== */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.project-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:20px;transition:0.5s;overflow:hidden;position:relative;opacity:0;transform:translateY(50px);}
+.project-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 0 20px rgba(0,255,255,0.5);}
+
+/* ===== Gallery ===== */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;position:relative;z-index:1;}
+.gallery img{width:100%;border-radius:15px;transition:0.3s;transform:scale(0.95);}
+.gallery img:hover{transform:scale(1.05);}
+
+/* ===== Testimonials ===== */
+.testimonials{overflow:hidden;position:relative;z-index:1;}
+.slides{display:flex;transition:0.5s;}
+.slide{min-width:100%;box-sizing:border-box;padding:20px;text-align:center;}
+.slide p{font-style:italic;}
+.dots{display:flex;justify-content:center;margin-top:20px;gap:10px;}
+.dot{width:12px;height:12px;border-radius:50%;background:#555;cursor:pointer;}
+.dot.active{background:#0ff;}
+.testimonial-controls{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 20px;}
+.testimonial-controls div{background:rgba(0,255,255,0.2);padding:10px;border-radius:50%;cursor:pointer;transition:0.3s;}
+.testimonial-controls div:hover{background:#0ff;}
+
+/* ===== Contact ===== */
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.contact-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:20px;text-align:center;transition:0.3s;}
+.contact-card:hover{background:rgba(0,255,255,0.1);}
+
+/* ===== Scroll Animations ===== */
+.show {opacity:1!important; transform:translateX(0) translateY(0)!important; transition:1s;}
+
+@media(max-width:768px){
+  .hero h1{font-size:36px;}
+  nav ul{gap:10px;}
+  .about{flex-direction:column;text-align:center;}
+  .testimonial-controls{display:none;}
+}
+
+/* ===== Abstract Waves ===== */
+.wave{position:absolute;width:200%;height:200%;background:radial-gradient(circle,#0ff 20%,transparent 20%) no-repeat;top:-50%;left:-50%;opacity:0.05;transform:rotate(45deg);animation:waveMove 15s linear infinite;}
+@keyframes waveMove{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(50px,50px) rotate(180deg);}100%{transform:translate(0,0) rotate(360deg);}}
 </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav>
   <div class="logo">Logo</div>
   <ul>
@@ -82,38 +101,31 @@
   </ul>
 </nav>
 
-<!-- Hero -->
 <section class="hero" id="hero">
+  <div class="wave"></div>
   <h1>سلام، من طراح وب هستم</h1>
   <p>سایتی تک‌صفحه‌ای دارک مود با طراحی مدرن، کارت‌ها، ویدیوها و افکت‌های جذاب.</p>
 </section>
 
-<!-- About -->
 <section class="about" id="about">
-  <div class="text">
-    <h2>درباره من</h2>
-    <p>من متخصص طراحی و توسعه وب با تجربه در ایجاد سایت‌های مدرن و واکنش‌گرا هستم. هر پروژه‌ای را با تمرکز روی UX و افکت‌های بصری خلق می‌کنم.</p>
-  </div>
+  <div class="text"><h2>درباره من</h2><p>من متخصص طراحی و توسعه وب با تجربه در ایجاد سایت‌های مدرن و واکنش‌گرا هستم. هر پروژه‌ای را با تمرکز روی UX و افکت‌های بصری خلق می‌کنم.</p></div>
   <img src="https://via.placeholder.com/300x400" alt="عکس درباره من">
 </section>
 
-<!-- Services -->
 <section class="services" id="services">
-  <div class="container">
-    <h2>خدمات من</h2>
+  <div class="container"><h2>خدمات من</h2>
     <div class="services">
       <div class="service-card"><h3>طراحی وب</h3><p>ایجاد سایت‌های واکنش‌گرا و مدرن.</p></div>
       <div class="service-card"><h3>سئو</h3><p>بهینه‌سازی سایت برای موتورهای جستجو.</p></div>
       <div class="service-card"><h3>UI/UX</h3><p>طراحی رابط کاربری و تجربه کاربری عالی.</p></div>
       <div class="service-card"><h3>برندینگ</h3><p>خلق هویت برند بصری جذاب.</p></div>
-      <div class="service-card"><h3>توسعه فرانت‌اند</h3><p>کدنویسی صفحات وب با بهترین استانداردها.</p></div>
-      <div class="service-card"><h3>توسعه بک‌اند</h3><p>پیاده‌سازی سرور و دیتابیس قدرتمند.</p></div>
+      <div class="service-card"><h3>فرانت‌اند</h3><p>کدنویسی صفحات وب با بهترین استانداردها.</p></div>
+      <div class="service-card"><h3>بک‌اند</h3><p>پیاده‌سازی سرور و دیتابیس قدرتمند.</p></div>
       <div class="service-card"><h3>پشتیبانی</h3><p>حفظ و ارتقا سایت پس از تحویل.</p></div>
     </div>
   </div>
 </section>
 
-<!-- Portfolio Videos -->
 <section class="portfolio-videos" id="portfolio">
   <h2>نمونه کار ویدیو</h2>
   <div class="portfolio-videos">
@@ -123,7 +135,6 @@
   </div>
 </section>
 
-<!-- Projects -->
 <section class="projects" id="projects">
   <h2>پروژه‌های انجام شده</h2>
   <div class="projects">
@@ -133,7 +144,6 @@
   </div>
 </section>
 
-<!-- Gallery -->
 <section class="gallery" id="gallery">
   <h2>گالری نمونه کار</h2>
   <div class="gallery">
@@ -145,7 +155,6 @@
   </div>
 </section>
 
-<!-- Testimonials -->
 <section class="testimonials" id="testimonials">
   <h2>نظرات کارفرمایان</h2>
   <div class="slides">
@@ -160,7 +169,6 @@
   <div class="dots"></div>
 </section>
 
-<!-- Contact -->
 <section class="contact" id="contact">
   <h2>تماس با من</h2>
   <div class="contact-card">ایمیل: example@mail.com</div>
@@ -169,31 +177,38 @@
 </section>
 
 <script>
-  // Testimonials slider
-  const slides = document.querySelectorAll('.slide');
-  const slidesWrap = document.querySelector('.slides');
-  const dotsWrap = document.querySelector('.dots');
-  let current = 0;
-  
-  function renderDots() {
-    dotsWrap.innerHTML='';
-    slides.forEach((_,i)=>{
-      const dot = document.createElement('div');
-      dot.className = 'dot' + (i===current?' active':'');
-      dot.addEventListener('click',()=>{current=i; updateSlider();});
-      dotsWrap.appendChild(dot);
-    });
-  }
+// Scroll animations
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+  });
+},{threshold:0.2});
 
-  function updateSlider(){
-    slidesWrap.style.transform = `translateX(-${current*100}%)`;
-    document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));
-  }
+document.querySelectorAll('.about img, .about .text, .service-card, .project-card').forEach(el=>observer.observe(el));
 
-  document.getElementById('prev').onclick = ()=>{current = (current-1+slides.length)%slides.length; updateSlider();}
-  document.getElementById('next').onclick = ()=>{current = (current+1)%slides.length; updateSlider();}
-
-  renderDots(); updateSlider();
+// Testimonials slider
+const slides = document.querySelectorAll('.slide');
+const slidesWrap = document.querySelector('.slides');
+const dotsWrap = document.querySelector('.dots');
+let current = 0;
+function renderDots() {
+  dotsWrap.innerHTML='';
+  slides.forEach((_,i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'dot'+(i===current?' active':'');
+    dot.addEventListener('click',()=>{current=i; updateSlider();});
+    dotsWrap.appendChild(dot);
+  });
+}
+function updateSlider(){
+  slidesWrap.style.transform = `translateX(-${current*100}%)`;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+}
+document.getElementById('prev').onclick = ()=>{current = (current-1+slides.length)%slides.length; updateSlider();}
+document.getElementById('next').onclick = ()=>{current = (current+1)%slides.length; updateSlider();}
+renderDots(); updateSlider();
 </script>
 
 </body>
