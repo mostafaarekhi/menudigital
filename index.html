@@ -1,961 +1,667 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <title>پورتفولیو — تک‌صفحه‌ای مدرن دارک</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>وب‌سایت تک‌صفحه‌ای — تاریک</title>
+  <meta name="description" content="سایت تک‌صفحه‌ای دارک مود — هدر، هیرو، درباره من، خدمات، نمونه‌کار ویدیویی، پروژه‌ها، گالری، نظرات، تماس" />
   <style>
-    :root {
-      /* Theme */
-      --bg: #0b0f14;
-      --bg-elev: #0f141b;
-      --surface: #121822;
-      --text: #e6edf3;
-      --muted: #9fb0c3;
-      --primary: #7c9cff;
-      --primary-2: #4cc9f0;
-      --accent: #22d3ee;
-      --danger: #ff6b6b;
-      --success: #48dd93;
+    /* =========== Variables & Reset =========== */
+    :root{
+      --bg:#0b0f12;
+      --card:#0f1620;
+      --muted:#9aa6b2;
+      --accent:#7c5cff;
+      --accent-2:#00d1ff;
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+      --shadow: 0 6px 18px rgba(2,6,23,0.6);
+      --gap:18px;
+      --maxw:1200px;
+      --fw-regular: 400;
+      --fw-medium: 600;
+      --fw-bold: 800;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Segoe UI", Tahoma, "Noto Sans", sans-serif;
+      background: linear-gradient(180deg,#05060a 0%, var(--bg) 60%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:20px;
+    }
+    a{color:inherit;text-decoration:none}
+    img,video{max-width:100%;display:block;border-radius:12px}
+    .container{max-width:var(--maxw);margin:0 auto;padding:30px}
+    .section{padding:48px 0}
+    h1,h2,h3{line-height:1.1}
+    h1{font-size:28px;font-weight:var(--fw-bold)}
+    h2{font-size:22px;font-weight:var(--fw-medium)}
+    p{color:var(--muted);font-size:15px}
 
-      /* FX */
-      --radius: 16px;
-      --radius-sm: 12px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --outline: 1px solid rgba(255,255,255,.08);
-      --glass: rgba(255,255,255,.03);
-      --blur: saturate(140%) blur(10px);
+    /* =========== Header / Navbar =========== */
+    header.site-header{
+      position:sticky;top:16px;z-index:60;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:14px;padding:12px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{
+      width:48px;height:48px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;font-weight:700;
+      box-shadow:0 6px 18px rgba(124,92,255,0.12);
+    }
+    .brand .title{font-weight:700;font-size:16px}
+    nav.links{display:flex;gap:14px;align-items:center}
+    nav.links a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:600}
+    nav.links a:hover{background:rgba(255,255,255,0.02);color:#fff}
 
-      /* Layout */
-      --max: 1200px;
-      --gap: 24px;
-      --section: 80px;
-      --section-sm: 48px;
+    /* hamburger */
+    .hamburger{
+      display:none;width:44px;height:44px;border-radius:10px;
+      background:transparent;border:1px solid rgba(255,255,255,0.03);
+      align-items:center;justify-content:center;cursor:pointer;
     }
+    .hamburger .bar{width:22px;height:2px;background:#dfe9f5;border-radius:2px;position:relative}
+    .hamburger .bar:before,.hamburger .bar:after{
+      content:"";position:absolute;left:0;width:22px;height:2px;background:#dfe9f5;border-radius:2px
+    }
+    .hamburger .bar:before{top:-7px}
+    .hamburger .bar:after{top:7px}
 
-    @media (prefers-reduced-motion: no-preference) {
-      :root { scroll-behavior: smooth; }
+    /* mobile menu slide */
+    .mobile-menu{
+      position:fixed;inset:0;background:linear-gradient(180deg, rgba(8,10,13,0.96), rgba(8,10,13,0.98));
+      transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.9,.2,1);z-index:80;padding:40px;
     }
+    .mobile-menu.open{transform:translateX(0)}
+    .mobile-menu nav{display:flex;flex-direction:column;gap:18px}
+    .close-mobile{position:absolute;left:18px;top:18px;padding:8px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
 
-    html, body {
-      background: radial-gradient(1200px 600px at 80% -10%, rgba(124,156,255,.25), transparent 60%),
-                  radial-gradient(800px 400px at 10% 110%, rgba(76,201,240,.18), transparent 60%),
-                  var(--bg);
-      color: var(--text);
-      font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.7;
-      margin: 0;
+    /* =========== Hero =========== */
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:36px;border-radius:18px;box-shadow:var(--shadow);
     }
+    .hero .badge{display:inline-block;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:12px;color:var(--accent-2);font-weight:700;margin-bottom:16px}
+    .hero h1{font-size:34px;margin-bottom:10px}
+    .hero p{margin-bottom:18px;color:var(--muted)}
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:700;border:none;cursor:pointer;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#06121a;box-shadow:0 8px 30px rgba(0,0,0,0.45)
+    }
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:12px 14px}
 
-    /* Container */
-    .container {
-      width: min(calc(100% - 32px), var(--max));
-      margin-inline: auto;
+    .hero-visual{
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;padding:14px;
     }
-
-    /* Header / Navbar */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: var(--blur);
-      background: linear-gradient(180deg, rgba(12,16,22,.85), rgba(12,16,22,.65));
-      border-bottom: var(--outline);
-    }
-    .nav {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 0;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: .3px;
-    }
-    .brand .logo {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: conic-gradient(from 200deg at 50% 50%, var(--primary), var(--primary-2), var(--accent), var(--primary));
-      box-shadow: 0 0 0 3px rgba(255,255,255,.06), 0 8px 24px rgba(124,156,255,.25);
-    }
-    .brand .logo svg {
-      width: 18px; height: 18px; fill: #0b0f14;
-    }
-
-    .links {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-    }
-    .links a {
-      color: var(--text);
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 10px;
-      opacity: .85;
-      position: relative;
-    }
-    .links a::after {
-      content: "";
-      position: absolute;
-      inset-inline: 8px;
-      bottom: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform .3s ease;
-    }
-    .links a:hover::after { transform: scaleX(1); }
-    .links a.active {
-      background: linear-gradient(180deg, rgba(124,156,255,.10), rgba(124,156,255,.05));
-      border: var(--outline);
-      opacity: 1;
+    .hero-visual .mock{
+      width:100%;height:320px;border-radius:12px;background:repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 6px, transparent 6px 12px);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted)
     }
 
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 10px;
+    /* =========== About =========== */
+    .about{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:center}
+    .about .bio{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    .about .bio h2{margin-bottom:8px}
+    .about .avatar{display:flex;align-items:center;justify-content:center}
+    .avatar .photo{width:320px;height:320px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:40px;color:#06121a}
+
+    /* =========== Services (7 cards) =========== */
+    .services-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    }
+    .service-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.02);
+      transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .service-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(3,10,30,0.7)}
+    .service-card .icon{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg, rgba(124,92,255,0.18), rgba(0,209,255,0.06));
+      display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px;color:var(--accent-2)
+    }
+    .service-card h3{font-size:16px;margin-bottom:6px}
+    .service-card p{font-size:14px;color:var(--muted)}
+
+    /* =========== Portfolio: vertical videos side-by-side =========== */
+    .portfolio-videos{
+      display:flex;gap:14px;
+    }
+    .video-card{flex:1;background:var(--card);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .video-stack{display:flex;flex-direction:column;gap:12px}
+    .video-card video{height:360px;object-fit:cover;border-radius:10px}
+
+    /* =========== Projects cards =========== */
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .proj{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)
+    }
+    .proj .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:10px}
+    .proj h3{font-size:16px;margin-bottom:8px}
+
+    /* =========== Gallery =========== */
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery-grid .item{height:140px;border-radius:10px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.02)}
+    .gallery-grid .item::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.25))}
+
+    /* =========== Testimonials slider =========== */
+    .testimonials{
+      position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:20px;border-radius:12px;
+    }
+    .slides{display:flex;gap:12px;overflow:hidden}
+    .slide{min-width:100%;flex-shrink:0;padding:12px}
+    .testimonial{background:var(--glass);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .thead{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .tavatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#06121a}
+
+    .slider-controls{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}
+    .ctrl{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
+
+    /* =========== Contact (social cards) =========== */
+    .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .contact-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);display:flex;align-items:center;gap:12px}
+    .social{display:flex;gap:8px;flex-wrap:wrap}
+
+    /* =========== Footer =========== */
+    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;padding:18px}
+
+    /* =========== Responsive =========== */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr 300px}
+      .about{grid-template-columns:1fr 280px}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-grid{grid-template-columns:repeat(3,1fr)}
+      .portfolio-videos{flex-direction:column}
+      .video-card video{height:260px}
+    }
+    @media (max-width:720px){
+      body{padding:12px}
+      .container{padding:8px}
+      .nav .links{display:none}
+      .hamburger{display:flex}
+      .hero{grid-template-columns:1fr;gap:14px}
+      .hero-visual{order:2}
+      .about{grid-template-columns:1fr;gap:12px}
+      .services-grid{grid-template-columns:1fr}
+      .projects-grid{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .contact-grid{grid-template-columns:1fr}
+      .mobile-only{display:block}
+      .desktop-only{display:none}
+      .hero-visual .mock{height:220px}
+      .avatar .photo{width:100%;height:240px}
+      .video-card video{height:220px}
+      .testimonials .slide{min-width:100%}
+      .mobile-menu{display:block}
+      .slider-controls{left:8px}
     }
 
-    /* Hamburger */
-    .hamburger {
-      width: 42px; height: 42px;
-      display: none;
-      border-radius: 12px;
-      border: var(--outline);
-      background: var(--glass);
-      position: relative;
-      overflow: hidden;
-    }
-    .hamburger button {
-      appearance: none;
-      width: 100%; height: 100%;
-      background: none; border: 0; cursor: pointer;
-      position: relative;
-    }
-    .hamburger .bar, .hamburger .bar::before, .hamburger .bar::after {
-      content: "";
-      position: absolute;
-      left: 10px; right: 10px;
-      height: 2px; background: var(--text);
-      transition: transform .35s ease, top .35s ease, opacity .25s ease;
-    }
-    .hamburger .bar { top: 20px; }
-    .hamburger .bar::before { top: -8px; }
-    .hamburger .bar::after { top: 8px; }
-    .hamburger.active .bar { opacity: 1; transform: rotate(45deg); }
-    .hamburger.active .bar::before { top: 0; opacity: 0; }
-    .hamburger.active .bar::after { top: 0; transform: rotate(-90deg); }
-
-    /* Mobile drawer */
-    .drawer {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      grid-template-columns: 1fr min(86%, 380px);
-      transform: translateX(100%);
-      transition: transform .4s cubic-bezier(.22,.61,.36,1);
-      z-index: 999;
-      pointer-events: none;
-    }
-    .drawer.show { transform: translateX(0); pointer-events: auto; }
-    .drawer .overlay {
-      backdrop-filter: blur(6px) saturate(120%);
-      background: rgba(8,11,16,.6);
-    }
-    .drawer .panel {
-      background: linear-gradient(180deg, rgba(12,16,22,.95), rgba(12,16,22,.85));
-      border-left: var(--outline);
-      padding: 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .drawer .panel a {
-      color: var(--text);
-      text-decoration: none;
-      padding: 14px 12px;
-      border-radius: 12px;
-      border: var(--outline);
-      background: var(--glass);
-    }
-
-    /* Hero */
-    .hero {
-      padding: calc(var(--section) + 20px) 0 var(--section);
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: var(--gap);
-      align-items: center;
-    }
-    .hero-card {
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(18,24,34,.85), rgba(18,24,34,.65));
-      border: var(--outline);
-      box-shadow: var(--shadow);
-      padding: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(28px, 4vw, 44px);
-      margin: 0 0 10px;
-    }
-    .hero p {
-      color: var(--muted);
-      margin: 0 0 18px;
-    }
-    .hero .cta {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      color: var(--text);
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 12px;
-      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.12));
-      border: var(--outline);
-      box-shadow: 0 10px 20px rgba(124,156,255,.15);
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .btn.secondary {
-      background: linear-gradient(180deg, rgba(34,211,238,.18), rgba(34,211,238,.12));
-      box-shadow: 0 10px 20px rgba(34,211,238,.12);
-    }
-
-    .hero-media {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: var(--outline);
-      background: #0c1118;
-      min-height: 280px;
-      display: grid;
-      place-items: center;
-    }
-    .hero-media::before {
-      content: "";
-      position: absolute; inset: -20%;
-      background: radial-gradient(450px 450px at 70% 20%, rgba(124,156,255,.25), transparent 60%),
-                  radial-gradient(300px 300px at 20% 80%, rgba(34,211,238,.25), transparent 60%);
-      filter: blur(20px);
-      pointer-events: none;
-    }
-    .avatar {
-      width: 160px; height: 160px; border-radius: 24px;
-      background:
-        conic-gradient(from 200deg, rgba(124,156,255,.25), rgba(34,211,238,.2), rgba(124,156,255,.25)),
-        linear-gradient(180deg, #0b0f14, #0f141b);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 20px 40px rgba(0,0,0,.45), 0 0 0 8px rgba(124,156,255,.08);
-      display: grid; place-items: center;
-      overflow: hidden;
-    }
-    .avatar svg { width: 80px; height: 80px; fill: var(--primary); opacity: .9; }
-
-    /* Section base */
-    section { padding: var(--section) 0; }
-    section .head {
-      margin-bottom: 24px;
-      display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
-    }
-    .section-title {
-      font-size: clamp(22px, 3vw, 32px);
-      margin: 0;
-    }
-    .section-sub {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 6px 0 0;
-    }
-
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr .9fr;
-      gap: var(--gap);
-      align-items: center;
-    }
-    .about-card {
-      border-radius: var(--radius);
-      background: var(--surface);
-      border: var(--outline);
-      box-shadow: var(--shadow);
-      padding: 24px;
-    }
-    .about-photo {
-      border-radius: var(--radius);
-      border: var(--outline);
-      background:
-        linear-gradient(180deg, rgba(124,156,255,.12), rgba(34,211,238,.08)),
-        url("") center/cover no-repeat;
-      min-height: 280px;
-      position: relative;
-      overflow: hidden;
-    }
-    .about-photo::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(500px 200px at 80% 10%, rgba(255,255,255,.06), transparent 60%);
-      pointer-events: none;
-    }
-
-    /* Services — 7 cards */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(160px, 1fr));
-      gap: 14px;
-    }
-    .card {
-      background: var(--surface);
-      border: var(--outline);
-      border-radius: var(--radius-sm);
-      padding: 18px;
-      display: flex; flex-direction: column; gap: 10px;
-      position: relative; overflow: hidden;
-    }
-    .card::before {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(124,156,255,.08), transparent);
-      opacity: 0; transition: opacity .3s ease;
-    }
-    .card:hover::before { opacity: 1; }
-    .card .icon {
-      width: 40px; height: 40px; border-radius: 12px;
-      display: grid; place-items: center;
-      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.08));
-      border: var(--outline);
-    }
-    .card .icon svg { width: 22px; height: 22px; fill: var(--primary); }
-    .card .title { font-weight: 700; }
-    .card .desc { color: var(--muted); font-size: 13px; }
-
-    /* Vertical video wall */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
-    }
-    .video {
-      aspect-ratio: 9 / 16;
-      border-radius: var(--radius);
-      border: var(--outline);
-      overflow: hidden;
-      background: #0c1118;
-      display: grid; place-items: center;
-      position: relative;
-    }
-    .video video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: saturate(110%);
-    }
-    .video .badge {
-      position: absolute; top: 10px; inset-inline-start: 10px;
-      padding: 6px 10px; border-radius: 10px;
-      font-size: 12px;
-      background: rgba(34,211,238,.18);
-      border: 1px solid rgba(34,211,238,.3);
-    }
-
-    /* Projects cards */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
-    }
-    .project {
-      border-radius: var(--radius);
-      border: var(--outline);
-      background: var(--surface);
-      overflow: hidden; display: flex; flex-direction: column;
-    }
-    .project .cover {
-      aspect-ratio: 16/9;
-      background: linear-gradient(180deg, rgba(124,156,255,.20), rgba(34,211,238,.12));
-    }
-    .project .body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
-    .project .tags { display: flex; gap: 8px; flex-wrap: wrap; }
-    .tag {
-      font-size: 12px; color: var(--text);
-      padding: 6px 10px; border-radius: 10px;
-      border: var(--outline);
-      background: var(--glass);
-    }
-
-    /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    .shot {
-      border-radius: 14px;
-      border: var(--outline);
-      aspect-ratio: 1;
-      background:
-        radial-gradient(300px 200px at 70% 20%, rgba(124,156,255,.18), transparent 60%),
-        linear-gradient(180deg, rgba(12,16,22,1), rgba(12,16,22,.9));
-      overflow: hidden;
-      position: relative;
-    }
-    .shot::after {
-      content: ""; position: absolute; inset: 0;
-      border: 1px dashed rgba(255,255,255,.08);
-      border-radius: 14px;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-    }
-
-    /* Testimonials */
-    .testimonials {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
-    }
-    .testimonial {
-      background: var(--surface);
-      border: var(--outline);
-      border-radius: var(--radius);
-      padding: 20px;
-      display: grid; grid-template-columns: 48px 1fr; gap: 14px;
-      align-items: start;
-    }
-    .testimonial .avatar {
-      width: 48px; height: 48px; border-radius: 12px;
-      box-shadow: none; border: var(--outline);
-      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(34,211,238,.12));
-    }
-    .testimonial .name { font-weight: 700; }
-    .testimonial .role { color: var(--muted); font-size: 12px; }
-    .testimonial .quote { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
-
-    /* Contact cards + social */
-    .contact {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: var(--gap);
-    }
-    .contact-cards {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
-    }
-    .contact-card {
-      background: var(--surface);
-      border: var(--outline);
-      border-radius: var(--radius);
-      padding: 18px;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-    .contact-card .icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      display: grid; place-items: center;
-      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.08));
-      border: var(--outline);
-    }
-    .contact-card .icon svg { width: 22px; height: 22px; fill: var(--primary); }
-    .contact-card .label { color: var(--muted); font-size: 12px; }
-    .contact-card .value { font-weight: 700; }
-    .social {
-      background: var(--surface);
-      border: var(--outline);
-      border-radius: var(--radius);
-      padding: 18px;
-      display: flex; flex-direction: column; gap: 14px;
-    }
-    .social-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .social a {
-      text-decoration: none; color: var(--text);
-      padding: 10px 14px; border-radius: 12px;
-      border: var(--outline); background: var(--glass);
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .social a svg { width: 18px; height: 18px; fill: var(--text); opacity: .85; }
-
-    /* Footer */
-    footer {
-      padding: var(--section-sm) 0;
-      color: var(--muted);
-      border-top: var(--outline);
-      margin-top: var(--section-sm);
-      text-align: center;
-    }
-
-    /* Active section helper */
-    .observe-anchor {
-      position: relative;
-    }
-    .observe-anchor::before {
-      content: "";
-      position: absolute; top: -80px; inset-inline: 0;
-      height: 1px; pointer-events: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 1080px) {
-      .hero-grid, .about-grid, .contact { grid-template-columns: 1fr; }
-      .projects { grid-template-columns: repeat(2, 1fr); }
-      .video-grid { grid-template-columns: repeat(2, 1fr); }
-      .gallery { grid-template-columns: repeat(3, 1fr); }
-      .links { display: none; }
-      .hamburger { display: block; }
-    }
-    @media (max-width: 700px) {
-      .cards { grid-template-columns: repeat(2, 1fr); }
-      .projects { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-      .contact-cards { grid-template-columns: 1fr; }
-      .nav { grid-template-columns: 1fr auto auto; }
-    }
+    /* small nice touches */
+    .muted{color:var(--muted);font-size:13px}
+    .kicker{color:var(--accent);font-weight:700}
+    .tag{font-size:12px;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,0.02);color:var(--muted)}
+    .center{text-align:center}
   </style>
 </head>
 <body>
+  <div class="container">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="nav">
+        <div class="brand">
+          <div class="logo">و</div>
+          <div>
+            <div class="title">وب‌سایت شخصی — حالت دارک</div>
+            <div class="muted">طراحی مدرن • ریسپانسیو • یک‌فایل</div>
+          </div>
+        </div>
 
-  <!-- Header -->
-  <header id="header">
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/></svg>
-        </div>
-        <div>
-          <div>مصطفی — طراح و فرانت‌اند</div>
-          <small style="color:var(--muted)">تجربه‌های مدرن وب، فقط دارک مود</small>
-        </div>
+        <nav class="links desktop-only" aria-label="منو">
+          <a href="#hero">خانه</a>
+          <a href="#about">درباره من</a>
+          <a href="#services">خدمات</a>
+          <a href="#portfolio">نمونه‌کار</a>
+          <a href="#projects">پروژه‌ها</a>
+          <a href="#gallery">گالری</a>
+          <a href="#testimonials">نظرات</a>
+          <a href="#contact">تماس</a>
+        </nav>
+
+        <button class="hamburger" aria-label="باز کردن منو" id="hamburger">
+          <span class="bar"></span>
+        </button>
       </div>
+    </header>
 
-      <nav class="links" aria-label="منوی اصلی">
-        <a href="#hero">شروع</a>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" style="display:none">
+      <button class="close-mobile" id="closeMobile">✕</button>
+      <nav>
+        <a href="#hero">خانه</a>
         <a href="#about">درباره من</a>
         <a href="#services">خدمات</a>
-        <a href="#videos">نمونه‌کار ویدیویی</a>
+        <a href="#portfolio">نمونه‌کار</a>
         <a href="#projects">پروژه‌ها</a>
         <a href="#gallery">گالری</a>
         <a href="#testimonials">نظرات</a>
-        <a href="#contact">ارتباط</a>
+        <a href="#contact">تماس</a>
       </nav>
-
-      <div class="actions">
-        <div class="hamburger" id="hamburger" aria-label="باز کردن منو">
-          <button aria-expanded="false" aria-controls="drawer">
-            <span class="bar"></span>
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- Mobile Drawer -->
-    <div class="drawer" id="drawer" aria-hidden="true">
-      <div class="overlay" id="overlay"></div>
-      <div class="panel">
-        <a href="#hero">شروع</a>
-        <a href="#about">درباره من</a>
-        <a href="#services">خدمات</a>
-        <a href="#videos">نمونه‌کار ویدیویی</a>
-        <a href="#projects">پروژه‌ها</a>
-        <a href="#gallery">گالری</a>
-        <a href="#testimonials">نظرات</a>
-        <a href="#contact">ارتباط</a>
+    <!-- HERO -->
+    <section id="hero" class="section hero" aria-label="هیرو">
+      <div>
+        <span class="badge">خدمتی کم‌نظیر</span>
+        <h1>سلام — من اینجا هستم تا پروژهٔ بعدی‌ات را بهتر بسازیم</h1>
+        <p>طراحی، توسعه، و تولید محتوای ویدیویی — همه در یک صفحه. طراحی مدرن، تجربه کاربری ساده و ریسپانسیو برای موبایل.</p>
+        <div class="cta-row">
+          <button class="btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">شروع همکاری</button>
+          <a class="secondary" href="#services">دیدن خدمات</a>
+        </div>
+        <div style="margin-top:18px" class="muted">آیتم‌های نمایشی در این صفحه قابل جایگزینی با محتوای واقعی شما هستند.</div>
       </div>
-    </div>
-  </header>
 
-  <!-- Hero -->
-  <section id="hero" class="hero observe-anchor">
-    <div class="container hero-grid">
-      <div class="hero-card">
-        <h1>طراحی و توسعه تجربه‌های وب نسل بعد</h1>
-        <p>این یک پورتفولیو تک‌صفحه‌ای تمام‌دارک، با ناوبری چسبنده، منوی همبرگری انیمیشنی، اسکرول نرم و هایلایت خودکار لینک‌هاست.</p>
-        <div class="cta">
-          <a class="btn" href="#projects">
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            مشاهده پروژه‌ها
-          </a>
-          <a class="btn secondary" href="#contact">
-            <svg viewBox="0 0 24 24"><path d="M21 8v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8m3-3h12a3 3 0 0 1 3 3v0"/></svg>
-            ارتباط بگیریم
-          </a>
-        </div>
+      <div class="hero-visual">
+        <div class="mock">تصویر/ویدیو معرفی — جایگزین شود</div>
       </div>
-      <div class="hero-media">
-        <div class="avatar" aria-label="آواتار">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- About -->
-  <section id="about" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">درباره من</h2>
-          <p class="section-sub">فرانت‌اند دیزاینر با وسواس پیکسل‌پرفکت و معماری ماژولار</p>
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+      <div class="bio">
+        <h2>درباره من</h2>
+        <p class="muted">من طراح و توسعه‌دهنده هستم؛ ترکیبی از استراتژی، تجربه کاربری و تولید محتوا. روی پروژه‌های صنعتی تا تجاری کار کرده‌ام و راه‌حل‌هایی عملی و زیبا ارائه می‌دهم.</p>
+        <ul style="margin-top:12px;list-style:none;display:flex;gap:12px;flex-wrap:wrap">
+          <li class="tag">طراحی داخلی</li>
+          <li class="tag">تولید ویدیو</li>
+          <li class="tag">UI/UX</li>
+          <li class="tag">اتوماسیون</li>
+        </ul>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <div class="kicker">تخصص‌ها:</div>
+          <div class="muted">طراحی محصول — مدیریت پروژه — وین باکس — تدوین</div>
         </div>
       </div>
-      <div class="about-grid">
-        <div class="about-card">
-          <p>من مصطفی هستم؛ فرانت‌اند دولوپر و دیزاینر. روی گریدهای تمیز، انیمیشن‌های لطیف، و تعاملات شمرده تمرکز دارم تا تجربه‌ای روان و حرفه‌ای بسازم.</p>
-          <p>استک من شامل HTML/CSS/JS مدرن، الگوهای دسترس‌پذیری، و ریسپانسیو پیشرفته‌ست. هر پروژه با نگاه سیستمی و تست دقیق تحویل میشه.</p>
-          <p>این صفحه نمونه‌ای از کیفیتی هست که انتظار دارم: تعادل بین زیبایی، سرعت، و وضوح.</p>
-        </div>
-        <div class="about-photo" aria-label="عکس پروفایل/محیط کار"></div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Services (7 cards) -->
-  <section id="services" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">خدمات</h2>
-          <p class="section-sub">آنچه برای ساخت محصول حرفه‌ای ارائه می‌دهم</p>
-        </div>
+      <div class="avatar">
+        <div class="photo">عکس شما</div>
       </div>
-      <div class="cards">
-        <!-- 1 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM8 3h8v3H8z"/></svg></div>
-          <div class="title">طراحی UI مدرن</div>
-          <div class="desc">ستون‌بندی تمیز، تایپوگرافی خوانا، و رنگ‌های کنترل‌شده برای دارک مود.</div>
-        </div>
-        <!-- 2 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 4h18M3 12h18M3 20h18"/></svg></div>
-          <div class="title">کدنویسی پیکسل‌پرفکت</div>
-          <div class="desc">هماهنگی دقیق با دیزاین و رفتارهای تعاملی بدون لگ.</div>
-        </div>
-        <!-- 3 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l9 4-9 4-9-4zM3 10l9 4 9-4M3 18l9 4 9-4"/></svg></div>
-          <div class="title">معماری ماژولار</div>
-          <div class="desc">ساختار قابل‌نگهداری، مقیاس‌پذیر و تست‌پذیر.</div>
-        </div>
-        <!-- 4 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></div>
-          <div class="title">ریسپانسیو پیشرفته</div>
-          <div class="desc">طراحی موبایل‌فرست با جزئیات برای انواع نمایشگرها.</div>
-        </div>
-        <!-- 5 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 5h14v6H5zM5 13h8v6H5z"/></svg></div>
-          <div class="title">انیمیشن و تعاملات</div>
-          <div class="desc">حرکت‌های ظریف، منوی همبرگری، اسکرول نرم و هایلایت فعال.</div>
-        </div>
-        <!-- 6 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
-          <div class="title">دسترس‌پذیری</div>
-          <div class="desc">فوکوس‌ها، کنتراست‌ها و ARIA برای همه کاربران.</div>
-        </div>
-        <!-- 7 -->
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></svg></div>
-          <div class="title">بهینه‌سازی عملکرد</div>
-          <div class="desc">کمینه‌سازی لایه‌ها، استفاده هوشمند از افکت‌ها و کش.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Vertical videos -->
-  <section id="videos" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">نمونه‌کار ویدیویی</h2>
-          <p class="section-sub">ویدیوهای عمودی، کنار هم، برای نمایش تعاملات</p>
-        </div>
-      </div>
-      <div class="video-grid">
-        <div class="video">
-          <span class="badge">UI Motion</span>
-          <video autoplay muted loop playsinline poster="">
-            <source src="" type="video/mp4" />
-          </video>
-        </div>
-        <div class="video">
-          <span class="badge">Micro-interactions</span>
-          <video autoplay muted loop playsinline poster="">
-            <source src="" type="video/mp4" />
-          </video>
-        </div>
-        <div class="video">
-          <span class="badge">Navigation</span>
-          <video autoplay muted loop playsinline poster="">
-            <source src="" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- SERVICES -->
+    <section id="services" class="section">
+      <h2>خدمات من</h2>
+      <p class="muted">هفت سرویس کلیدی که برای کسب‌و‌کارها ارائه می‌دهم.</p>
 
-  <!-- Projects -->
-  <section id="projects" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">پروژه‌های انجام‌شده</h2>
-          <p class="section-sub">نمونه‌هایی از تحویل‌های تولیدی و آماده دیپلوی</p>
+      <div style="margin-top:18px" class="services-grid">
+        <div class="service-card">
+          <div class="icon">۱</div>
+          <h3>مشاوره طراحی</h3>
+          <p>تحلیل نیاز، نقشه راه و مستندسازی برای پروژه‌های طراحی.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۲</div>
+          <h3>طراحی UI/UX</h3>
+          <p>طراحی صفحات، تجربه کاربری و نمونه‌های اولیه تعاملی.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۳</div>
+          <h3>طراحی داخلی و معماری</h3>
+          <p>طرح‌های کاربردی و زیبا مبتنی بر سبک زندگی مشتری.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۴</div>
+          <h3>تولید ویدیو</h3>
+          <p>فیلم‌برداری عمودی برای شبکه‌های اجتماعی و کلیپ‌های تبلیغاتی.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۵</div>
+          <h3>مدیریت پروژه</h3>
+          <p>استفاده از ابزارهای هوشمند برای کنترل زمان و هزینه.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۶</div>
+          <h3>طراحی کاتالوگ و محتوا</h3>
+          <p>تولید محتوا برای پرزنتیشن‌ها و صفحات فروش.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">۷</div>
+          <h3>پشتیبانی فنی</h3>
+          <p>پشتیبانی پس از تحویل، آموزش و نگهداری سیستم‌ها.</p>
         </div>
       </div>
-      <div class="projects">
-        <article class="project">
-          <div class="cover"></div>
-          <div class="body">
-            <div class="title">داشبورد فروش</div>
-            <div class="tags">
-              <span class="tag">UI/UX</span>
-              <span class="tag">Performance</span>
-              <span class="tag">A11y</span>
+    </section>
+
+    <!-- PORTFOLIO (vertical videos side-by-side) -->
+    <section id="portfolio" class="section">
+      <h2>نمونه‌کار ویدیویی</h2>
+      <p class="muted">ویدیوهای عمودی کنار هم — مناسب استوری و شبکه‌های اجتماعی.</p>
+
+      <div style="margin-top:18px" class="portfolio-videos">
+        <div class="video-card">
+          <div class="video-stack">
+            <!-- دو ویدیو عمودی در ستون اول -->
+            <div>
+              <video controls playsinline poster="" preload="metadata">
+                <!-- مسیر ویدیو را جایگزین کن -->
+                <source src="videos/vertical1.mp4" type="video/mp4">
+                مرورگر شما ویدیو را پشتیبانی نمی‌کند.
+              </video>
+              <div style="margin-top:8px">
+                <strong>کلیپ معرفی</strong>
+                <div class="muted">۲۰ ثانیه — تیزر محصول</div>
+              </div>
             </div>
-            <p class="desc" style="color:var(--muted)">داشبورد ریسپانسیو با چارت‌های سبک و تعاملات سریع.</p>
-          </div>
-        </article>
-        <article class="project">
-          <div class="cover"></div>
-          <div class="body">
-            <div class="title">لندینگ محصول</div>
-            <div class="tags">
-              <span class="tag">Animations</span>
-              <span class="tag">SEO</span>
-              <span class="tag">Dark</span>
+
+            <div>
+              <video controls playsinline poster="" preload="metadata">
+                <source src="videos/vertical2.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top:8px">
+                <strong>کلیپ پشت‌صحنه</strong>
+                <div class="muted">داستان تولید</div>
+              </div>
             </div>
-            <p class="desc" style="color:var(--muted)">لندینگ مینیمال با نرخ تبدیل بالا و انیمیشن‌های لطیف.</p>
           </div>
-        </article>
-        <article class="project">
-          <div class="cover"></div>
-          <div class="body">
-            <div class="title">پورتال داخلی</div>
-            <div class="tags">
-              <span class="tag">Design System</span>
-              <span class="tag">Modular</span>
+        </div>
+
+        <div class="video-card">
+          <div class="video-stack">
+            <!-- دو ویدیو عمودی در ستون دوم -->
+            <div>
+              <video controls playsinline poster="" preload="metadata">
+                <source src="videos/vertical3.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top:8px">
+                <strong>نمای محصول</strong>
+                <div class="muted">نمای نزدیک از جزئیات</div>
+              </div>
             </div>
-            <p class="desc" style="color:var(--muted)">کامپوننت‌های ماژولار و تم دارک با الگوهای دسترس‌پذیری.</p>
+
+            <div>
+              <video controls playsinline poster="" preload="metadata">
+                <source src="videos/vertical4.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top:8px">
+                <strong>نکات فنی</strong>
+                <div class="muted">آموزش سریع</div>
+              </div>
+            </div>
           </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section id="gallery" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">گالری عکس نمونه‌کار</h2>
-          <p class="section-sub">اسکرین‌شات‌ها، گرید تمیز و لایت‌افکت</p>
         </div>
       </div>
-      <div class="gallery">
-        <div class="shot" aria-label="Screenshot 1"></div>
-        <div class="shot" aria-label="Screenshot 2"></div>
-        <div class="shot" aria-label="Screenshot 3"></div>
-        <div class="shot" aria-label="Screenshot 4"></div>
-        <div class="shot" aria-label="Screenshot 5"></div>
-        <div class="shot" aria-label="Screenshot 6"></div>
-        <div class="shot" aria-label="Screenshot 7"></div>
-        <div class="shot" aria-label="Screenshot 8"></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Testimonials -->
-  <section id="testimonials" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">نظرات کارفرماها</h2>
-          <p class="section-sub">بازخوردها درباره کیفیت، زمان‌بندی و همکاری</p>
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2>پروژه‌های انجام شده</h2>
+      <p class="muted">چند پروژهٔ منتخب با توضیح کوتاه.</p>
+
+      <div style="margin-top:18px" class="projects-grid">
+        <div class="proj">
+          <div class="meta"><span>سال ۱۴۰۳</span><span>شرکت: وین‌باکس</span></div>
+          <h3>اتوماسیون تولید پنجره</h3>
+          <p class="muted">پیاده‌سازی جریان تولید و ثبت سفارشات برای کارگاه‌ها.</p>
+        </div>
+
+        <div class="proj">
+          <div class="meta"><span>سال ۱۴۰۴</span><span>مشتری: آژانس</span></div>
+          <h3>کمپین ویدیویی اینستاگرام</h3>
+          <p class="muted">سری ویدیوهای عمودی با تمرکز روی درگیری مخاطب.</p>
+        </div>
+
+        <div class="proj">
+          <div class="meta"><span>سال ۱۴۰۲</span><span>مشتری: فروشگاه</span></div>
+          <h3>بازطراحی UI فروشگاه آنلاین</h3>
+          <p class="muted">افزایش نرخ تبدیل از طریق بهینه‌سازی مسیر خرید.</p>
         </div>
       </div>
-      <div class="testimonials">
-        <div class="testimonial">
-          <div class="avatar"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section">
+      <h2>گالری نمونه‌کار</h2>
+      <p class="muted">چند تصویر منتخب — کلیک برای مشاهده بزرگ‌تر.</p>
+
+      <div style="margin-top:18px" class="gallery-grid">
+        <div class="item" onclick="openLightbox(0)" style="background-image:url('images/g1.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(1)" style="background-image:url('images/g2.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(2)" style="background-image:url('images/g3.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(3)" style="background-image:url('images/g4.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(4)" style="background-image:url('images/g5.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(5)" style="background-image:url('images/g6.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(6)" style="background-image:url('images/g7.jpg');background-size:cover;background-position:center"></div>
+        <div class="item" onclick="openLightbox(7)" style="background-image:url('images/g8.jpg');background-size:cover;background-position:center"></div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section">
+      <h2>نظرات کارفرماها</h2>
+      <p class="muted">بازخورد واقعی از مشتریان</p>
+
+      <div style="margin-top:18px" class="testimonials">
+        <div class="slides" id="slides">
+          <div class="slide">
+            <div class="testimonial">
+              <div class="thead">
+                <div class="tavatar">م</div>
+                <div>
+                  <strong>دکتر م.ح</strong>
+                  <div class="muted">مدیر پروژه</div>
+                </div>
+              </div>
+              <p class="muted">کار با ایشان بسیار حرفه‌ای بود؛ پروژه به‌موقع تحویل داده شد و کیفیت فراتر از انتظار بود.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="testimonial">
+              <div class="thead">
+                <div class="tavatar">ف</div>
+                <div>
+                  <strong>خانم ف.</strong>
+                  <div class="muted">سوپر وایزر</div>
+                </div>
+              </div>
+              <p class="muted">ارتباط شفاف، پیشنهادهای هوشمندانه و اجرای دقیق. همکاری مجدد قطعی است.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="testimonial">
+              <div class="thead">
+                <div class="tavatar">ع</div>
+                <div>
+                  <strong>آقای ع.</strong>
+                  <div class="muted">مالک کارگاه</div>
+                </div>
+              </div>
+              <p class="muted">از مدیریت پروژه تا آموزش تیم، همه چیز حرفه‌ای و قابل اعتماد بود.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-controls">
+          <div class="ctrl" id="prev">‹</div>
+          <div class="ctrl" id="next">›</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2>تماس و شبکه‌های اجتماعی</h2>
+      <p class="muted">از طریق یکی از راه‌های زیر با من در ارتباط باش</p>
+
+      <div style="margin-top:18px" class="contact-grid">
+        <div class="contact-card">
+          <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#06121a">☎</div>
           <div>
-            <div class="name">شرکت الف</div>
-            <div class="role">مدیر محصول</div>
+            <strong>تلفن</strong>
+            <div class="muted">+98 912 000 0000</div>
           </div>
-          <div class="quote">تحویل دقیق، بدون سورپرایز. تجربه کاربری عالی و کد قابل نگهداری.</div>
         </div>
-        <div class="testimonial">
-          <div class="avatar"></div>
+
+        <div class="contact-card">
+          <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg, #1da1f2, #0a85d9);display:flex;align-items:center;justify-content:center;font-weight:800">in</div>
           <div>
-            <div class="name">استارتاپ ب</div>
-            <div class="role">CTO</div>
+            <strong>اینستاگرام</strong>
+            <div class="muted">@yourhandle</div>
+            <div style="margin-top:8px" class="social">
+              <!-- small SVG icons -->
+              <a href="#" aria-label="instagram" title="instagram" style="display:inline-flex;align-items:center">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" stroke="#e6eef6" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#" aria-label="whatsapp" title="whatsapp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a8 8 0 10-2.6 5.6L21 21l1-3-1-3z" stroke="#e6eef6" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#" aria-label="telegram" title="telegram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#e6eef6" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
           </div>
-          <div class="quote">ریسپانسیو بی‌نقص و انیمیشن‌های روان. همکاری حرفه‌ای و نتیجه منسجم.</div>
         </div>
-        <div class="testimonial">
-          <div class="avatar"></div>
+
+        <div class="contact-card">
+          <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ff7a59,#ff4d95);display:flex;align-items:center;justify-content:center;font-weight:800">✉</div>
           <div>
-            <div class="name">آژانس ج</div>
-            <div class="role">لیـد دیزاین</div>
-          </div>
-          <div class="quote">استانداردهای بالا، دقت روی جزئیات و مستندسازی تمیز.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact + Social -->
-  <section id="contact" class="observe-anchor">
-    <div class="container">
-      <div class="head">
-        <div>
-          <h2 class="section-title">ارتباط</h2>
-          <p class="section-sub">کارت‌های تماس و شبکه‌های اجتماعی</p>
-        </div>
-      </div>
-
-      <div class="contact">
-        <div class="contact-cards">
-          <div class="contact-card">
-            <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM7 7h10v4H7z"/></svg></div>
-            <div class="label">ایمیل</div>
-            <div class="value">you@example.com</div>
-          </div>
-          <div class="contact-card">
-            <div class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6"/></svg></div>
-            <div class="label">تلفن</div>
-            <div class="value">+98-912-000-0000</div>
-          </div>
-          <div class="contact-card">
-            <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7v6l7 4 7-4V9a7 7 0 0 0-7-7z"/></svg></div>
-            <div class="label">موقعیت</div>
-            <div class="value">گلستان، جنوب چپرآباد</div>
-          </div>
-        </div>
-
-        <div class="social">
-          <div style="font-weight:700">شبکه‌های اجتماعی</div>
-          <div class="social-row">
-            <a href="#" aria-label="GitHub">
-              <svg viewBox="0 0 24 24"><path d="M12 2C7 2 3 6 3 11c0 4 3 7 6 8v-3c-1 0-2-1-2-2v0c0-1 .5-1.5 1-1.8-2-.2-4-1-4-4 0-1 .3-1.8.9-2.5-.2-.7-.2-1.7.1-2.7 0 0 1.3 0 2.8 1.3A9 9 0 0 1 12 6c1.3 0 2.7.2 4 .6 1.5-1.3 2.8-1.3 2.8-1.3.3 1 .3 2 .1 2.7.6.7.9 1.5.9 2.5 0 3-2 3.8-4 4 .6.4 1 1.2 1 2.1v3c3-1 6-4 6-8 0-5-4-9-9-9z"/></svg>
-              GitHub
-            </a>
-            <a href="#" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24"><path d="M4 4h5v16H4zM10 9h5v11h-5zM5 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM16 9c1.7 0 3 1.3 3 3v8h-3v-8"/></svg>
-              LinkedIn
-            </a>
-            <a href="#" aria-label="Twitter">
-              <svg viewBox="0 0 24 24"><path d="M22 5.8c-.8.4-1.6.7-2.5.8.9-.6 1.6-1.4 1.9-2.4-.9.6-1.9 1-2.9 1.2A4.1 4.1 0 0 0 12 8.7c0 .3 0 .7.1 1C8.2 9.5 5.1 7.8 3 5.2c-.4.7-.6 1.5-.6 2.3 0 1.6.9 3.1 2.2 3.9-.7 0-1.4-.2-2-.6v.1c0 2.3 1.7 4.3 3.9 4.7-.4.1-.9.2-1.4.2-.3 0-.6 0-.9-.1.6 1.9 2.4 3.3 4.5 3.3A8.3 8.3 0 0 1 2 19.3c1.9 1.2 4.1 1.9 6.5 1.9 7.8 0 12.1-6.4 12.1-12 0-.2 0-.4 0-.6.8-.6 1.5-1.3 2.1-2.1z"/></svg>
-              X
-            </a>
-            <a href="#" aria-label="Instagram">
-              <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm6-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-              Instagram
-            </a>
+            <strong>ایمیل</strong>
+            <div class="muted">you@domain.com</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <div class="container">
-      © 2025 مصطفی — ساخته‌شده با HTML/CSS/JS مدرن. نسخه دارک مود.
-    </div>
-  </footer>
+    <footer>
+      © تمامی حقوق محفوظ است — طراحی تاریک • نسخه تک‌فایل
+    </footer>
+  </div>
+
+  <!-- Lightbox (برای گالری) -->
+  <div id="lightbox" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(1,2,6,0.85);z-index:200">
+    <button onclick="closeLightbox()" style="position:absolute;left:18px;top:18px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.02);">بستن</button>
+    <img id="lightboxImg" src="" style="max-width:92%;max-height:92%;border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,0.8)">
+  </div>
 
   <script>
-    // Helper: select
-    const $, $$ = (sel, ctx = document) => [ctx.querySelector(sel), ctx.querySelectorAll(sel)];
-
-    // Smooth active link highlighting on scroll
-    const navLinks = [...document.querySelectorAll('.links a')];
-    const drawerLinks = [...document.querySelectorAll('.drawer .panel a')];
-    const sections = [...document.querySelectorAll('section')];
-
-    const setActive = (id) => {
-      const update = (links) => links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-      update(navLinks); update(drawerLinks);
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const id = entry.target.id;
-        if (entry.isIntersecting && entry.intersectionRatio > 0.3) setActive(id);
-      });
-    }, { rootMargin: "-20% 0px -60% 0px", threshold: [0.3, 0.6] });
-
-    sections.forEach(sec => observer.observe(sec));
-
-    // Hamburger & Drawer
+    /* ===== Mobile menu toggle ===== */
     const hamburger = document.getElementById('hamburger');
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('overlay');
-    const toggleDrawer = (show) => {
-      drawer.classList.toggle('show', show);
-      hamburger.classList.toggle('active', show);
-      const btn = hamburger.querySelector('button');
-      btn.setAttribute('aria-expanded', show ? 'true' : 'false');
-      drawer.setAttribute('aria-hidden', show ? 'false' : 'true');
-      document.body.style.overflow = show ? 'hidden' : '';
-    };
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobile = document.getElementById('closeMobile');
 
-    hamburger.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('show')));
-    overlay.addEventListener('click', () => toggleDrawer(false));
-    drawerLinks.forEach(a => a.addEventListener('click', () => toggleDrawer(false)));
-
-    // Keyboard escape for drawer
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawer.classList.contains('show')) toggleDrawer(false);
-    });
-
-    // Enhance anchor clicks (desktop)
-    [...document.querySelectorAll('a[href^="#"]')].forEach(a => {
-      a.addEventListener('click', (e) => {
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if (!el) return;
-        e.preventDefault();
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        history.replaceState(null, "", '#' + id);
-      });
-    });
-
-    // Reduce motion respect
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      document.documentElement.style.scrollBehavior = 'auto';
+    function openMobile(){
+      mobileMenu.style.display='block';
+      setTimeout(()=> mobileMenu.classList.add('open'), 10);
+      mobileMenu.setAttribute('aria-hidden','false');
+    }
+    function closeMobileMenu(){
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden','true');
+      setTimeout(()=> mobileMenu.style.display='none', 300);
     }
 
-    // Optional: lazy animate cards on view
-    const fadeIn = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.transition = 'transform .5s ease, opacity .5s ease';
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.opacity = '1';
-          fadeIn.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 });
+    hamburger.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    // close when clicking a link inside
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
 
-    document.querySelectorAll('.card, .project, .shot, .testimonial').forEach(el => {
-      el.style.transform = 'translateY(12px)';
-      el.style.opacity = '.0';
-      fadeIn.observe(el);
+    /* ===== Smooth scroll for all anchor links ===== */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+      })
     });
+
+    /* ===== Testimonials slider (simple) ===== */
+    const slides = document.getElementById('slides');
+    const total = slides.children.length;
+    let current = 0;
+    function showSlide(idx){
+      if(idx < 0) idx = total - 1;
+      if(idx >= total) idx = 0;
+      current = idx;
+      slides.style.transform = `translateX(-${idx * 100}%)`;
+    }
+    document.getElementById('prev').addEventListener('click', ()=> showSlide(current - 1));
+    document.getElementById('next').addEventListener('click', ()=> showSlide(current + 1));
+    // auto-advance (gentle)
+    let auto = setInterval(()=> showSlide(current + 1), 7000);
+    slides.addEventListener('mouseenter', ()=> clearInterval(auto));
+    slides.addEventListener('mouseleave', ()=> auto = setInterval(()=> showSlide(current + 1), 7000));
+
+    /* ===== Lightbox for gallery ===== */
+    const galleryImages = [
+      'images/g1.jpg','images/g2.jpg','images/g3.jpg','images/g4.jpg',
+      'images/g5.jpg','images/g6.jpg','images/g7.jpg','images/g8.jpg'
+    ];
+    function openLightbox(i){
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = galleryImages[i] || '';
+      lb.style.display='flex';
+      setTimeout(()=> lb.style.opacity = 1, 10);
+    }
+    function closeLightbox(){
+      const lb = document.getElementById('lightbox');
+      lb.style.opacity = 0;
+      setTimeout(()=> lb.style.display='none', 200);
+    }
+    document.getElementById('lightbox').addEventListener('click', (e)=> {
+      if(e.target.id === 'lightbox') closeLightbox();
+    });
+
+    /* ===== Accessibility: close menu with Esc ===== */
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        closeLightbox();
+        closeMobileMenu();
+      }
+    });
+
+    /* ===== Progressive enhancement: lazy load videos on interaction for perf ===== */
+    document.querySelectorAll('video').forEach(v=>{
+      // pause all on load
+      v.pause();
+      // when enters viewport, load metadata
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            v.preload = 'metadata';
+            io.unobserve(v);
+          }
+        });
+      }, {threshold:0.2});
+      io.observe(v);
+    });
+
+    /* ===== Minor: prefer-reduced-motion respects ===== */
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      clearInterval(auto);
+    }
   </script>
 </body>
 </html>
