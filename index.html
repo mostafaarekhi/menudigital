@@ -1,449 +1,706 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>نمونه‌کار — وب‌سایت تک‌صفحه‌ای مدرن</title>
-  <meta name="description" content="نمونه‌کار تک‌صفحه‌ای مدرن با HTML, CSS, JS — اسکرول نرم، ناوبری چسبنده، انیمیشن‌ها، گلس‌مورفیسم، تم تاریک/روشن." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <title>پورتفولیو — تک‌صفحه‌ای مدرن دارک</title>
   <style>
     :root {
+      /* Theme */
       --bg: #0b0f14;
-      --surface: #0e141b;
-      --card: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.12);
+      --bg-elev: #0f141b;
+      --surface: #121822;
       --text: #e6edf3;
-      --muted: #9fb3c8;
-      --brand: #7c4dff; /* electric violet */
-      --brand-2: #00e0a4; /* mint */
-      --danger: #ff4d6d;
-      --success: #00c853;
+      --muted: #9fb0c3;
+      --primary: #7c9cff;
+      --primary-2: #4cc9f0;
+      --accent: #22d3ee;
+      --danger: #ff6b6b;
+      --success: #48dd93;
 
+      /* FX */
       --radius: 16px;
       --radius-sm: 12px;
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --blur: 12px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --outline: 1px solid rgba(255,255,255,.08);
+      --glass: rgba(255,255,255,.03);
+      --blur: saturate(140%) blur(10px);
 
-      --maxw: 1200px;
-      --space: clamp(24px, 4vw, 48px);
-      --gap: clamp(16px, 2.4vw, 28px);
-
-      --h1: clamp(32px, 5.2vw, 64px);
-      --h2: clamp(24px, 3.8vw, 40px);
-      --h3: clamp(18px, 2.4vw, 24px);
-      --body: clamp(14px, 1.6vw, 18px);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      /* Layout */
+      --max: 1200px;
+      --gap: 24px;
+      --section: 80px;
+      --section-sm: 48px;
     }
 
-    [data-theme="light"] {
-      --bg: #f7f9fc;
-      --surface: #ffffff;
-      --card: rgba(0,0,0,0.05);
-      --border: rgba(0,0,0,0.08);
-      --text: #0c1116;
-      --muted: #4a5562;
-      --shadow: 0 10px 30px rgba(16,24,40,0.08);
+    @media (prefers-reduced-motion: no-preference) {
+      :root { scroll-behavior: smooth; }
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    html, body {
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(124,156,255,.25), transparent 60%),
+                  radial-gradient(800px 400px at 10% 110%, rgba(76,201,240,.18), transparent 60%),
+                  var(--bg);
       color: var(--text);
-      background:
-        radial-gradient(1000px 400px at 10% 0%, rgba(124,77,255,0.12), transparent 60%),
-        radial-gradient(800px 360px at 90% 10%, rgba(0,224,164,0.10), transparent 60%),
-        var(--bg);
-      background-attachment: fixed;
+      font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
       line-height: 1.7;
+      margin: 0;
     }
 
-    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--space); }
-    section { padding: calc(var(--space) * 1.5) 0; scroll-margin-top: 96px; }
+    /* Container */
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin-inline: auto;
+    }
 
-    /* Header / Nav */
-    .header {
-      position: sticky; top: 0; z-index: 999;
-      backdrop-filter: blur(var(--blur));
-      background: linear-gradient(180deg, rgba(0,0,0,0.24), rgba(0,0,0,0.06));
-      border-bottom: 1px solid var(--border);
+    /* Header / Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: var(--blur);
+      background: linear-gradient(180deg, rgba(12,16,22,.85), rgba(12,16,22,.65));
+      border-bottom: var(--outline);
     }
     .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 72px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
     }
-    .logo {
-      display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.3px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .3px;
     }
-    .logo .mark {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: conic-gradient(from 180deg, var(--brand), var(--brand-2), var(--brand), var(--brand-2));
-      box-shadow: 0 6px 20px rgba(124,77,255,0.45);
+    .brand .logo {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(from 200deg at 50% 50%, var(--primary), var(--primary-2), var(--accent), var(--primary));
+      box-shadow: 0 0 0 3px rgba(255,255,255,.06), 0 8px 24px rgba(124,156,255,.25);
     }
-    .nav-links {
-      display: flex; align-items: center; gap: 16px;
-    }
-    .nav-links a {
-      padding: 10px 14px; border-radius: 10px; color: var(--text); text-decoration: none; font-weight: 600;
-      border: 1px solid transparent;
-    }
-    .nav-links a:hover { border-color: var(--border); background: var(--card); }
-    .nav-links a.active {
-      background: linear-gradient(90deg, rgba(124,77,255,0.18), rgba(0,224,164,0.18));
-      border-color: transparent;
+    .brand .logo svg {
+      width: 18px; height: 18px; fill: #0b0f14;
     }
 
-    /* Theme & Hamburger */
-    .actions { display: flex; align-items: center; gap: 10px; }
-    .btn-icon {
-      width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--border);
-      background: var(--card); color: var(--text); cursor: pointer;
+    .links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
     }
-    .btn-icon:hover { transform: translateY(-1px); }
-    .hamburger { display: none; position: relative; width: 40px; height: 40px; }
-    .hamburger .bar {
-      position: absolute; left: 10px; right: 10px; height: 2px; background: var(--text); transition: 300ms ease;
+    .links a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      opacity: .85;
+      position: relative;
     }
-    .hamburger .bar:nth-child(1) { top: 12px; }
-    .hamburger .bar:nth-child(2) { top: 19px; }
-    .hamburger .bar:nth-child(3) { top: 26px; }
-    .hamburger.active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active .bar:nth-child(2) { opacity: 0; }
-    .hamburger.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .links a::after {
+      content: "";
+      position: absolute;
+      inset-inline: 8px;
+      bottom: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform .3s ease;
+    }
+    .links a:hover::after { transform: scaleX(1); }
+    .links a.active {
+      background: linear-gradient(180deg, rgba(124,156,255,.10), rgba(124,156,255,.05));
+      border: var(--outline);
+      opacity: 1;
+    }
 
-    /* Mobile menu */
-    .mobile-menu {
-      position: fixed; inset: 72px 0 auto 0; z-index: 998;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      transform: translateY(-20px); opacity: 0; pointer-events: none; transition: 250ms ease;
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
     }
-    .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-    .mobile-menu .sheet {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      border-radius: 0 0 var(--radius) var(--radius);
-      box-shadow: var(--shadow);
-      padding: 12px var(--space);
-    }
-    .mobile-menu .sheet a {
-      display: block; padding: 14px; color: var(--text); text-decoration: none; border-radius: 12px;
-    }
-    .mobile-menu .sheet a:hover { background: var(--card); }
 
-    /* Progress bar */
-    .progress {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-      background: linear-gradient(90deg, var(--brand), var(--brand-2));
-      z-index: 1000;
+    /* Hamburger */
+    .hamburger {
+      width: 42px; height: 42px;
+      display: none;
+      border-radius: 12px;
+      border: var(--outline);
+      background: var(--glass);
+      position: relative;
+      overflow: hidden;
+    }
+    .hamburger button {
+      appearance: none;
+      width: 100%; height: 100%;
+      background: none; border: 0; cursor: pointer;
+      position: relative;
+    }
+    .hamburger .bar, .hamburger .bar::before, .hamburger .bar::after {
+      content: "";
+      position: absolute;
+      left: 10px; right: 10px;
+      height: 2px; background: var(--text);
+      transition: transform .35s ease, top .35s ease, opacity .25s ease;
+    }
+    .hamburger .bar { top: 20px; }
+    .hamburger .bar::before { top: -8px; }
+    .hamburger .bar::after { top: 8px; }
+    .hamburger.active .bar { opacity: 1; transform: rotate(45deg); }
+    .hamburger.active .bar::before { top: 0; opacity: 0; }
+    .hamburger.active .bar::after { top: 0; transform: rotate(-90deg); }
+
+    /* Mobile drawer */
+    .drawer {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr min(86%, 380px);
+      transform: translateX(100%);
+      transition: transform .4s cubic-bezier(.22,.61,.36,1);
+      z-index: 999;
+      pointer-events: none;
+    }
+    .drawer.show { transform: translateX(0); pointer-events: auto; }
+    .drawer .overlay {
+      backdrop-filter: blur(6px) saturate(120%);
+      background: rgba(8,11,16,.6);
+    }
+    .drawer .panel {
+      background: linear-gradient(180deg, rgba(12,16,22,.95), rgba(12,16,22,.85));
+      border-left: var(--outline);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .drawer .panel a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 14px 12px;
+      border-radius: 12px;
+      border: var(--outline);
+      background: var(--glass);
     }
 
     /* Hero */
     .hero {
-      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--gap); align-items: center;
-      min-height: clamp(60vh, 72vh, 86vh);
+      padding: calc(var(--section) + 20px) 0 var(--section);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: var(--gap);
+      align-items: center;
+    }
+    .hero-card {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,24,34,.85), rgba(18,24,34,.65));
+      border: var(--outline);
+      box-shadow: var(--shadow);
+      padding: 28px;
     }
     .hero h1 {
-      font-size: var(--h1); margin: 0 0 10px;
-      background: linear-gradient(90deg, #fff, #b7c7d9);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      font-size: clamp(28px, 4vw, 44px);
+      margin: 0 0 10px;
     }
-    .hero .lead { color: var(--muted); font-size: var(--h3); }
-    .cta { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+    .hero p {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .hero .cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
     .btn {
-      padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); font-weight: 700; cursor: pointer;
-      background: var(--card); color: var(--text);
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.12));
+      border: var(--outline);
+      box-shadow: 0 10px 20px rgba(124,156,255,.15);
+      display: inline-flex; align-items: center; gap: 8px;
     }
-    .btn.primary {
-      background: linear-gradient(90deg, rgba(124,77,255,0.28), rgba(0,224,164,0.28));
-      border-color: transparent;
-    }
-    .hero-media {
-      position: relative; aspect-ratio: 4/3; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
-      background:
-        radial-gradient(140% 80% at 10% 0%, rgba(124,77,255,0.28), transparent 50%),
-        radial-gradient(100% 80% at 90% 20%, rgba(0,224,164,0.24), transparent 50%),
-        var(--surface);
-      box-shadow: var(--shadow);
-    }
-    .hero-media::after {
-      content: ""; position: absolute; inset: 0; backdrop-filter: blur(2px);
+    .btn.secondary {
+      background: linear-gradient(180deg, rgba(34,211,238,.18), rgba(34,211,238,.12));
+      box-shadow: 0 10px 20px rgba(34,211,238,.12);
     }
 
-    /* Section titles */
-    .section-title {
-      font-size: var(--h2); margin: 0 0 14px; letter-spacing: -0.3px;
+    .hero-media {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: var(--outline);
+      background: #0c1118;
+      min-height: 280px;
+      display: grid;
+      place-items: center;
     }
-    .section-desc { color: var(--muted); margin-bottom: 22px; }
+    .hero-media::before {
+      content: "";
+      position: absolute; inset: -20%;
+      background: radial-gradient(450px 450px at 70% 20%, rgba(124,156,255,.25), transparent 60%),
+                  radial-gradient(300px 300px at 20% 80%, rgba(34,211,238,.25), transparent 60%);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+    .avatar {
+      width: 160px; height: 160px; border-radius: 24px;
+      background:
+        conic-gradient(from 200deg, rgba(124,156,255,.25), rgba(34,211,238,.2), rgba(124,156,255,.25)),
+        linear-gradient(180deg, #0b0f14, #0f141b);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 20px 40px rgba(0,0,0,.45), 0 0 0 8px rgba(124,156,255,.08);
+      display: grid; place-items: center;
+      overflow: hidden;
+    }
+    .avatar svg { width: 80px; height: 80px; fill: var(--primary); opacity: .9; }
+
+    /* Section base */
+    section { padding: var(--section) 0; }
+    section .head {
+      margin-bottom: 24px;
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+    }
+    .section-title {
+      font-size: clamp(22px, 3vw, 32px);
+      margin: 0;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 6px 0 0;
+    }
 
     /* About */
-    .about {
-      display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: center;
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      gap: var(--gap);
+      align-items: center;
     }
-    .about .photo {
-      aspect-ratio: 1; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative;
-      background:
-        radial-gradient(120% 80% at 20% 0%, rgba(124,77,255,0.25), transparent 50%),
-        radial-gradient(100% 80% at 80% 20%, rgba(0,224,164,0.22), transparent 50%),
-        var(--surface);
+    .about-card {
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: var(--outline);
       box-shadow: var(--shadow);
+      padding: 24px;
     }
-    .about .photo img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.95; }
-    .about .text { font-size: var(--body); }
+    .about-photo {
+      border-radius: var(--radius);
+      border: var(--outline);
+      background:
+        linear-gradient(180deg, rgba(124,156,255,.12), rgba(34,211,238,.08)),
+        url("") center/cover no-repeat;
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-photo::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(500px 200px at 80% 10%, rgba(255,255,255,.06), transparent 60%);
+      pointer-events: none;
+    }
 
-    /* Services */
-    .grid {
-      display: grid; gap: var(--gap);
-    }
-    .services .grid {
-      grid-template-columns: repeat(4, 1fr);
+    /* Services — 7 cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(160px, 1fr));
+      gap: 14px;
     }
     .card {
-      border-radius: 16px; border: 1px solid var(--border); background: var(--card);
-      backdrop-filter: blur(var(--blur)); padding: 16px; box-shadow: var(--shadow);
-      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      background: var(--surface);
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 10px;
+      position: relative; overflow: hidden;
     }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.35); border-color: rgba(124,77,255,0.4); }
+    .card::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(124,156,255,.08), transparent);
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .card:hover::before { opacity: 1; }
     .card .icon {
-      width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 10px;
-      background: linear-gradient(135deg, rgba(124,77,255,0.28), rgba(0,224,164,0.28));
+      width: 40px; height: 40px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.08));
+      border: var(--outline);
     }
-    .card h3 { font-size: var(--h3); margin: 0 0 6px; }
-    .card p { color: var(--muted); margin: 0; }
+    .card .icon svg { width: 22px; height: 22px; fill: var(--primary); }
+    .card .title { font-weight: 700; }
+    .card .desc { color: var(--muted); font-size: 13px; }
 
-    /* Video portfolio (vertical reels) */
-    .reels {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
-    }
-    .reel {
-      position: relative; aspect-ratio: 9/16; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: var(--surface);
-      box-shadow: var(--shadow);
-    }
-    .reel video { width: 100%; height: 100%; object-fit: cover; }
-    .reel .badge {
-      position: absolute; top: 10px; left: 10px; font-size: 12px; padding: 6px 10px; border-radius: 999px;
-      background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--border);
-    }
-
-    /* Projects */
-    .projects .grid {
+    /* Vertical video wall */
+    .video-grid {
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .video {
+      aspect-ratio: 9 / 16;
+      border-radius: var(--radius);
+      border: var(--outline);
+      overflow: hidden;
+      background: #0c1118;
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .video video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(110%);
+    }
+    .video .badge {
+      position: absolute; top: 10px; inset-inline-start: 10px;
+      padding: 6px 10px; border-radius: 10px;
+      font-size: 12px;
+      background: rgba(34,211,238,.18);
+      border: 1px solid rgba(34,211,238,.3);
+    }
+
+    /* Projects cards */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
     }
     .project {
-      display: flex; flex-direction: column; gap: 10px;
+      border-radius: var(--radius);
+      border: var(--outline);
+      background: var(--surface);
+      overflow: hidden; display: flex; flex-direction: column;
     }
-    .thumb {
-      aspect-ratio: 16/10; border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(124,77,255,0.18), rgba(0,224,164,0.18));
+    .project .cover {
+      aspect-ratio: 16/9;
+      background: linear-gradient(180deg, rgba(124,156,255,.20), rgba(34,211,238,.12));
     }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px dashed var(--border); color: var(--muted); }
+    .project .body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .project .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 12px; color: var(--text);
+      padding: 6px 10px; border-radius: 10px;
+      border: var(--outline);
+      background: var(--glass);
+    }
 
     /* Gallery */
-    .gallery .grid { grid-template-columns: repeat(4, 1fr); }
-    .pic { aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
-    .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* Testimonials (snap slider) */
-    .slider {
-      display: grid; grid-auto-flow: column; grid-auto-columns: 80%;
-      overflow-x: auto; gap: var(--gap); padding-bottom: 6px;
-      scroll-snap-type: x mandatory;
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
     }
-    .slide {
-      scroll-snap-align: start;
-      border-radius: 16px; border: 1px solid var(--border); background: var(--card);
-      padding: 16px; box-shadow: var(--shadow);
+    .shot {
+      border-radius: 14px;
+      border: var(--outline);
+      aspect-ratio: 1;
+      background:
+        radial-gradient(300px 200px at 70% 20%, rgba(124,156,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(12,16,22,1), rgba(12,16,22,.9));
+      overflow: hidden;
+      position: relative;
     }
-    .slide .who { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, rgba(124,77,255,0.28), rgba(0,224,164,0.28)); border: 1px solid var(--border); }
-    .slide p { color: var(--muted); }
+    .shot::after {
+      content: ""; position: absolute; inset: 0;
+      border: 1px dashed rgba(255,255,255,.08);
+      border-radius: 14px;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
 
-    /* Contact */
-    .contact .grid { grid-template-columns: repeat(4, 1fr); }
-    .contact-card { display: flex; align-items: center; gap: 12px; }
-    .contact-card svg { width: 28px; height: 28px; }
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .testimonial {
+      background: var(--surface);
+      border: var(--outline);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: grid; grid-template-columns: 48px 1fr; gap: 14px;
+      align-items: start;
+    }
+    .testimonial .avatar {
+      width: 48px; height: 48px; border-radius: 12px;
+      box-shadow: none; border: var(--outline);
+      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(34,211,238,.12));
+    }
+    .testimonial .name { font-weight: 700; }
+    .testimonial .role { color: var(--muted); font-size: 12px; }
+    .testimonial .quote { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
+
+    /* Contact cards + social */
+    .contact {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: var(--gap);
+    }
+    .contact-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
+    }
+    .contact-card {
+      background: var(--surface);
+      border: var(--outline);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .contact-card .icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(180deg, rgba(124,156,255,.18), rgba(124,156,255,.08));
+      border: var(--outline);
+    }
+    .contact-card .icon svg { width: 22px; height: 22px; fill: var(--primary); }
+    .contact-card .label { color: var(--muted); font-size: 12px; }
+    .contact-card .value { font-weight: 700; }
+    .social {
+      background: var(--surface);
+      border: var(--outline);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .social-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .social a {
+      text-decoration: none; color: var(--text);
+      padding: 10px 14px; border-radius: 12px;
+      border: var(--outline); background: var(--glass);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .social a svg { width: 18px; height: 18px; fill: var(--text); opacity: .85; }
 
     /* Footer */
-    footer { padding: var(--space) 0; color: var(--muted); border-top: 1px solid var(--border); }
+    footer {
+      padding: var(--section-sm) 0;
+      color: var(--muted);
+      border-top: var(--outline);
+      margin-top: var(--section-sm);
+      text-align: center;
+    }
 
-    /* Reveal animations */
-    .reveal { opacity: 0; transform: translateY(18px); transition: 600ms ease; }
-    .reveal.show { opacity: 1; transform: translateY(0); }
+    /* Active section helper */
+    .observe-anchor {
+      position: relative;
+    }
+    .observe-anchor::before {
+      content: "";
+      position: absolute; top: -80px; inset-inline: 0;
+      height: 1px; pointer-events: none;
+    }
 
     /* Responsive */
-    @media (max-width: 1100px) {
-      .hero { grid-template-columns: 1fr; }
-      .about { grid-template-columns: 1fr; }
-      .services .grid { grid-template-columns: repeat(3, 1fr); }
-      .projects .grid { grid-template-columns: repeat(2, 1fr); }
-      .gallery .grid { grid-template-columns: repeat(3, 1fr); }
-      .reels { grid-template-columns: repeat(2, 1fr); }
-      .slider { grid-auto-columns: 88%; }
-    }
-    @media (max-width: 680px) {
-      .nav-links { display: none; }
+    @media (max-width: 1080px) {
+      .hero-grid, .about-grid, .contact { grid-template-columns: 1fr; }
+      .projects { grid-template-columns: repeat(2, 1fr); }
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery { grid-template-columns: repeat(3, 1fr); }
+      .links { display: none; }
       .hamburger { display: block; }
-      .services .grid { grid-template-columns: repeat(2, 1fr); }
-      .projects .grid { grid-template-columns: 1fr; }
-      .gallery .grid { grid-template-columns: repeat(2, 1fr); }
-      .reels { grid-template-columns: 1fr; }
-      .contact .grid { grid-template-columns: repeat(2, 1fr); }
-      .slider { grid-auto-columns: 92%; }
+    }
+    @media (max-width: 700px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .projects { grid-template-columns: 1fr; }
+      .video-grid { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .contact-cards { grid-template-columns: 1fr; }
+      .nav { grid-template-columns: 1fr auto auto; }
     }
   </style>
 </head>
 <body>
-  <!-- Progress bar -->
-  <div class="progress" id="progress"></div>
 
   <!-- Header -->
-  <header class="header">
+  <header id="header">
     <div class="container nav">
-      <div class="logo">
-        <div class="mark" aria-hidden="true"></div>
-        <span>نمونه‌کار حرفه‌ای</span>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/></svg>
+        </div>
+        <div>
+          <div>مصطفی — طراح و فرانت‌اند</div>
+          <small style="color:var(--muted)">تجربه‌های مدرن وب، فقط دارک مود</small>
+        </div>
       </div>
-      <nav class="nav-links" aria-label="ناوبری اصلی">
-        <a href="#home">خانه</a>
+
+      <nav class="links" aria-label="منوی اصلی">
+        <a href="#hero">شروع</a>
         <a href="#about">درباره من</a>
         <a href="#services">خدمات</a>
-        <a href="#reels">ویدیو</a>
+        <a href="#videos">نمونه‌کار ویدیویی</a>
         <a href="#projects">پروژه‌ها</a>
         <a href="#gallery">گالری</a>
         <a href="#testimonials">نظرات</a>
-        <a href="#contact">تماس</a>
+        <a href="#contact">ارتباط</a>
       </nav>
+
       <div class="actions">
-        <button class="btn-icon" id="themeToggle" aria-label="تغییر تم">
-          <!-- moon/sun -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 3a9 9 0 0 0 0 18 9 9 0 0 1 0-18z"/>
-          </svg>
-        </button>
-        <button class="hamburger" id="hamburger" aria-label="منوی موبایل">
-          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        </button>
+        <div class="hamburger" id="hamburger" aria-label="باز کردن منو">
+          <button aria-expanded="false" aria-controls="drawer">
+            <span class="bar"></span>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-      <div class="sheet container">
-        <a href="#home">خانه</a>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer" id="drawer" aria-hidden="true">
+      <div class="overlay" id="overlay"></div>
+      <div class="panel">
+        <a href="#hero">شروع</a>
         <a href="#about">درباره من</a>
         <a href="#services">خدمات</a>
-        <a href="#reels">ویدیو</a>
+        <a href="#videos">نمونه‌کار ویدیویی</a>
         <a href="#projects">پروژه‌ها</a>
         <a href="#gallery">گالری</a>
         <a href="#testimonials">نظرات</a>
-        <a href="#contact">تماس</a>
+        <a href="#contact">ارتباط</a>
       </div>
     </div>
   </header>
 
   <!-- Hero -->
-  <section id="home">
-    <div class="container hero">
-      <div class="reveal">
-        <h1>طراحی مدرن، تجربه کاربری بی‌نقص</h1>
-        <p class="lead">فرانت‌اند پیکسل‌پرفکت، انیمیشن‌های نرم، ساختار ماژولار، و عملکرد بهینه برای وب‌سایت‌های متفاوت.</p>
+  <section id="hero" class="hero observe-anchor">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <h1>طراحی و توسعه تجربه‌های وب نسل بعد</h1>
+        <p>این یک پورتفولیو تک‌صفحه‌ای تمام‌دارک، با ناوبری چسبنده، منوی همبرگری انیمیشنی، اسکرول نرم و هایلایت خودکار لینک‌هاست.</p>
         <div class="cta">
-          <a class="btn primary" href="#projects">مشاهده پروژه‌ها</a>
-          <a class="btn" href="#contact">شروع همکاری</a>
+          <a class="btn" href="#projects">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            مشاهده پروژه‌ها
+          </a>
+          <a class="btn secondary" href="#contact">
+            <svg viewBox="0 0 24 24"><path d="M21 8v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8m3-3h12a3 3 0 0 1 3 3v0"/></svg>
+            ارتباط بگیریم
+          </a>
         </div>
       </div>
-      <div class="hero-media reveal" aria-hidden="true"></div>
+      <div class="hero-media">
+        <div class="avatar" aria-label="آواتار">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- About -->
-  <section id="about">
-    <div class="container about">
-      <div class="photo reveal">
-        <!-- جایگزین با عکس خودت -->
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1200&auto=format&fit=crop" alt="عکس توسعه‌دهنده">
+  <section id="about" class="observe-anchor">
+    <div class="container">
+      <div class="head">
+        <div>
+          <h2 class="section-title">درباره من</h2>
+          <p class="section-sub">فرانت‌اند دیزاینر با وسواس پیکسل‌پرفکت و معماری ماژولار</p>
+        </div>
       </div>
-      <div class="text reveal">
-        <h2 class="section-title">درباره من</h2>
-        <p class="section-desc">طراح و توسعه‌دهنده فرانت‌اند با تمرکز بر UI/UX، عملکرد و دسترسی‌پذیری. عاشق ریزه‌کاری‌ها و نتایج تمیز در محیط‌های تولید.</p>
-        <p>تکنولوژی‌های مورد علاقه: HTML/CSS مدرن، JavaScript، انیمیشن‌های CSS، IntersectionObserver، و معماری کامپوننتی. خروجی همیشه ریسپانسیو، سریع و قابل نگهداری است.</p>
+      <div class="about-grid">
+        <div class="about-card">
+          <p>من مصطفی هستم؛ فرانت‌اند دولوپر و دیزاینر. روی گریدهای تمیز، انیمیشن‌های لطیف، و تعاملات شمرده تمرکز دارم تا تجربه‌ای روان و حرفه‌ای بسازم.</p>
+          <p>استک من شامل HTML/CSS/JS مدرن، الگوهای دسترس‌پذیری، و ریسپانسیو پیشرفته‌ست. هر پروژه با نگاه سیستمی و تست دقیق تحویل میشه.</p>
+          <p>این صفحه نمونه‌ای از کیفیتی هست که انتظار دارم: تعادل بین زیبایی، سرعت، و وضوح.</p>
+        </div>
+        <div class="about-photo" aria-label="عکس پروفایل/محیط کار"></div>
       </div>
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services">
+  <!-- Services (7 cards) -->
+  <section id="services" class="observe-anchor">
     <div class="container">
-      <h2 class="section-title">خدمات</h2>
-      <p class="section-desc">بسته‌های حرفه‌ای برای توسعه رابط‌های کاربری مدرن و اثرگذار.</p>
-      <div class="grid services">
-        <!-- 7 cards -->
-        <div class="card reveal">
-          <div class="icon">UI</div>
-          <h3>طراحی رابط کاربری</h3>
-          <p>سیستم طراحی، رنگ‌ها، فضاها و کامپوننت‌های منسجم.</p>
+      <div class="head">
+        <div>
+          <h2 class="section-title">خدمات</h2>
+          <p class="section-sub">آنچه برای ساخت محصول حرفه‌ای ارائه می‌دهم</p>
         </div>
-        <div class="card reveal">
-          <div class="icon">UX</div>
-          <h3>تجربه کاربری</h3>
-          <p>فلوهای واضح، تعاملات روان و تست قابل‌استفاده بودن.</p>
+      </div>
+      <div class="cards">
+        <!-- 1 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM8 3h8v3H8z"/></svg></div>
+          <div class="title">طراحی UI مدرن</div>
+          <div class="desc">ستون‌بندی تمیز، تایپوگرافی خوانا، و رنگ‌های کنترل‌شده برای دارک مود.</div>
         </div>
-        <div class="card reveal">
-          <div class="icon">FE</div>
-          <h3>توسعه فرانت‌اند</h3>
-          <p>کدنویسی پیکسل‌پرفکت با عملکرد عالی.</p>
+        <!-- 2 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 4h18M3 12h18M3 20h18"/></svg></div>
+          <div class="title">کدنویسی پیکسل‌پرفکت</div>
+          <div class="desc">هماهنگی دقیق با دیزاین و رفتارهای تعاملی بدون لگ.</div>
         </div>
-        <div class="card reveal">
-          <div class="icon">AN</div>
-          <h3>انیمیشن و میکرواینترکشن</h3>
-          <p>حرکت‌های معنادار برای ایجاد لذت و وضوح.</p>
+        <!-- 3 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l9 4-9 4-9-4zM3 10l9 4 9-4M3 18l9 4 9-4"/></svg></div>
+          <div class="title">معماری ماژولار</div>
+          <div class="desc">ساختار قابل‌نگهداری، مقیاس‌پذیر و تست‌پذیر.</div>
         </div>
-        <div class="card reveal">
-          <div class="icon">OPT</div>
-          <h3>بهینه‌سازی عملکرد</h3>
-          <p>بارگذاری سریع، کاهش لرزش‌های چیدمان، کش هوشمند.</p>
+        <!-- 4 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></div>
+          <div class="title">ریسپانسیو پیشرفته</div>
+          <div class="desc">طراحی موبایل‌فرست با جزئیات برای انواع نمایشگرها.</div>
         </div>
-        <div class="card reveal">
-          <div class="icon">ACC</div>
-          <h3>دسترسی‌پذیری</h3>
-          <p>استانداردهای WCAG و ناوبری کیبورد.</p>
+        <!-- 5 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 5h14v6H5zM5 13h8v6H5z"/></svg></div>
+          <div class="title">انیمیشن و تعاملات</div>
+          <div class="desc">حرکت‌های ظریف، منوی همبرگری، اسکرول نرم و هایلایت فعال.</div>
         </div>
-        <div class="card reveal">
-          <div class="icon">SEO</div>
-          <h3>سئو تکنیکال</h3>
-          <p>متادیتا، ساختار معنایی و رندر بهینه.</p>
+        <!-- 6 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
+          <div class="title">دسترس‌پذیری</div>
+          <div class="desc">فوکوس‌ها، کنتراست‌ها و ARIA برای همه کاربران.</div>
+        </div>
+        <!-- 7 -->
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></svg></div>
+          <div class="title">بهینه‌سازی عملکرد</div>
+          <div class="desc">کمینه‌سازی لایه‌ها، استفاده هوشمند از افکت‌ها و کش.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Vertical video reels -->
-  <section id="reels">
+  <!-- Vertical videos -->
+  <section id="videos" class="observe-anchor">
     <div class="container">
-      <h2 class="section-title">نمونه‌کار ویدیویی عمودی</h2>
-      <p class="section-desc">ریلزهای ۹:۱۶ برای نمایش تعاملات و موشن‌های UI.</p>
-      <div class="reels">
-        <div class="reel reveal">
-          <span class="badge">UI Reel #1</span>
-          <video controls preload="metadata" poster="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop">
-            <source src="" type="video/mp4">
-            ویدیو پشتیبانی نمی‌شود.
+      <div class="head">
+        <div>
+          <h2 class="section-title">نمونه‌کار ویدیویی</h2>
+          <p class="section-sub">ویدیوهای عمودی، کنار هم، برای نمایش تعاملات</p>
+        </div>
+      </div>
+      <div class="video-grid">
+        <div class="video">
+          <span class="badge">UI Motion</span>
+          <video autoplay muted loop playsinline poster="">
+            <source src="" type="video/mp4" />
           </video>
         </div>
-        <div class="reel reveal">
-          <span class="badge">UI Reel #2</span>
-          <video controls preload="metadata" poster="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=600&auto=format&fit=crop">
-            <source src="" type="video/mp4">
+        <div class="video">
+          <span class="badge">Micro-interactions</span>
+          <video autoplay muted loop playsinline poster="">
+            <source src="" type="video/mp4" />
           </video>
         </div>
-        <div class="reel reveal">
-          <span class="badge">UI Reel #3</span>
-          <video controls preload="metadata" poster="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=600&auto=format&fit=crop">
-            <source src="" type="video/mp4">
+        <div class="video">
+          <span class="badge">Navigation</span>
+          <video autoplay muted loop playsinline poster="">
+            <source src="" type="video/mp4" />
           </video>
         </div>
       </div>
@@ -451,139 +708,163 @@
   </section>
 
   <!-- Projects -->
-  <section id="projects">
-    <div class="container projects">
-      <h2 class="section-title">پروژه‌های انجام‌شده</h2>
-      <p class="section-desc">نمونه‌های عملی با تمرکز بر جزئیات و کیفیت تولیدی.</p>
-
-      <div class="grid">
-        <div class="card project reveal">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1519337265831-281ec6cc8514?q=80&w=1200&auto=format&fit=crop" alt="پروژه داشبورد"></div>
-          <h3>داشبورد تحلیلی</h3>
-          <p>چارت‌ها، جدول‌های تعاملی و تم تاریک/روشن.</p>
-          <div class="tags">
-            <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
-          </div>
+  <section id="projects" class="observe-anchor">
+    <div class="container">
+      <div class="head">
+        <div>
+          <h2 class="section-title">پروژه‌های انجام‌شده</h2>
+          <p class="section-sub">نمونه‌هایی از تحویل‌های تولیدی و آماده دیپلوی</p>
         </div>
-
-        <div class="card project reveal">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt="پروژه فروشگاهی"></div>
-          <h3>فروشگاه مدرن</h3>
-          <p>فیلترهای لحظه‌ای و انیمیشن‌های نرم افزودن به سبد.</p>
-          <div class="tags">
-            <span class="tag">UI</span><span class="tag">UX</span><span class="tag">Performance</span>
+      </div>
+      <div class="projects">
+        <article class="project">
+          <div class="cover"></div>
+          <div class="body">
+            <div class="title">داشبورد فروش</div>
+            <div class="tags">
+              <span class="tag">UI/UX</span>
+              <span class="tag">Performance</span>
+              <span class="tag">A11y</span>
+            </div>
+            <p class="desc" style="color:var(--muted)">داشبورد ریسپانسیو با چارت‌های سبک و تعاملات سریع.</p>
           </div>
-        </div>
-
-        <div class="card project reveal">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1519400191749-9f0f0c1d97ff?q=80&w=1200&auto=format&fit=crop" alt="پروژه لندینگ"></div>
-          <h3>لندینگ کمپین</h3>
-          <p>اسکرول اسنپ، میکرواینترکشن‌ها، و نرخ تبدیل بالا.</p>
-          <div class="tags">
-            <span class="tag">Animations</span><span class="tag">A11y</span><span class="tag">SEO</span>
+        </article>
+        <article class="project">
+          <div class="cover"></div>
+          <div class="body">
+            <div class="title">لندینگ محصول</div>
+            <div class="tags">
+              <span class="tag">Animations</span>
+              <span class="tag">SEO</span>
+              <span class="tag">Dark</span>
+            </div>
+            <p class="desc" style="color:var(--muted)">لندینگ مینیمال با نرخ تبدیل بالا و انیمیشن‌های لطیف.</p>
           </div>
-        </div>
+        </article>
+        <article class="project">
+          <div class="cover"></div>
+          <div class="body">
+            <div class="title">پورتال داخلی</div>
+            <div class="tags">
+              <span class="tag">Design System</span>
+              <span class="tag">Modular</span>
+            </div>
+            <p class="desc" style="color:var(--muted)">کامپوننت‌های ماژولار و تم دارک با الگوهای دسترس‌پذیری.</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
   <!-- Gallery -->
-  <section id="gallery">
-    <div class="container gallery">
-      <h2 class="section-title">گالری عکس نمونه‌کار</h2>
-      <p class="section-desc">تصاویر منتخب از رابط‌ها و کامپوننت‌ها.</p>
-      <div class="grid">
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop" alt="گالری ۱"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1555421689-43cad9b38f03?q=80&w=800&auto=format&fit=crop" alt="گالری ۲"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop" alt="گالری ۳"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop" alt="گالری ۴"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=800&auto=format&fit=crop" alt="گالری ۵"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop" alt="گالری ۶"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1526378722391-8c35a5f3bf7b?q=80&w=800&auto=format&fit=crop" alt="گالری ۷"></div>
-        <div class="pic reveal"><img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop" alt="گالری ۸"></div>
+  <section id="gallery" class="observe-anchor">
+    <div class="container">
+      <div class="head">
+        <div>
+          <h2 class="section-title">گالری عکس نمونه‌کار</h2>
+          <p class="section-sub">اسکرین‌شات‌ها، گرید تمیز و لایت‌افکت</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <div class="shot" aria-label="Screenshot 1"></div>
+        <div class="shot" aria-label="Screenshot 2"></div>
+        <div class="shot" aria-label="Screenshot 3"></div>
+        <div class="shot" aria-label="Screenshot 4"></div>
+        <div class="shot" aria-label="Screenshot 5"></div>
+        <div class="shot" aria-label="Screenshot 6"></div>
+        <div class="shot" aria-label="Screenshot 7"></div>
+        <div class="shot" aria-label="Screenshot 8"></div>
       </div>
     </div>
   </section>
 
   <!-- Testimonials -->
-  <section id="testimonials">
+  <section id="testimonials" class="observe-anchor">
     <div class="container">
-      <h2 class="section-title">نظرات کارفرماها</h2>
-      <p class="section-desc">بازخوردها درباره کیفیت کار و همکاری حرفه‌ای.</p>
-
-      <div class="slider" aria-label="نظرات">
-        <div class="slide reveal">
-          <div class="who">
-            <div class="avatar" aria-hidden="true"></div>
-            <div>
-              <strong>شرکت آلفا</strong><br><span class="muted">مدیر محصول</span>
-            </div>
-          </div>
-          <p>تحویل دقیق و بی‌نقص. تعاملات UI فوق‌العاده و توجه به جزئیات مثال‌زدنی.</p>
+      <div class="head">
+        <div>
+          <h2 class="section-title">نظرات کارفرماها</h2>
+          <p class="section-sub">بازخوردها درباره کیفیت، زمان‌بندی و همکاری</p>
         </div>
-
-        <div class="slide reveal">
-          <div class="who">
-            <div class="avatar" aria-hidden="true"></div>
-            <div>
-              <strong>استارت‌آپ بتا</strong><br><span class="muted">CTO</span>
-            </div>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="avatar"></div>
+          <div>
+            <div class="name">شرکت الف</div>
+            <div class="role">مدیر محصول</div>
           </div>
-          <p>کد تمیز، ساختار ماژولار و عملکرد عالی روی موبایل. همکاری روان و حرفه‌ای.</p>
+          <div class="quote">تحویل دقیق، بدون سورپرایز. تجربه کاربری عالی و کد قابل نگهداری.</div>
         </div>
-
-        <div class="slide reveal">
-          <div class="who">
-            <div class="avatar" aria-hidden="true"></div>
-            <div>
-              <strong>آژانس گاما</strong><br><span class="muted">لیـد طراحی</span>
-            </div>
+        <div class="testimonial">
+          <div class="avatar"></div>
+          <div>
+            <div class="name">استارتاپ ب</div>
+            <div class="role">CTO</div>
           </div>
-          <p>UI/UX سطح بالا؛ میکرواینترکشن‌ها تجربه را متفاوت کرده‌اند. توصیه صددرصد.</p>
+          <div class="quote">ریسپانسیو بی‌نقص و انیمیشن‌های روان. همکاری حرفه‌ای و نتیجه منسجم.</div>
+        </div>
+        <div class="testimonial">
+          <div class="avatar"></div>
+          <div>
+            <div class="name">آژانس ج</div>
+            <div class="role">لیـد دیزاین</div>
+          </div>
+          <div class="quote">استانداردهای بالا، دقت روی جزئیات و مستندسازی تمیز.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact">
-    <div class="container contact">
-      <h2 class="section-title">تماس و شبکه‌های اجتماعی</h2>
-      <p class="section-desc">برای شروع همکاری پیام بده.</p>
+  <!-- Contact + Social -->
+  <section id="contact" class="observe-anchor">
+    <div class="container">
+      <div class="head">
+        <div>
+          <h2 class="section-title">ارتباط</h2>
+          <p class="section-sub">کارت‌های تماس و شبکه‌های اجتماعی</p>
+        </div>
+      </div>
 
-      <div class="grid">
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-          <div><strong>ایمیل</strong><div class="muted">hello@example.com</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm1 6h-2v6h2V8zm-1 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
-          <div><strong>تلگرام</strong><div class="muted">@yourhandle</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm-6.5 6a3.5 3.5 0 1 1 0 7h-3V9h3z"/></svg>
-          <div><strong>واتساپ</strong><div class="muted">+98 912 000 0000</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10c1.7 0 3-1.3 3-3S8.7 4 7 4 4 5.3 4 7s1.3 3 3 3zm10 0c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zM4 20h4v-6H4v6zm12 0h4v-8h-4v8z"/></svg>
-          <div><strong>اینستاگرام</strong><div class="muted">@your.instagram</div></div>
+      <div class="contact">
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM7 7h10v4H7z"/></svg></div>
+            <div class="label">ایمیل</div>
+            <div class="value">you@example.com</div>
+          </div>
+          <div class="contact-card">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6"/></svg></div>
+            <div class="label">تلفن</div>
+            <div class="value">+98-912-000-0000</div>
+          </div>
+          <div class="contact-card">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7v6l7 4 7-4V9a7 7 0 0 0-7-7z"/></svg></div>
+            <div class="label">موقعیت</div>
+            <div class="value">گلستان، جنوب چپرآباد</div>
+          </div>
         </div>
 
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-4 0-7-3-7-7s3-7 7-7c3 0 5 2 6 4h5v4h-2c-.5 3.5-3.5 6-7 6z"/></svg>
-          <div><strong>گیت‌هاب</strong><div class="muted">github.com/yourname</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z"/><path d="M8 8h8v8H8z"/></svg>
-          <div><strong>لینکدین</strong><div class="muted">linkedin.com/in/yourname</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>
-          <div><strong>توئیتر</strong><div class="muted">@yourhandle</div></div>
-        </div>
-        <div class="card contact-card reveal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
-          <div><strong>وب‌سایت</strong><div class="muted">yourwebsite.com</div></div>
+        <div class="social">
+          <div style="font-weight:700">شبکه‌های اجتماعی</div>
+          <div class="social-row">
+            <a href="#" aria-label="GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 2C7 2 3 6 3 11c0 4 3 7 6 8v-3c-1 0-2-1-2-2v0c0-1 .5-1.5 1-1.8-2-.2-4-1-4-4 0-1 .3-1.8.9-2.5-.2-.7-.2-1.7.1-2.7 0 0 1.3 0 2.8 1.3A9 9 0 0 1 12 6c1.3 0 2.7.2 4 .6 1.5-1.3 2.8-1.3 2.8-1.3.3 1 .3 2 .1 2.7.6.7.9 1.5.9 2.5 0 3-2 3.8-4 4 .6.4 1 1.2 1 2.1v3c3-1 6-4 6-8 0-5-4-9-9-9z"/></svg>
+              GitHub
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M4 4h5v16H4zM10 9h5v11h-5zM5 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM16 9c1.7 0 3 1.3 3 3v8h-3v-8"/></svg>
+              LinkedIn
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M22 5.8c-.8.4-1.6.7-2.5.8.9-.6 1.6-1.4 1.9-2.4-.9.6-1.9 1-2.9 1.2A4.1 4.1 0 0 0 12 8.7c0 .3 0 .7.1 1C8.2 9.5 5.1 7.8 3 5.2c-.4.7-.6 1.5-.6 2.3 0 1.6.9 3.1 2.2 3.9-.7 0-1.4-.2-2-.6v.1c0 2.3 1.7 4.3 3.9 4.7-.4.1-.9.2-1.4.2-.3 0-.6 0-.9-.1.6 1.9 2.4 3.3 4.5 3.3A8.3 8.3 0 0 1 2 19.3c1.9 1.2 4.1 1.9 6.5 1.9 7.8 0 12.1-6.4 12.1-12 0-.2 0-.4 0-.6.8-.6 1.5-1.3 2.1-2.1z"/></svg>
+              X
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm6-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+              Instagram
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -591,80 +872,90 @@
 
   <footer>
     <div class="container">
-      © 2025 — ساخته شده با عشق به جزئیات و استانداردهای تولید
+      © 2025 مصطفی — ساخته‌شده با HTML/CSS/JS مدرن. نسخه دارک مود.
     </div>
   </footer>
 
   <script>
-    // Theme toggle
-    const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const saved = localStorage.getItem('theme');
-    if (saved) root.setAttribute('data-theme', saved);
-    themeToggle.addEventListener('click', () => {
-      const now = root.getAttribute('data-theme') === 'light' ? null : 'light';
-      if (now) root.setAttribute('data-theme', now); else root.removeAttribute('data-theme');
-      localStorage.setItem('theme', now || '');
-    });
+    // Helper: select
+    const $, $$ = (sel, ctx = document) => [ctx.querySelector(sel), ctx.querySelectorAll(sel)];
 
-    // Mobile menu
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-      mobileMenu.setAttribute('aria-hidden', mobileMenu.classList.contains('open') ? 'false' : 'true');
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-    }));
+    // Smooth active link highlighting on scroll
+    const navLinks = [...document.querySelectorAll('.links a')];
+    const drawerLinks = [...document.querySelectorAll('.drawer .panel a')];
+    const sections = [...document.querySelectorAll('section')];
 
-    // Active link highlight + smooth section detection
-    const links = document.querySelectorAll('.nav-links a, .mobile-menu a');
-    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
-    const observe = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const id = '#' + entry.target.id;
-        links.forEach(a => {
-          if (a.getAttribute('href') === id) a.classList.toggle('active', entry.isIntersecting && entry.intersectionRatio > 0.6);
-        });
-      });
-    }, { rootMargin: "-20% 0px -60% 0px", threshold: [0.6] });
-    sections.forEach(sec => sec && observe.observe(sec));
-
-    // Scroll progress
-    const progress = document.getElementById('progress');
-    const updateProgress = () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const height = (document.documentElement.scrollHeight - document.documentElement.clientHeight);
-      const percent = height ? (scrollTop / height) * 100 : 0;
-      progress.style.width = percent + '%';
+    const setActive = (id) => {
+      const update = (links) => links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      update(navLinks); update(drawerLinks);
     };
-    document.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
 
-    // Reveal animations
-    const revealEls = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.2 });
-    revealEls.forEach(el => revealObs.observe(el));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.3) setActive(id);
+      });
+    }, { rootMargin: "-20% 0px -60% 0px", threshold: [0.3, 0.6] });
 
-    // Keyboard navigation aids
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('open');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      }
+    sections.forEach(sec => observer.observe(sec));
+
+    // Hamburger & Drawer
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const toggleDrawer = (show) => {
+      drawer.classList.toggle('show', show);
+      hamburger.classList.toggle('active', show);
+      const btn = hamburger.querySelector('button');
+      btn.setAttribute('aria-expanded', show ? 'true' : 'false');
+      drawer.setAttribute('aria-hidden', show ? 'false' : 'true');
+      document.body.style.overflow = show ? 'hidden' : '';
+    };
+
+    hamburger.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('show')));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+    drawerLinks.forEach(a => a.addEventListener('click', () => toggleDrawer(false)));
+
+    // Keyboard escape for drawer
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('show')) toggleDrawer(false);
+    });
+
+    // Enhance anchor clicks (desktop)
+    [...document.querySelectorAll('a[href^="#"]')].forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, "", '#' + id);
+      });
     });
 
     // Reduce motion respect
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
       document.documentElement.style.scrollBehavior = 'auto';
     }
+
+    // Optional: lazy animate cards on view
+    const fadeIn = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.transition = 'transform .5s ease, opacity .5s ease';
+          e.target.style.transform = 'translateY(0)';
+          e.target.style.opacity = '1';
+          fadeIn.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.card, .project, .shot, .testimonial').forEach(el => {
+      el.style.transform = 'translateY(12px)';
+      el.style.opacity = '.0';
+      fadeIn.observe(el);
+    });
   </script>
 </body>
 </html>
