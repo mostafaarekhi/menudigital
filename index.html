@@ -1,654 +1,207 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>پورتفوی مدرن | دارک‌مود و رسپانسیو</title>
-  <meta name="theme-color" content="#0b0e14" />
-  <style>
-    :root{
-      --bg:#0b0e14;         /* Dark base */
-      --bg-soft:#101521;    /* Section contrast */
-      --glass:#13192a;
-      --card:#121827;
-      --text:#e6e9f3;
-      --muted:#a7b0c4;
-      --primary:#7c5cff;    /* Neon violet */
-      --primary-2:#00e0ff;  /* Neon cyan */
-      --accent:#ff7ce5;     /* Neon pink for subtle accents */
-      --success:#58d68d;
-      --danger:#ff6b6b;
-      --shadow: 0 20px 40px rgba(0,0,0,.45);
-      --radius-lg: 18px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
-      --gap: 24px;
-      --font: ui-rounded, "Vazirmatn", "IRANSansX", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پورتفولیو تک‌صفحه‌ای دارک</title>
+<style>
+/* ======= Reset ======= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #111; color: #eee; scroll-behavior: smooth; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+section { padding: 60px 20px; }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
-    }
+/* ======= Navbar ======= */
+nav { position: fixed; top:0; width: 100%; background: #111; display:flex; justify-content:flex-end; align-items:center; padding: 20px 50px; z-index:1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+nav a { margin-left: 30px; font-weight: 600; transition: color 0.3s; }
+nav a:hover { color: #1abc9c; }
 
-    /* Global */
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    html{ scroll-behavior:smooth }
-    body{
-      margin:0; background:
-        radial-gradient(1200px 600px at 85% -10%, rgba(124,92,255,.18) 0%, transparent 60%),
-        radial-gradient(800px 400px at 10% 10%, rgba(0,224,255,.16) 0%, transparent 55%),
-        linear-gradient(180deg, #0b0e14 0%, #0b0e14 100%);
-      color:var(--text); font-family:var(--font); line-height:1.7;
-    }
+/* ======= Hero ======= */
+.hero { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background: linear-gradient(135deg,#1c1c1c,#111); }
+.hero h1 { font-size:3em; margin-bottom:20px; }
+.hero p { font-size:1.2em; color:#aaa; max-width:600px; }
+.hero button { margin-top:20px; padding:10px 25px; border:none; background:#1abc9c; color:#111; font-weight:600; cursor:pointer; border-radius:5px; transition:0.3s; }
+.hero button:hover { background:#16a085; }
 
-    a{ color:var(--primary); text-decoration:none }
-    img,video{ display:block; max-width:100%; border-radius:var(--radius-md) }
-    .container{ width:100%; max-width:1200px; margin:0 auto; padding:0 20px }
-    .section{ padding:72px 0 }
-    .subtle{ color:var(--muted) }
+/* ======= About ======= */
+.about { display:flex; align-items:center; gap:40px; flex-wrap:wrap; }
+.about img { width:300px; border-radius:15px; }
+.about .text { flex:1; }
+.about h2 { margin-bottom:15px; font-size:2em; }
+.about p { line-height:1.6; color:#ccc; }
 
-    /* Neon gradient text */
-    .gradient-text{
-      background: linear-gradient(90deg, var(--primary), var(--primary-2));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-    }
+/* ======= Services ======= */
+.services { background:#1b1b1b; display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.service-card { background:#222; padding:20px; border-radius:12px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; cursor:pointer; }
+.service-card:hover { transform: translateY(-10px); box-shadow:0 10px 20px rgba(0,0,0,0.5);}
+.service-card h3 { margin-bottom:10px; }
+.service-card p { color:#aaa; }
 
-    /* Glass card */
-    .glass{
-      background: linear-gradient(180deg, rgba(19,25,42,.7), rgba(19,25,42,.5));
-      border:1px solid rgba(124,92,255,.25);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius-lg);
-    }
+/* ======= Portfolio Video ======= */
+.portfolio-videos { display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+.portfolio-videos video { border-radius:12px; width:100%; }
 
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:1000;
-      backdrop-filter: saturate(1.2) blur(10px);
-      background: linear-gradient(180deg, rgba(11,14,20,.70), rgba(11,14,20,.40));
-      border-bottom:1px solid rgba(124,92,255,.20);
-    }
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      height:64px; gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px;
-    }
-    .brand-logo{
-      width:34px; height:34px; border-radius:9px; background:
-      conic-gradient(from 200deg, var(--primary), var(--primary-2), var(--accent), var(--primary));
-      box-shadow:0 8px 24px rgba(124,92,255,.4);
-      border:1px solid rgba(255,255,255,.15);
-    }
-    .menu{ display:flex; align-items:center; gap:18px }
-    .menu a{
-      padding:8px 14px; border-radius:10px; color:var(--text);
-      transition: all .25s ease;
-    }
-    .menu a:hover{ background:rgba(124,92,255,.14) }
-    .menu a.active{
-      background: linear-gradient(180deg, rgba(124,92,255,.25), rgba(124,92,255,.12));
-      border:1px solid rgba(124,92,255,.35);
-      color:#fff;
-    }
+/* ======= Projects ======= */
+.projects { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.project-card { background:#222; border-radius:12px; overflow:hidden; transition: transform 0.3s; cursor:pointer; }
+.project-card:hover { transform: scale(1.05);}
+.project-card img { width:100%; }
+.project-card h4 { padding:10px; }
 
-    /* Hero */
-    .hero{
-      display:grid; grid-template-columns: 1.2fr .8fr; gap:var(--gap);
-      align-items:center; min-height:68vh; padding:56px 0;
-    }
-    .hero-content h1{
-      font-size: clamp(28px, 5.6vw, 56px); margin:0 0 12px; font-weight:900;
-    }
-    .hero-content p{ font-size: clamp(15px, 2.6vw, 18px); margin:0 0 22px }
-    .badges{ display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 }
-    .badge{
-      padding:8px 12px; border-radius:999px;
-      background: linear-gradient(90deg, rgba(124,92,255,.20), rgba(0,224,255,.18));
-      border:1px solid rgba(124,92,255,.35);
-      font-size:13px;
-    }
-    .cta{
-      display:flex; gap:12px; margin-top:10px;
-    }
-    .btn{
-      padding:12px 18px; border-radius:12px; font-weight:700; letter-spacing:.2px; cursor:pointer; border:0;
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-    }
-    .btn-primary{
-      background: linear-gradient(90deg, var(--primary), var(--primary-2));
-      color:#0b0e14; box-shadow:0 10px 24px rgba(124,92,255,.35);
-    }
-    .btn-primary:hover{ transform: translateY(-2px) }
-    .btn-ghost{
-      background: rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.12)
-    }
-    .hero-media{
-      position:relative; padding:18px; border-radius:var(--radius-lg);
-      background: radial-gradient(500px 200px at 70% 10%, rgba(0,224,255,.12), transparent 60%),
-                  radial-gradient(400px 300px at 20% 80%, rgba(124,92,255,.12), transparent 55%),
-                  linear-gradient(180deg, rgba(19,25,42,.7), rgba(19,25,42,.5));
-      border:1px solid rgba(124,92,255,.25);
-      box-shadow: var(--shadow);
-    }
-    .hero-media .mock{
-      aspect-ratio: 4 / 5; border-radius: var(--radius-md);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="%237c5cff"/><stop offset="1" stop-color="%2300e0ff"/></linearGradient></defs><rect width="100%" height="100%" fill="%23121827"/><circle cx="120" cy="140" r="70" fill="url(%23g)" opacity="0.7"/><rect x="60" y="280" width="320" height="28" rx="14" fill="%23ffffff" opacity="0.18"/><rect x="60" y="330" width="380" height="18" rx="10" fill="%23ffffff" opacity="0.12"/><rect x="60" y="380" width="340" height="18" rx="10" fill="%23ffffff" opacity="0.12"/><rect x="60" y="430" width="360" height="18" rx="10" fill="%23ffffff" opacity="0.12"/></svg>') center/cover no-repeat;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
-    }
+/* ======= Gallery ======= */
+.gallery { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+.gallery img { border-radius:10px; transition: transform 0.3s; cursor:pointer; }
+.gallery img:hover { transform: scale(1.1); }
 
-    /* About */
-    #about .wrap{ display:grid; grid-template-columns: 1fr .8fr; gap:var(--gap); align-items:center }
-    .about-card{
-      padding:24px; border-radius:var(--radius-lg); background:rgba(19,25,42,.6); border:1px solid rgba(255,255,255,.10);
-    }
-    .about-card h3{ margin:0 0 12px; font-size:28px }
-    .about-list{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:16px }
-    .about-item{
-      padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
-      display:flex; align-items:center; gap:10px; font-size:14px;
-    }
-    .about-photo{
-      aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow:hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="%23ff7ce5"/><stop offset="1" stop-color="%2300e0ff"/></linearGradient></defs><rect width="100%" height="100%" fill="%23101521"/><circle cx="400" cy="500" r="340" fill="url(%23g)" opacity="0.14"/><rect x="150" y="140" width="500" height="720" rx="40" fill="%23121827" opacity="0.9"/></svg>') center/cover no-repeat;
-      border:1px solid rgba(255,255,255,.10);
-    }
+/* ======= Testimonials ======= */
+.testimonials { position:relative; overflow:hidden; }
+.testimonial-wrapper { display:flex; transition: transform 0.5s ease; }
+.testimonial { min-width:100%; background:#222; padding:40px 20px; border-radius:15px; text-align:center; }
+.testimonial img { width:80px; height:80px; border-radius:50%; margin-bottom:15px; }
+.testimonial p { color:#ccc; font-style:italic; }
+.testimonial h4 { margin-top:10px; color:#1abc9c; }
 
-    /* Services – 7 cards */
-    .cards{
-      display:grid; grid-template-columns: repeat(7, minmax(180px,1fr)); gap:12px;
-      overflow-x:auto; padding-bottom:6px; scrollbar-width:thin;
-    }
-    .cards::-webkit-scrollbar{ height:8px }
-    .cards::-webkit-scrollbar-thumb{ background:rgba(124,92,255,.35); border-radius:999px }
-    .card{
-      min-height:180px; padding:16px; border-radius:16px; background:var(--card);
-      border:1px solid rgba(124,92,255,.25); position:relative; overflow:hidden;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .card:hover{ transform: translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.35) }
-    .card .icon{
-      width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
-      background:linear-gradient(180deg, rgba(124,92,255,.25), rgba(0,224,255,.25));
-      border:1px solid rgba(255,255,255,.2); margin-bottom:10px;
-    }
-    .card h4{ margin:6px 0 6px; font-size:16px }
-    .card p{ margin:0; color:var(--muted); font-size:13px }
+.testimonial-btn { position:absolute; top:50%; transform:translateY(-50%); background:#1abc9c; border:none; color:#111; padding:10px; border-radius:50%; cursor:pointer; }
+.prev { left:10px; }
+.next { right:10px; }
 
-    /* Vertical video gallery */
-    .vgrid{
-      display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--gap);
-    }
-    .vgrid video{
-      aspect-ratio: 9/16; width:100%; border:1px solid rgba(255,255,255,.1);
-      background:#0e1320; object-fit:cover;
-    }
+/* ======= Contact ======= */
+.contact { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.contact-card { background:#222; padding:20px; border-radius:12px; text-align:center; transition: transform 0.3s; }
+.contact-card:hover { transform: translateY(-10px);}
+.contact-card a { color:#1abc9c; }
 
-    /* Projects cards */
-    .pgrid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--gap) }
-    .pitem{
-      border-radius:var(--radius-lg); overflow:hidden; background:var(--card); border:1px solid rgba(255,255,255,.1);
-      display:flex; flex-direction:column;
-    }
-    .pitem .thumb{ aspect-ratio: 16/9; background:
-      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="%237c5cff"/><stop offset="1" stop-color="%2300e0ff"/></linearGradient></defs><rect width="100%" height="100%" fill="%23121827"/><rect x="180" y="160" width="920" height="400" rx="22" fill="url(%23g)" opacity="0.25"/></svg>') center/cover no-repeat; }
-    .pitem .body{ padding:16px }
-    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
-    .tag{
-      font-size:12px; padding:6px 10px; border-radius:999px; color:#cfe9ff;
-      background:rgba(0,224,255,.16); border:1px solid rgba(0,224,255,.35);
-    }
-    .actions{ display:flex; gap:10px; margin-top:12px }
-    .btn-mini{
-      padding:8px 12px; border-radius:10px; font-size:13px; border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.06); color:var(--text); cursor:pointer;
-    }
-    .btn-mini.primary{ background: linear-gradient(90deg, var(--primary), var(--primary-2)); color:#0b0e14; border:0 }
+/* ======= Footer ======= */
+footer { text-align:center; padding:20px; background:#111; color:#666; margin-top:40px; }
 
-    /* Photo gallery */
-    .gallery{
-      display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;
-    }
-    .gallery .gitem{
-      aspect-ratio: 1; border-radius:var(--radius-md); overflow:hidden; position:relative;
-      border:1px solid rgba(255,255,255,.08); background:#0f1422;
-    }
-    .gallery .gitem::after{
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, transparent, rgba(0,0,0,.35));
-    }
-    .gallery .gitem img{ width:100%; height:100%; object-fit:cover }
-
-    /* Testimonials */
-    .testis{
-      display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--gap);
-    }
-    .tcard{
-      padding:18px; border-radius:var(--radius-lg); background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.1);
-    }
-    .tcard .head{ display:flex; align-items:center; gap:12px; margin-bottom:8px }
-    .avatar{ width:44px; height:44px; border-radius:14px; background:
-      radial-gradient(150px 90px at 70% 20%, rgba(124,92,255,.35), transparent 60%),
-      linear-gradient(180deg, #0f1422, #0b0e14);
-      border:1px solid rgba(255,255,255,.1);
-    }
-    .stars{ color:#ffd56b; letter-spacing:2px; font-size:15px }
-
-    /* Contact cards */
-    .contact{
-      display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--gap);
-    }
-    .contact .citem{
-      padding:16px; border-radius:var(--radius-lg); background:var(--card);
-      border:1px solid rgba(124,92,255,.25);
-    }
-    .socials{ display:flex; gap:10px; margin-top:10px }
-    .social{
-      width:38px; height:38px; border-radius:10px; display:grid; place-items:center; color:#0b0e14;
-      background: linear-gradient(90deg, var(--primary), var(--primary-2));
-      box-shadow:0 8px 16px rgba(124,92,255,.35);
-    }
-
-    /* Section headers */
-    .shead{ margin-bottom:18px }
-    .shead h2{ margin:0; font-size: clamp(22px, 3.6vw, 32px) }
-    .shead p{ margin:6px 0 0 }
-
-    /* Footer */
-    footer{ padding:26px 0; color:var(--muted); border-top:1px solid rgba(255,255,255,.08) }
-
-    /* Responsive */
-    @media (max-width: 1024px){
-      .hero{ grid-template-columns: 1fr; min-height:auto }
-      #about .wrap{ grid-template-columns: 1fr }
-      .pgrid{ grid-template-columns: repeat(2, 1fr) }
-      .testis{ grid-template-columns: repeat(2, 1fr) }
-      .vgrid{ grid-template-columns: repeat(2, 1fr) }
-      .gallery{ grid-template-columns: repeat(3, 1fr) }
-      .contact{ grid-template-columns: repeat(2, 1fr) }
-    }
-    @media (max-width: 640px){
-      .menu{ gap:8px }
-      .menu a{ padding:8px 12px; font-size:14px }
-      .hero{ padding:34px 0 }
-      .cards{ grid-template-columns: repeat(1, minmax(240px, 75%)) }
-      .vgrid{ grid-template-columns: 1fr }
-      .pgrid{ grid-template-columns: 1fr }
-      .gallery{ grid-template-columns: repeat(2, 1fr) }
-      .testis{ grid-template-columns: 1fr }
-      .contact{ grid-template-columns: 1fr }
-      .about-list{ grid-template-columns: 1fr }
-    }
-
-    /* Scroll reveal */
-    .reveal{ opacity:0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease }
-    .reveal.visible{ opacity:1; transform:none }
-
-    /* Anchor offset fix */
-    :target::before{
-      content:""; display:block; height:86px; margin-top:-86px; visibility:hidden;
-    }
-  </style>
+/* ======= Responsive ======= */
+@media(max-width:768px){
+  nav { justify-content:center; }
+  .about { flex-direction:column; text-align:center;}
+  .about img { width:80%; }
+  .testimonial-wrapper { flex-direction:column; }
+}
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="brand-logo" aria-hidden="true"></div>
-        <span>مصطفی — Front‑End & UI</span>
-      </div>
-      <nav class="menu" aria-label="Main menu">
-        <a href="#home" class="active">خانه</a>
-        <a href="#portfolio">نمونه‌کار</a>
-        <a href="#contact">تماس</a>
-      </nav>
+
+<!-- Navbar -->
+<nav>
+  <a href="#hero">خانه</a>
+  <a href="#portfolio">نمونه کار</a>
+  <a href="#contact">تماس</a>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="hero">
+  <h1>سلام! من مصطفی</h1>
+  <p>این پورتفولیوی من است. در اینجا خدمات، پروژه‌ها و نمونه کارهای من را مشاهده خواهید کرد.</p>
+  <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">تماس بگیرید</button>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+  <img src="https://via.placeholder.com/300x300.png?text=عکس+من" alt="عکس من">
+  <div class="text">
+    <h2>درباره من</h2>
+    <p>من یک طراح و توسعه‌دهنده هستم که در زمینه طراحی سایت و تولید محتوا فعالیت می‌کنم. هدف من ارائه بهترین خدمات با بالاترین کیفیت است.</p>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services" id="services">
+  <div class="service-card"><h3>سرویس ۱</h3><p>توضیح کوتاه درباره سرویس ۱.</p></div>
+  <div class="service-card"><h3>سرویس ۲</h3><p>توضیح کوتاه درباره سرویس ۲.</p></div>
+  <div class="service-card"><h3>سرویس ۳</h3><p>توضیح کوتاه درباره سرویس ۳.</p></div>
+  <div class="service-card"><h3>سرویس ۴</h3><p>توضیح کوتاه درباره سرویس ۴.</p></div>
+  <div class="service-card"><h3>سرویس ۵</h3><p>توضیح کوتاه درباره سرویس ۵.</p></div>
+  <div class="service-card"><h3>سرویس ۶</h3><p>توضیح کوتاه درباره سرویس ۶.</p></div>
+  <div class="service-card"><h3>سرویس ۷</h3><p>توضیح کوتاه درباره سرویس ۷.</p></div>
+</section>
+
+<!-- Portfolio Videos -->
+<section class="portfolio-videos" id="portfolio">
+  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+  <video src="https://www.w3schools.com/html/movie.mp4" controls></video>
+  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+</section>
+
+<!-- Projects -->
+<section class="projects">
+  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۱" alt=""><h4>پروژه ۱</h4></div>
+  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۲" alt=""><h4>پروژه ۲</h4></div>
+  <div class="project-card"><img src="https://via.placeholder.com/400x250.png?text=پروژه+۳" alt=""><h4>پروژه ۳</h4></div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery">
+  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۱" alt="">
+  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۲" alt="">
+  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۳" alt="">
+  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۴" alt="">
+  <img src="https://via.placeholder.com/150.png?text=نمونه+کار+۵" alt="">
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <button class="testimonial-btn prev" onclick="prevTestimonial()">&#10094;</button>
+  <div class="testimonial-wrapper">
+    <div class="testimonial">
+      <img src="https://via.placeholder.com/80" alt="Client 1">
+      <p>این یک نظر کارفرما است. خدمات عالی و حرفه‌ای.</p>
+      <h4>کارفرما ۱</h4>
     </div>
-  </header>
-
-  <!-- Hero -->
-  <main id="home" class="container hero">
-    <div class="hero-content reveal">
-      <h1><span class="gradient-text">طراحی تجربه کاربری</span> با جزئیات پیکسل‌پرفکت</h1>
-      <p class="subtle">فرانت‌اند، انیمیشن‌های نرم، ترنزیشن‌های تمیز، و رابط کاربری مدرن. هر پیکسل با عشق.</p>
-      <div class="badges">
-        <span class="badge">HTML • CSS • JS</span>
-        <span class="badge">Performance-first</span>
-        <span class="badge">Dark & Minimal</span>
-        <span class="badge">Motion Design</span>
-      </div>
-      <div class="cta">
-        <a href="#portfolio" class="btn btn-primary">مشاهده نمونه‌کار</a>
-        <a href="#about" class="btn btn-ghost">درباره من</a>
-      </div>
+    <div class="testimonial">
+      <img src="https://via.placeholder.com/80" alt="Client 2">
+      <p>کاملاً راضی هستم. همکاری بسیار خوب بود.</p>
+      <h4>کارفرما ۲</h4>
     </div>
-    <div class="hero-media reveal">
-      <div class="mock" aria-hidden="true"></div>
+    <div class="testimonial">
+      <img src="https://via.placeholder.com/80" alt="Client 3">
+      <p>توصیه می‌کنم! کیفیت کار بی‌نظیر بود.</p>
+      <h4>کارفرما ۳</h4>
     </div>
-  </main>
+  </div>
+  <button class="testimonial-btn next" onclick="nextTestimonial()">&#10095;</button>
+</section>
 
-  <!-- About -->
-  <section id="about" class="section">
-    <div class="container wrap">
-      <div class="about-card reveal">
-        <div class="shead">
-          <h2>درباره من</h2>
-          <p class="subtle">فرانت‌اند دولوپر و دیزاینر با تمرکز روی UI/UX و انیمیشن‌های حرفه‌ای.</p>
-        </div>
-        <p>روی جزئیات وسواس دارم. ساختار ماژولار، کد تمیز، و تجربه‌ای که روی هر دستگاه بی‌نقص اجرا می‌شود. پروژه‌هایم را با معیارهای حرفه‌ای می‌سنجم و همواره یک قدم جلوتر می‌گذارم.</p>
-        <div class="about-list">
-          <div class="about-item"><strong>مهارت‌ها:</strong> HTML, CSS, JS, Accessibility, Performance</div>
-          <div class="about-item"><strong>ویژگی‌ها:</strong> Pixel‑Perfect, Modular, Maintainable</div>
-          <div class="about-item"><strong>فوکوس:</strong> Micro‑interactions, Motion, Visual Systems</div>
-          <div class="about-item"><strong>ارزش:</strong> تجربه کاربری که واقعی حس می‌شود</div>
-        </div>
-      </div>
-      <div class="about-photo reveal" aria-hidden="true"></div>
-    </div>
-  </section>
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-card">
+    <h3>ایمیل</h3>
+    <a href="mailto:info@example.com">info@example.com</a>
+  </div>
+  <div class="contact-card">
+    <h3>تلفن</h3>
+    <a href="tel:+982100000000">+98 210 000 0000</a>
+  </div>
+  <div class="contact-card">
+    <h3>شبکه اجتماعی</h3>
+    <a href="#">اینستاگرام</a>
+  </div>
+</section>
 
-  <!-- Services: 7 cards -->
-  <section id="services" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>خدمات</h2>
-        <p class="subtle">از طراحی تا پیاده‌سازی پیکسل‌پرفکت در محیط تولید.</p>
-      </div>
-      <div class="cards reveal" aria-label="Service cards">
-        <div class="card">
-          <div class="icon">UI</div>
-          <h4>طراحی رابط کاربری</h4>
-          <p>سیستم‌های بصری منسجم با تایپوگرافی دقیق.</p>
-        </div>
-        <div class="card">
-          <div class="icon">UX</div>
-          <h4>تجربه کاربری</h4>
-          <p>جریان‌های ساده، تعاملات شهودی، و تست کاربری.</p>
-        </div>
-        <div class="card">
-          <div class="icon">FE</div>
-          <h4>فرانت‌اند مدرن</h4>
-          <p>HTML/CSS/JS تمیز، بهینه و مقیاس‌پذیر.</p>
-        </div>
-        <div class="card">
-          <div class="icon">AN</div>
-          <h4>انیمیشن</h4>
-          <p>Micro‑interactions و Motion Design حرفه‌ای.</p>
-        </div>
-        <div class="card">
-          <div class="icon">PR</div>
-          <h4>پرفورمنس</h4>
-          <p>بهینه‌سازی رندر، سرعت، و قابلیت استفاده.</p>
-        </div>
-        <div class="card">
-          <div class="icon">BR</div>
-          <h4>برندسازی</h4>
-          <p>هویت بصری و روایت محصول منسجم.</p>
-        </div>
-        <div class="card">
-          <div class="icon">CT</div>
-          <h4>کپی رایتینگ</h4>
-          <p>متن‌های دقیق، واضح و اثرگذار برای UI.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<footer>
+  تمام حقوق محفوظ است &copy; 2025
+</footer>
 
-  <!-- Portfolio: vertical videos -->
-  <section id="portfolio" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>نمونه‌کار ویدیویی</h2>
-        <p class="subtle">ویدیوهای عمودی برای نمایش تعاملات و انیمیشن‌ها.</p>
-      </div>
-      <div class="vgrid reveal">
-        <video controls muted playsinline poster="" aria-label="Vertical demo 1">
-          <source src="" type="video/mp4" />
-          مرورگر شما از ویدیو پشتیبانی نمی‌کند.
-        </video>
-        <video controls muted playsinline poster="" aria-label="Vertical demo 2">
-          <source src="" type="video/mp4" />
-        </video>
-        <video controls muted playsinline poster="" aria-label="Vertical demo 3">
-          <source src="" type="video/mp4" />
-        </video>
-      </div>
-    </div>
-  </section>
+<script>
+// ======= Testimonials Slider =======
+let currentSlide = 0;
+const testimonials = document.querySelectorAll('.testimonial');
+const wrapper = document.querySelector('.testimonial-wrapper');
 
-  <!-- Projects cards -->
-  <section id="projects" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>پروژه‌های انجام‌شده</h2>
-        <p class="subtle">کارت‌های پروژه با توضیحات کوتاه و لینک‌ها.</p>
-      </div>
-      <div class="pgrid reveal">
-        <article class="pitem">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="body">
-            <h3>داشبورد تحلیلی</h3>
-            <p class="subtle">UI ریسپانسیو با انیمیشن‌های نرم و چارت‌های تعاملی.</p>
-            <div class="tags">
-              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
-            </div>
-            <div class="actions">
-              <button class="btn-mini primary">مشاهده</button>
-              <button class="btn-mini">جزئیات</button>
-            </div>
-          </div>
-        </article>
-        <article class="pitem">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="body">
-            <h3>وب‌اپ فروشگاهی</h3>
-            <p class="subtle">ناوبری روان، کارت‌های محصول و انیمیشن افزودن به سبد.</p>
-            <div class="tags">
-              <span class="tag">UI/UX</span><span class="tag">Motion</span><span class="tag">Perf</span>
-            </div>
-            <div class="actions">
-              <button class="btn-mini primary">مشاهده</button>
-              <button class="btn-mini">جزئیات</button>
-            </div>
-          </div>
-        </article>
-        <article class="pitem">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="body">
-            <h3>لندینگ کمپین</h3>
-            <p class="subtle">سرویس‌ورکر سبک، تایپوگرافی مدرن، نرخ تبدیل بالا.</p>
-            <div class="tags">
-              <span class="tag">Brand</span><span class="tag">Copy</span><span class="tag">A11y</span>
-            </div>
-            <div class="actions">
-              <button class="btn-mini primary">مشاهده</button>
-              <button class="btn-mini">جزئیات</button>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+function showSlide(index) {
+  if(index < 0) currentSlide = testimonials.length -1;
+  else if(index >= testimonials.length) currentSlide = 0;
+  else currentSlide = index;
+  wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
 
-  <!-- Photo gallery -->
-  <section id="gallery" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>گالری عکس نمونه‌کار</h2>
-        <p class="subtle">تصاویر مربعی با افکت ملایم و سایهٔ عمیق.</p>
-      </div>
-      <div class="gallery reveal" aria-label="Photo gallery">
-        <div class="gitem"><img alt="نمونه‌کار ۱" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><circle cx='400' cy='400' r='260' fill='%237c5cff' opacity='0.25'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۲" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><rect x='120' y='120' width='560' height='560' rx='40' fill='%2300e0ff' opacity='0.25'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۳" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><path d='M100,700 L700,100' stroke='%23ff7ce5' stroke-width='80' opacity='0.25'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۴" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><circle cx='260' cy='280' r='120' fill='%2300e0ff' opacity='0.25'/><circle cx='520' cy='520' r='180' fill='%237c5cff' opacity='0.25'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۵" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><rect x='100' y='280' width='600' height='240' rx='28' fill='%23ff7ce5' opacity='0.25'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۶" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><circle cx='400' cy='400' r='280' fill='%2300e0ff' opacity='0.18'/><circle cx='400' cy='400' r='160' fill='%237c5cff' opacity='0.18'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۷" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><rect x='180' y='180' width='440' height='440' rx='60' fill='%23ffd56b' opacity='0.18'/></svg>"></div>
-        <div class="gitem"><img alt="نمونه‌کار ۸" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><rect width='100%' height='100%' fill='%23121827'/><path d='M100,400 Q400,100 700,400 T700,700' stroke='%2300e0ff' stroke-width='40' fill='none' opacity='0.25'/></svg>"></div>
-      </div>
-    </div>
-  </section>
+function prevTestimonial(){ showSlide(currentSlide -1); }
+function nextTestimonial(){ showSlide(currentSlide +1); }
 
-  <!-- Testimonials -->
-  <section id="testimonials" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>نظرات کارفرماها</h2>
-        <p class="subtle">بازخوردهای واقعی درباره کیفیت، نظم و جزئیات کار.</p>
-      </div>
-      <div class="testis reveal">
-        <div class="tcard">
-          <div class="head">
-            <div class="avatar" aria-hidden="true"></div>
-            <div><strong>شرکت نوین‌تک</strong><div class="stars">★★★★★</div></div>
-          </div>
-          <p>«تحویل دقیق، انیمیشن‌ها بی‌نقص، و همکاری حرفه‌ای. خروجی واقعاً فراتر از انتظار بود.»</p>
-        </div>
-        <div class="tcard">
-          <div class="head">
-            <div class="avatar" aria-hidden="true"></div>
-            <div><strong>استودیو دیزاینکس</strong><div class="stars">★★★★★</div></div>
-          </div>
-          <p>«پیکسل‌پرفکت واقعی! تجربه کاربری خیلی روان و استانداردهای بالا در کدنویسی.»</p>
-        </div>
-        <div class="tcard">
-          <div class="head">
-            <div class="avatar" aria-hidden="true"></div>
-            <div><strong>هولدینگ الماس</strong><div class="stars">★★★★☆</div></div>
-          </div>
-          <p>«تعاملات خلاقانه و ساختار ماژولار. همکاری طولانی‌مدت قطعاً ادامه خواهد داشت.»</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="shead">
-        <h2>تماس</h2>
-        <p class="subtle">برای همکاری آماده‌ام. سریع، دقیق، و مسئولیت‌پذیر.</p>
-      </div>
-      <div class="contact reveal">
-        <div class="citem">
-          <h3>ایمیل</h3>
-          <p class="subtle">برای توضیحات پروژه و ارسال Brief.</p>
-          <div class="actions">
-            <a class="btn-mini primary" href="mailto:hello@example.com">ارسال ایمیل</a>
-          </div>
-        </div>
-        <div class="citem">
-          <h3>شبکه‌های اجتماعی</h3>
-          <p class="subtle">ارتباط سریع و به‌روز.</p>
-          <div class="socials">
-            <a class="social" href="#" aria-label="Telegram">TG</a>
-            <a class="social" href="#" aria-label="Instagram">IG</a>
-            <a class="social" href="#" aria-label="LinkedIn">IN</a>
-          </div>
-        </div>
-        <div class="citem">
-          <h3>رزرو جلسه</h3>
-          <p class="subtle">هماهنگی برای کال و دمو.</p>
-          <div class="actions">
-            <a class="btn-mini" href="#home">درخواست دمو</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      © 2025 مصطفی — تمام حقوق محفوظ است.
-    </div>
-  </footer>
-
-  <script>
-    // Smooth active link highlighting on scroll
-    const links = Array.from(document.querySelectorAll('.menu a'));
-    const ids = links.map(a => a.getAttribute('href'));
-    const sections = ids.map(id => document.querySelector(id));
-    const setActive = (id) => {
-      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
-    };
-    const onScroll = () => {
-      const y = window.scrollY + 120;
-      let current = ids[0];
-      sections.forEach((sec, i) => {
-        if(!sec) return;
-        if (sec.offsetTop <= y) current = ids[i];
-      });
-      setActive(current);
-    };
-    document.addEventListener('scroll', onScroll, { passive:true });
-    onScroll();
-
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      })
-    }, { threshold: .12 });
-    reveals.forEach(el => io.observe(el));
-
-    // Gentle hover parallax on hero mock
-    const mock = document.querySelector('.hero-media .mock');
-    if (mock){
-      mock.addEventListener('pointermove', (e) => {
-        const r = mock.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - .5;
-        const y = (e.clientY - r.top) / r.height - .5;
-        mock.style.transform = `translate(${x*6}px, ${y*6}px) scale(1.01)`;
-      });
-      mock.addEventListener('pointerleave', () => { mock.style.transform = 'none' });
-    }
-
-    // Buttons ripple micro-interaction
-    const ripplize = (btn) => {
-      btn.style.position = 'relative';
-      btn.style.overflow = 'hidden';
-      btn.addEventListener('click', (e) => {
-        const r = btn.getBoundingClientRect();
-        const s = document.createElement('span');
-        const d = Math.max(r.width, r.height);
-        s.style.width = s.style.height = d + 'px';
-        s.style.position = 'absolute';
-        s.style.borderRadius = '999px';
-        s.style.background = 'rgba(255,255,255,.25)';
-        s.style.left = (e.clientX - r.left - d/2) + 'px';
-        s.style.top = (e.clientY - r.top - d/2) + 'px';
-        s.style.transform = 'scale(0)';
-        s.style.opacity = '0.7';
-        s.style.transition = 'transform .5s ease, opacity .6s ease';
-        btn.appendChild(s);
-        requestAnimationFrame(() => { s.style.transform = 'scale(1.8)'; s.style.opacity = '0'; });
-        setTimeout(() => s.remove(), 620);
-      });
-    };
-    document.querySelectorAll('.btn, .btn-mini').forEach(ripplize);
-
-    // Keyboard focus outline for accessibility
-    let usingKeyboard = false;
-    window.addEventListener('keydown', (e) => { if (e.key === 'Tab') usingKeyboard = true; document.body.classList.add('kbd') });
-    window.addEventListener('mousedown', () => { usingKeyboard = false; document.body.classList.remove('kbd') });
-    const addFocusStyles = () => {
-      const style = document.createElement('style');
-      style.textContent = `.kbd a, .kbd button { outline:2px solid ${getComputedStyle(document.documentElement).getPropertyValue('--primary-2')}; outline-offset:3px }`;
-      document.head.appendChild(style);
-    };
-    addFocusStyles();
-  </script>
+</script>
 </body>
-            </html>
+</html>
