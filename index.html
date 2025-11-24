@@ -1,300 +1,725 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>وبسایت شخصی</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پورتفولیو — مصطفی</title>
+  <meta name="theme-color" content="#0f0f12" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-<style>
-/* ---------- RESET ---------- */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'IRANSans',sans-serif;}
-body{background:#111;color:#eee;line-height:1.7;overflow-x:hidden;}
-a{text-decoration:none;color:inherit;}
-section{padding:70px 20px;position:relative;}
-h2{font-size:28px;margin-bottom:25px;text-align:right;}
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --surface: #121319;
+      --surface-2: #171925;
+      --text: #e7e7ea;
+      --muted: #a8a9b3;
+      --primary: #7c5cff;
+      --primary-2: #5ad1ff;
+      --accent: #00e0a4;
+      --danger: #ff5470;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-lg: 22px;
+      --container: 1120px;
+      --gap: 22px;
+      --blur: 14px;
+      --transition: 260ms cubic-bezier(.2,.8,.2,1);
+      --section-pad: clamp(60px, 10vw, 110px);
+    }
+    [data-theme="light"] {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-2: #f0f2f7;
+      --text: #0e1320;
+      --muted: #475069;
+      --shadow: 0 10px 25px rgba(10,15,30,.08);
+    }
 
-/* ---------- NAVBAR ---------- */
-nav{
-  width:100%;position:fixed;top:0;left:0;z-index:999;
-  background:#000c;padding:15px 25px;backdrop-filter:blur(10px);
-  display:flex;justify-content:space-between;align-items:center;
-}
-nav .logo{font-size:20px;font-weight:bold;color:#fff;}
-nav ul{display:flex;gap:25px;list-style:none;}
-nav ul li{font-size:16px;}
-.menu-toggle{display:none;cursor:pointer;color:#fff;font-size:22px;}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Vazirmatn", system-ui, sans-serif;
+      background: radial-gradient(1200px 1200px at 85% -10%, rgba(124,92,255,.18), transparent 60%),
+                  radial-gradient(900px 900px at 5% 20%, rgba(90,209,255,.14), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+    }
+    img, video { display: block; max-width: 100%; border-radius: var(--radius); }
 
-@media(max-width:768px){
-  nav ul{position:absolute;top:60px;right:0;width:100%;
-         background:#000d;flex-direction:column;display:none;padding:15px;}
-  nav ul.show{display:flex;}
-  .menu-toggle{display:block;}
-}
+    /* Container */
+    .container {
+      width: min(100% - 40px, var(--container));
+      margin-inline: auto;
+    }
 
-/* ---------- HERO ---------- */
-.hero{
-  height:80vh;background:url('assets/hero.jpg') center/cover no-repeat;
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;padding-top:80px;
-}
-.hero h1{font-size:40px;margin-bottom:10px;color:#fff;}
-.hero p{font-size:18px;color:#ccc;}
+    /* Header / Navbar */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: saturate(1.2) blur(10px);
+      background: linear-gradient(180deg, rgba(18,19,25,.65), rgba(18,19,25,.35));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 800; letter-spacing: .4px;
+    }
+    .brand .logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      background:
+        conic-gradient(from 180deg at 50% 50%, var(--primary), var(--primary-2), var(--accent), var(--primary));
+      box-shadow: 0 6px 16px rgba(124,92,255,.35);
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .nav-links a {
+      padding: 8px 14px; border-radius: 10px;
+      color: var(--text); text-decoration: none; font-weight: 600;
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav-links a:hover { background: rgba(255,255,255,.06); }
+    .nav-links a.active {
+      background: linear-gradient(135deg, rgba(124,92,255,.25), rgba(90,209,255,.18));
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
 
-/* ---------- ABOUT ---------- */
-.about{display:flex;gap:40px;align-items:center;}
-.about img{width:350px;border-radius:15px;object-fit:cover;}
-.about-text p{color:#ccc;font-size:16px;}
+    /* Actions */
+    .actions { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 12px;
+      background: var(--primary); color: #fff; border: none; cursor: pointer;
+      font-weight: 700; box-shadow: var(--shadow);
+      transition: transform var(--transition), filter var(--transition), background var(--transition);
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .icon-btn {
+      width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12);
+      display: grid; place-items: center; background: var(--surface); color: var(--text);
+      cursor: pointer; transition: background var(--transition), transform var(--transition);
+    }
+    .icon-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
 
-@media(max-width:768px){
-  .about{flex-direction:column;text-align:center;}
-  .about img{width:85%;}
-  h2{text-align:center;}
-}
+    /* Hamburger */
+    .hamburger { display: none; position: relative; width: 44px; height: 44px; }
+    .hamburger span, .hamburger::before, .hamburger::after {
+      content: ""; position: absolute; left: 12px; right: 12px; height: 2px; background: var(--text);
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .hamburger span { top: 21px; }
+    .hamburger::before { top: 14px; }
+    .hamburger::after  { top: 28px; }
+    .hamburger.active span { opacity: 0; }
+    .hamburger.active::before { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active::after  { transform: translateY(-7px) rotate(-45deg); }
 
-/* ---------- SERVICES ---------- */
-.services{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
-.service-card{
-  width:290px;background:#1a1a1a;border-radius:20px;padding:25px;
-  text-align:right;position:relative;overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,0.6);
-}
-.service-card .icon{
-  font-size:35px;margin-bottom:15px;
-  background:linear-gradient(45deg,#ff4,#f0f,#4ff);
-  width:60px;height:60px;border-radius:50%;
-  display:flex;justify-content:center;align-items:center;
-}
+    /* Mobile menu overlay */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,12,18,.55); backdrop-filter: blur(var(--blur));
+      opacity: 0; visibility: hidden; transition: opacity var(--transition), visibility var(--transition);
+      z-index: 900;
+    }
+    .overlay.show { opacity: 1; visibility: visible; }
 
-/* ---------- VIDEO WORKS ---------- */
-.video-section{text-align:right;}
-.video-container{
-  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
-}
-.video-container video{
-  width:280px;border-radius:20px;
-  background:#000;box-shadow:0 10px 30px #000;
-}
+    .mobile-drawer {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(86vw, 380px);
+      background: var(--surface); border-left: 1px solid rgba(255,255,255,.08);
+      transform: translateX(100%); transition: transform var(--transition);
+      z-index: 1001; padding: 22px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .mobile-drawer.show { transform: translateX(0); }
+    .mobile-drawer a { padding: 12px 10px; border-radius: 10px; font-weight: 700; text-decoration: none; color: var(--text); }
+    .mobile-drawer a:hover { background: rgba(255,255,255,.06); }
 
-/* ---------- PROJECTS ---------- */
-.projects{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
-.project-card{
-  width:310px;background:#1a1a1a;border-radius:20px;padding:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.6);text-align:right;
-}
+    /* Hero */
+    .hero {
+      padding: var(--section-pad) 0;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.1fr .9fr; gap: var(--gap); align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary-2);
+      background: rgba(90,209,255,.14); border: 1px solid rgba(90,209,255,.28);
+      padding: 6px 10px; border-radius: 999px;
+    }
+    .title {
+      font-size: clamp(28px, 6vw, 54px); line-height: 1.15; margin: 18px 0;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #dfe6ff 40%, #7c5cff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .subtitle { color: var(--muted); font-size: clamp(14px, 2.4vw, 18px); }
 
-/* ---------- GALLERY ---------- */
-.gallery{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:15px;
-}
-.gallery img{
-  width:100%;border-radius:15px;object-fit:cover;
-  filter:brightness(0.8);
-}
+    .hero-media {
+      position: relative;
+      aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden;
+      background: radial-gradient(800px 800px at 10% 10%, rgba(124,92,255,.25), transparent 60%), var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .hero-media::after {
+      content: ""; position: absolute; inset: 0;
+      background: conic-gradient(from 140deg, rgba(124,92,255,.15), rgba(0,224,164,.18), rgba(90,209,255,.16), rgba(124,92,255,.15));
+      mix-blend-mode: soft-light; opacity: .6;
+    }
+    .hero-actions { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
 
-/* ---------- TESTIMONIALS ---------- */
-.testimonials{overflow:hidden;}
-.testimonial-wrapper{
-  display:flex;gap:20px;transition:0.4s;
-}
-.testimonial-card{
-  min-width:330px;background:#222;padding:25px;border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.6);position:relative;
-}
-.testimonial-card img{
-  width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:10px;
-}
-.quote-icon{
-  position:absolute;top:20px;left:20px;font-size:22px;color:#777;
-}
-.controls{
-  margin-top:20px;display:flex;gap:15px;justify-content:center;
-}
-.controls button{
-  background:#333;border:0;padding:10px 15px;border-radius:10px;
-  font-size:20px;color:#fff;cursor:pointer;
-}
+    /* Section base */
+    section { scroll-margin-top: 90px; }
+    .section {
+      padding: var(--section-pad) 0;
+    }
+    .section-header {
+      display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 26px;
+    }
+    .section-title {
+      font-size: clamp(22px, 3.2vw, 32px); font-weight: 800;
+    }
+    .section-desc { color: var(--muted); }
 
-@media(max-width:768px){
-  .testimonial-wrapper{
-    flex-direction:row;
-    overflow-x:scroll;
-    scroll-snap-type:x mandatory;
-  }
-  .testimonial-card{
-    scroll-snap-align:center;
-    min-width:85%;
-  }
-}
+    /* About */
+    .about-grid {
+      display: grid; grid-template-columns: .95fr 1.05fr; gap: var(--gap); align-items: center;
+    }
+    .about-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius);
+      padding: 22px; box-shadow: var(--shadow);
+    }
+    .about-photo {
+      aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow: hidden;
+      background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(0,224,164,.18)), url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      box-shadow: var(--shadow);
+    }
 
-/* ---------- CONTACT ---------- */
-.contact-buttons{
-  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
-}
-.contact-buttons a{
-  width:180px;background:#222;padding:15px;border-radius:15px;
-  text-align:center;font-size:18px;display:flex;
-  justify-content:center;align-items:center;gap:10px;
-  box-shadow:0 10px 25px #000;
-}
-.contact-buttons img{width:24px;height:24px;}
-</style>
+    /* Services - 7 cards */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(7, minmax(180px, 1fr)); gap: 12px;
+    }
+    @media (max-width: 1200px) { .services-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 780px)  { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    .service {
+      position: relative;
+      background: var(--surface); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-sm); padding: 16px; overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .service:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(10,12,18,.35); }
+    .service .badge {
+      display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent);
+      background: rgba(0,224,164,.14); border: 1px solid rgba(0,224,164,.28);
+      padding: 6px 10px; border-radius: 999px; margin-bottom: 10px;
+    }
+    .service h4 { margin: 10px 0 8px; font-size: 18px; }
+    .service p { color: var(--muted); font-size: 14px; }
+
+    /* Video showcase */
+    .video-wrap {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      background: var(--surface); border: 1px solid rgba(255,255,255,.08); box-shadow: var(--shadow);
+    }
+    .video-wrap .controls {
+      position: absolute; inset: auto 16px 16px auto; display: flex; gap: 10px;
+    }
+
+    /* Projects cards */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
+    }
+    @media (max-width: 980px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 660px) { .projects-grid { grid-template-columns: 1fr; } }
+    .project {
+      background: var(--surface); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .project:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(10,12,18,.35); }
+    .project .meta {
+      padding: 16px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px;
+      border-radius: 999px; font-weight: 700; background: rgba(124,92,255,.16); color: #fff;
+      border: 1px solid rgba(124,92,255,.28);
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    @media (max-width: 980px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 660px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+    .gallery-grid img {
+      aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-sm);
+      transition: transform var(--transition), filter var(--transition);
+      filter: saturate(1.1);
+    }
+    .gallery-grid img:hover { transform: scale(1.03); }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
+    }
+    @media (max-width: 980px) { .testimonials { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 660px) { .testimonials { grid-template-columns: 1fr; } }
+    .testimonial {
+      background: var(--surface); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
+    }
+    .testimonial .author { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+    .stars { color: #ffd166; letter-spacing: 1px; }
+
+    /* Contact */
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap);
+    }
+    @media (max-width: 980px) { .contact-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 660px) { .contact-grid { grid-template-columns: 1fr; } }
+    .contact-card {
+      background: var(--surface); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 18px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .contact-card .icon {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+      background: rgba(124,92,255,.18); border: 1px solid rgba(124,92,255,.28); color: #fff;
+    }
+    .socials { display: flex; gap: 10px; flex-wrap: wrap; }
+    .socials a {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px;
+      border-radius: 999px; text-decoration: none; color: var(--text);
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      transition: transform var(--transition), background var(--transition);
+    }
+    .socials a:hover { transform: translateY(-2px); background: rgba(255,255,255,.1); }
+
+    /* Footer */
+    footer {
+      padding: 36px 0; color: var(--muted); border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    /* Util */
+    .kbd {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      padding: 2px 8px; border-radius: 8px; font-weight: 700;
+    }
+
+    /* Responsive nav */
+    @media (max-width: 880px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- ---------------- NAVBAR ---------------- -->
-<nav>
-  <div class="logo">لوگو</div>
-  <div class="menu-toggle">☰</div>
-  <ul id="navList">
-    <li><a href="#services">خدمات</a></li>
-    <li><a href="#works">نمونه کار</a></li>
-    <li><a href="#contact">تماس</a></li>
-  </ul>
-</nav>
+  <!-- Overlay and Drawer -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-drawer" id="drawer" aria-label="منوی موبایل">
+    <a href="#hero">شروع</a>
+    <a href="#about">درباره من</a>
+    <a href="#services">خدمات</a>
+    <a href="#video">نمونه‌کار ویدیویی</a>
+    <a href="#projects">پروژه‌ها</a>
+    <a href="#gallery">گالری</a>
+    <a href="#testimonials">نظرات کارفرما</a>
+    <a href="#contact">تماس و شبکه‌های اجتماعی</a>
+  </nav>
 
-<!-- ---------------- HERO ---------------- -->
-<section class="hero">
-  <div>
-    <h1>سلام، من مصطفی هستم</h1>
-    <p>طراح وب، تولیدکننده محتوا و توسعه‌دهنده</p>
-  </div>
-</section>
-
-<!-- ---------------- ABOUT ---------------- -->
-<section class="about">
-  <img src="assets/about.jpg" alt="درباره من">
-  <div class="about-text">
-    <h2>درباره من</h2>
-    <p>
-      سال‌هاست در حوزه طراحی، برندینگ و توسعه وب فعالیت می‌کنم.  
-      نتیجه کارم همیشه باید چشم‌نواز، دقیق و کارآمد باشد.
-    </p>
-  </div>
-</section>
-
-<!-- ---------------- SERVICES ---------------- -->
-<section id="services">
-  <h2>خدمات</h2>
-  <div class="services">
-
-    <div class="service-card">
-      <div class="icon">💡</div>
-      <h3>طراحی برند</h3>
-      <p>ساخت هویت بصری اصولی برای رشد کسب‌وکار</p>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>مصطفی — Front-end & UI</span>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#hero">شروع</a>
+        <a href="#about">درباره من</a>
+        <a href="#services">خدمات</a>
+        <a href="#video">ویدئو</a>
+        <a href="#projects">پروژه‌ها</a>
+        <a href="#gallery">گالری</a>
+        <a href="#testimonials">نظرات</a>
+        <a href="#contact">ارتباط</a>
+      </div>
+      <div class="actions">
+        <button class="icon-btn" id="themeToggle" aria-label="تغییر حالت">
+          🌓
+        </button>
+        <a href="#contact" class="btn">درخواست همکاری</a>
+        <button class="hamburger" id="hamburger" aria-label="بازکردن منو"><span></span></button>
+      </div>
     </div>
+  </header>
 
-    <div class="service-card">
-      <div class="icon">🎨</div>
-      <h3>طراحی UI/UX</h3>
-      <p>ایجاد تجربه کاربری روان و جذاب</p>
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">تمرکز بر جزئیات • استاندارد تولید</span>
+        <h1 class="title">طراحی و توسعه رابط‌های مدرن که واقعاً حس حرفه‌ای می‌دهند.</h1>
+        <p class="subtitle">پیکسل‌پرفکت، انیمیشن‌های نرم، معماری ماژولار، و تجربه کاربری که از بهترین قالب‌ها الهام گرفته اما منحصربه‌فرد است.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn">مشاهده پروژه‌ها</a>
+          <a href="#services" class="icon-btn" aria-label="اسکرول به خدمات">↓</a>
+          <span class="kbd">HTML • CSS • JS</span>
+        </div>
+      </div>
+      <div class="hero-media reveal">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop" alt="محیط کاری و توسعه فرانت‌اند" />
+      </div>
     </div>
+  </section>
 
-    <div class="service-card">
-      <div class="icon">⚙️</div>
-      <h3>طراحی سایت</h3>
-      <p>ساخت سایت حرفه‌ای با کدنویسی اختصاصی</p>
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">درباره من</h2>
+        <p class="section-desc">ترکیب دید طراح با دقت توسعه‌دهنده؛ هر جزئیات اهمیت دارد.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card reveal">
+          <h3>سلام! من مصطفی‌ام.</h3>
+          <p>فرانت‌اند دولوپر و دیزاینر. روی ناوبری چسبنده، اسکرول نرم، منوهای همبرگری انیمیشنی، هایلایت لینک فعال، و انیمیشن‌های لطیف وسواس دارم.</p>
+          <p>کد من ماژولار و آماده تولید است: ساختار تمیز، کامپوننت‌پایه، و عملکرد روان روی موبایل و دسکتاپ.</p>
+          <ul>
+            <li><strong>مهارت‌ها:</strong> HTML، CSS (Grid/Flex, Animations), JavaScript (ES6+, IO, Observer)</li>
+            <li><strong>رویکرد:</strong> تکرار-تأیید، شفافیت، استاندارد بالا، تست‌پذیر</li>
+            <li><strong>نتیجه:</strong> تجربه‌ای که از الگوها جلوتر می‌رود</li>
+          </ul>
+        </div>
+        <div class="about-photo reveal" aria-label="عکس پرتره و بک‌گراند گرادیان"></div>
+      </div>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<!-- ---------------- VIDEO WORKS ---------------- -->
-<section id="works" class="video-section">
-  <h2>نمونه کارهای ویدیویی</h2>
-  <div class="video-container">
-    <video controls src="assets/v1.mp4"></video>
-    <video controls src="assets/v2.mp4"></video>
-  </div>
-</section>
-
-<!-- ---------------- PROJECTS ---------------- -->
-<section>
-  <h2>پروژه‌های انجام شده</h2>
-  <div class="projects">
-
-    <div class="project-card">
-      <h3>پروژه برندینگ</h3>
-      <p>طراحی کامل هویت بصری یک کسب‌وکار نوپا</p>
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">خدمات</h2>
+        <p class="section-desc">هفت سرویس کلیدی که اکثر نیازهای برندهای جدی را پوشش می‌دهد.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service reveal">
+          <div class="badge">UI/UX Pro</div>
+          <h4>طراحی رابط مدرن</h4>
+          <p>کامپوننت‌های تمیز، تایپوگرافی دقیق، فضای سفید هوشمند.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">Perf</div>
+          <h4>بهینه‌سازی عملکرد</h4>
+          <p>لود سریع، انیمیشن‌های سبک، تعامل بدون لگ.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">Motion</div>
+          <h4>میکروانیمیشن</h4>
+          <p>حرکت‌های معنی‌دار برای راهنمایی چشم کاربر.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">Access</div>
+          <h4>دسترس‌پذیری</h4>
+          <p>ARIA، کنتراست مناسب، کی‌بورد فرندلی.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">Mobile</div>
+          <h4>ریسپانسیو پیشرفته</h4>
+          <p>Grid تطبیقی، نقاط شکست هوشمند.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">System</div>
+          <h4>سیستم طراحی</h4>
+          <p>توکن‌های CSS، الگوهای قابل‌استفاده مجدد.</p>
+        </div>
+        <div class="service reveal">
+          <div class="badge">Code</div>
+          <h4>توسعه فرانت‌اند</h4>
+          <p>JS مدرن، Observer، رویدادها، تعاملات.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="project-card">
-      <h3>طراحی سایت فروشگاهی</h3>
-      <p>توسعه پنل مدیریت، UI و فرانت حرفه‌ای</p>
+  <!-- Video showcase -->
+  <section id="video" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">نمونه‌کار ویدیویی</h2>
+        <p class="section-desc">مرور سریع یک پروژه تعاملی با تمرکز بر حرکت و جزئیات.</p>
+      </div>
+      <div class="video-wrap reveal">
+        <video id="showreel" controls poster="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop">
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+          مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+        </video>
+        <div class="controls">
+          <button class="icon-btn" id="playBtn">▶️</button>
+          <button class="icon-btn" id="muteBtn">🔇</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<!-- ---------------- GALLERY ---------------- -->
-<section>
-  <h2>گالری نمونه کارها</h2>
-  <div class="gallery">
-    <img src="assets/g1.jpg">
-    <img src="assets/g2.jpg">
-    <img src="assets/g3.jpg">
-  </div>
-</section>
-
-<!-- ---------------- TESTIMONIALS ---------------- -->
-<section class="testimonials">
-  <h2>نظرات کارفرماها</h2>
-
-  <div class="testimonial-wrapper" id="testimonialSlider">
-
-    <div class="testimonial-card">
-      <div class="quote-icon">❝</div>
-      <img src="assets/p1.jpg">
-      <p>کار بسیار تمیز و باکیفیت. دقیق و تحویل به‌موقع!</p>
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">پروژه‌های انجام‌شده</h2>
+        <p class="section-desc">نمونه‌هایی که استانداردهای من را نشان می‌دهند.</p>
+      </div>
+      <div class="projects-grid">
+        <article class="project reveal">
+          <img src="https://images.unsplash.com/photo-1547658719-3d72f58d4eee?q=80&w=1600&auto=format&fit=crop" alt="داشبورد آنالیتیکس" />
+          <div class="meta">
+            <span class="chip">داشبورد آنالیتیکس</span>
+            <a class="icon-btn" href="#" aria-label="مشاهده">🔗</a>
+          </div>
+        </article>
+        <article class="project reveal">
+          <img src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=1600&auto=format&fit=crop" alt="لندینگ کمپین" />
+          <div class="meta">
+            <span class="chip">لندینگ کمپین</span>
+            <a class="icon-btn" href="#" aria-label="مشاهده">🔗</a>
+          </div>
+        </article>
+        <article class="project reveal">
+          <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1600&auto=format&fit=crop" alt="اپ فروشگاهی" />
+          <div class="meta">
+            <span class="chip">اپ فروشگاهی</span>
+            <a class="icon-btn" href="#" aria-label="مشاهده">🔗</a>
+          </div>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <div class="testimonial-card">
-      <div class="quote-icon">❝</div>
-      <img src="assets/p2.jpg">
-      <p>یکی از بهترین تجربه‌های کاری که داشتم.</p>
+  <!-- Gallery -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">گالری عکس نمونه‌کار</h2>
+        <p class="section-desc">تصاویر منتخب با تمرکز بر ترکیب‌بندی و رنگ.</p>
+      </div>
+      <div class="gallery-grid">
+        <img class="reveal" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="کدنویسی" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop" alt="رابط کاربری" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1600&auto=format&fit=crop" alt="تیم‌ورک" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1600&auto=format&fit=crop" alt="طراحی" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="کدنویسی" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop" alt="رابط کاربری" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1600&auto=format&fit=crop" alt="تیم‌ورک" />
+        <img class="reveal" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1600&auto=format&fit=crop" alt="طراحی" />
+      </div>
     </div>
+  </section>
 
-    <div class="testimonial-card">
-      <div class="quote-icon">❝</div>
-      <img src="assets/p3.jpg">
-      <p>سلیقه عالی، ارتباط حرفه‌ای، خروجی فوق‌العاده.</p>
+  <!-- Testimonials -->
+  <section id="testimonials" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">نظرات کارفرماها</h2>
+        <p class="section-desc">بازخوردهایی که کیفیت همکاری را نشان می‌دهد.</p>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial reveal">
+          <div class="author">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+              <strong>شرکت آلفا</strong>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>تحویل دقیق، انیمیشن‌ها عالی، و ارتباط حرفه‌ای. سایت کمپین ما هم زیبا شد هم سریع.</p>
+        </div>
+        <div class="testimonial reveal">
+          <div class="author">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+              <strong>هولدینگ بتا</strong>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>پیکسل‌پرفکت واقعی. هر جزئیاتی فکر شده بود. تجربه کاربری روان و چشم‌نواز.</p>
+        </div>
+        <div class="testimonial reveal">
+          <div class="author">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+              <strong>استارتاپ گاما</strong>
+              <div class="stars">★★★★☆</div>
+            </div>
+          </div>
+          <p>ارتقاء عملکرد محسوس بود. در موبایل هم همه‌چیز بی‌نقص کار می‌کند.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-  </div>
+  <!-- Contact & Social -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">تماس و شبکه‌های اجتماعی</h2>
+        <p class="section-desc">برای همکاری یا مشاوره، پیام بدهید.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <div class="icon">✉️</div>
+          <div>
+            <strong>ایمیل</strong>
+            <div>hello@example.com</div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">📞</div>
+          <div>
+            <strong>تلفن</strong>
+            <div>+98 912 000 0000</div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">📍</div>
+          <div>
+            <strong>موقعیت</strong>
+            <div>استان گلستان، جنوب چپر‌بای</div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">🗓️</div>
+          <div>
+            <strong>دسترس‌پذیری</strong>
+            <div>شنبه تا چهارشنبه • ۱۰ تا ۱۸</div>
+          </div>
+        </div>
+      </div>
 
-  <div class="controls">
-    <button onclick="prev()">❮</button>
-    <button onclick="next()">❯</button>
-  </div>
-</section>
+      <div style="height:16px"></div>
 
-<!-- ---------------- CONTACT ---------------- -->
-<section id="contact">
-  <h2>ارتباط با من</h2>
+      <div class="socials">
+        <a href="#" aria-label="گیت‌هاب">🐙 گیت‌هاب</a>
+        <a href="#" aria-label="لینکدین">💼 لینکدین</a>
+        <a href="#" aria-label="دریبل">🏀 دریبل</a>
+        <a href="#" aria-label="بیهانس">🎨 بیهانس</a>
+        <a href="#" aria-label="اینستاگرام">📸 اینستاگرام</a>
+        <a href="#" aria-label="تلگرام">✈️ تلگرام</a>
+      </div>
+    </div>
+  </section>
 
-  <div class="contact-buttons">
-    <a href="#"><img src="assets/instagram.png"> اینستاگرام</a>
-    <a href="#"><img src="assets/telegram.png"> تلگرام</a>
-    <a href="#"><img src="assets/whatsapp.png"> واتساپ</a>
-    <a href="#"><img src="assets/phone.png"> تماس مستقیم</a>
-  </div>
-</section>
+  <footer>
+    <div class="container">
+      © 2025 مصطفی — ساخته‌شده با HTML • CSS • JS
+    </div>
+  </footer>
 
-<!-- ---------------- JS ---------------- -->
-<script>
-const navBtn = document.querySelector(".menu-toggle");
-const navList = document.getElementById("navList");
-navBtn.onclick = ()=> navList.classList.toggle("show");
+  <script>
+    // Smooth active link highlight via IntersectionObserver
+    const sections = document.querySelectorAll("section[id]");
+    const navAnchors = document.querySelectorAll(".nav-links a");
+    const drawerAnchors = document.querySelectorAll("#drawer a");
 
-let index = 0;
-function showSlide(){
-  document.getElementById("testimonialSlider").style.transform =
-    `translateX(-${index * 360}px)`;
-}
-function next(){ index = (index+1)%3; showSlide(); }
-function prev(){ index = (index+2)%3; showSlide(); }
-</script>
+    const setActive = (id) => {
+      [...navAnchors, ...drawerAnchors].forEach(a => {
+        a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+      });
+    };
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        if (entry.isIntersecting) {
+          setActive(id);
+          entry.target.querySelectorAll(".reveal").forEach(el => el.classList.add("show"));
+        }
+      });
+    }, { rootMargin: "-40% 0px -40% 0px", threshold: 0.01 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Mobile drawer & overlay
+    const overlay = document.getElementById("overlay");
+    const drawer = document.getElementById("drawer");
+    const hamburger = document.getElementById("hamburger");
+
+    const toggleDrawer = (show) => {
+      drawer.classList.toggle("show", show);
+      overlay.classList.toggle("show", show);
+      hamburger.classList.toggle("active", show);
+      document.body.style.overflow = show ? "hidden" : "";
+    };
+
+    hamburger.addEventListener("click", () => toggleDrawer(!drawer.classList.contains("show")));
+    overlay.addEventListener("click", () => toggleDrawer(false));
+    drawerAnchors.forEach(a => a.addEventListener("click", () => toggleDrawer(false)));
+
+    // Theme toggle (Dark/Light)
+    const themeToggle = document.getElementById("themeToggle");
+    const root = document.documentElement;
+
+    const preferred = localStorage.getItem("theme");
+    if (preferred) document.documentElement.setAttribute("data-theme", preferred);
+
+    themeToggle.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      root.setAttribute("data-theme", current);
+      localStorage.setItem("theme", current);
+    });
+
+    // Video controls
+    const video = document.getElementById("showreel");
+    const playBtn = document.getElementById("playBtn");
+    const muteBtn = document.getElementById("muteBtn");
+
+    playBtn.addEventListener("click", () => {
+      if (video.paused) { video.play(); playBtn.textContent = "⏸️"; }
+      else { video.pause(); playBtn.textContent = "▶️"; }
+    });
+    muteBtn.addEventListener("click", () => {
+      video.muted = !video.muted;
+      muteBtn.textContent = video.muted ? "🔊" : "🔇";
+    });
+
+    // Reduce Motion respect
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.style.scrollBehavior = "auto";
+    }
+
+    // Keyboard: Escape to close drawer
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") toggleDrawer(false);
+    });
+
+    // Progressive enhancement: add pressed style
+    document.querySelectorAll(".btn, .icon-btn, .nav-links a, .mobile-drawer a, .socials a").forEach(el => {
+      el.addEventListener("mousedown", () => el.style.transform = "translateY(1px)");
+      el.addEventListener("mouseup",   () => el.style.transform = "");
+      el.addEventListener("mouseleave",() => el.style.transform = "");
+    });
+  </script>
 </body>
-</html>
+          </html>
