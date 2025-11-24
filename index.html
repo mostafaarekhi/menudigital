@@ -2,507 +2,670 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>پورتفولیو تک‌صفحه‌ای — دارک</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پورتفولیو — تاریک، مدرن، رسپانسیو</title>
+  <meta name="color-scheme" content="dark" />
+
   <style>
-    /* ========== RESET ========== */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:#0b0f14; /* dark */
-      color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-      padding-bottom:60px;
-    }
-    a{color:inherit;text-decoration:none}
-    img,video{max-width:100%;display:block}
+    /* =========================
+       Design System (Dark Only)
+       ========================= */
+    :root {
+      --bg: #0b0d12;
+      --surface: #121521;
+      --surface-2: #171a26;
+      --text: #e6e9f2;
+      --muted: #b9c0d4;
+      --border: #272b3a;
+      --accent: #6ee7ff;
+      --accent-2: #9a6bff;
+      --success: #4ade80;
+      --danger: #f87171;
 
-    /* ========== THEME ========== */
-    :root{
-      --bg:#071019;
-      --card:#0f1720;
-      --muted:#9fb0c4;
-      --accent:#22d3ee;
-      --glass: rgba(255,255,255,0.03);
-      --glass-2: rgba(255,255,255,0.02);
-      --radius:14px;
-      --container:1100px;
-    }
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-xs: 10px;
 
-    /* ========== LAYOUT ========== */
-    .container{max-width:var(--container);margin:0 auto;padding:0 18px}
-    header{
-      position:sticky;top:0;z-index:80;
-      backdrop-filter:blur(6px);
-      background: linear-gradient(180deg, rgba(8,12,16,0.6), rgba(8,12,16,0.35));
-      border-bottom:1px solid rgba(255,255,255,0.03);
-      padding:12px 0;
-    }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:44px;height:44px;border-radius:10px;background:
-      linear-gradient(135deg,var(--accent),#7c3aed);
-      display:grid;place-items:center;font-weight:700;color:#011;
-      box-shadow:0 6px 18px rgba(34,211,238,0.06);
-    }
-    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
-    nav a{padding:8px 14px;border-radius:10px;color:var(--muted);font-weight:600}
-    nav a.active, nav a:hover{background:var(--glass);color:var(--accent)}
+      --shadow-1: 0 8px 24px rgba(0,0,0,.35);
+      --shadow-2: 0 16px 40px rgba(0,0,0,.45);
 
-    /* ========== HERO ========== */
-    .hero{
-      display:flex;align-items:center;gap:30px;padding:48px 0 24px;
-    }
-    .hero-left{flex:1}
-    .hero-title{font-size:28px;margin:0 0 8px}
-    .hero-sub{color:var(--muted);margin:0 0 18px}
-    .cta{display:inline-block;padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,#073047,#0f1720);border:1px solid rgba(34,211,238,0.12);color:var(--accent);font-weight:700}
-    .hero-art{width:320px;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.7);border:1px solid rgba(255,255,255,0.03)}
-    .hero-art img{height:100%;width:100%;object-fit:cover;display:block}
+      --max-w: 1100px;
+      --gap: clamp(16px, 3vw, 28px);
 
-    /* ========== ABOUT ========== */
-    .about{
-      display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:center;padding:36px 0;
-    }
-    .about .card{background:linear-gradient(180deg,var(--glass),var(--glass-2));padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.03)}
-    .about img{border-radius:12px;height:100%;object-fit:cover}
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", "IRANSans", "Vazirmatn", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New";
 
-    /* ========== SERVICES (7) ========== */
-    .services{padding:28px 0}
-    .services-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-    .service-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);
-      min-height:120px;display:flex;flex-direction:column;gap:10px;justify-content:space-between;
-      transition:transform .26s ease, box-shadow .26s ease;
-    }
-    .service-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
-    .service-title{font-weight:700}
-    .service-meta{color:var(--muted);font-size:13px}
+      --h1: clamp(28px, 4.5vw, 48px);
+      --h2: clamp(22px, 3.5vw, 32px);
+      --h3: clamp(18px, 2.5vw, 24px);
+      --body: clamp(15px, 1.6vw, 17px);
+      --small: clamp(13px, 1.2vw, 14px);
 
-    /* ========== VERTICAL VIDEOS SAMPLE ========== */
-    .vids{
-      display:flex;gap:12px;align-items:flex-start;margin:16px 0;
-    }
-    .vert{
-      width:180px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);background:#000;
-      box-shadow:0 8px 30px rgba(2,6,23,0.6);
-    }
-    .vert video{width:100%;height:100%;object-fit:cover;display:block}
-
-    /* ========== PROJECT CARDS ========== */
-    .projects{padding:26px 0}
-    .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .proj{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);
-    }
-    .proj .thumb{height:150px;object-fit:cover}
-    .proj .meta{padding:12px}
-
-    /* ========== GALLERY ========== */
-    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .gallery-grid img{height:120px;object-fit:cover;border-radius:10px}
-
-    /* ========== TESTIMONIALS (manual slider) ========== */
-    .testi{padding:28px 0}
-    .testi-wrap{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .slides{display:flex;gap:12px;overflow:hidden}
-    .slide{min-width:100%;flex-shrink:0;padding:18px;display:flex;gap:12px;align-items:center}
-    .avatar{width:64px;height:64px;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .quote{color:var(--muted);font-size:14px}
-    .slide-meta{font-weight:700;color:var(--accent);font-size:13px}
-    .t-controls{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;pointer-events:none}
-    .t-controls button{pointer-events:all;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:8px 10px;border-radius:8px;margin:0 6px}
-    .t-dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
-    .t-dot{width:10px;height:10px;border-radius:99px;background:rgba(255,255,255,0.04);cursor:pointer}
-    .t-dot.active{background:var(--accent);box-shadow:0 6px 16px rgba(34,211,238,0.08)}
-
-    /* ========== CONTACT CARDS ========== */
-    .contacts{padding:22px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .contact-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .socials{display:flex;gap:10px;align-items:center;margin-top:10px}
-
-    /* ========== FOOTER ========== */
-    footer{padding:18px 0;color:var(--muted);text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,0.02);margin-top:26px}
-
-    /* ========== RESPONSIVE ========== */
-    @media (max-width:1024px){
-      .about{grid-template-columns:1fr 300px}
-      .services-grid{grid-template-columns:repeat(2,1fr)}
-      .proj-grid{grid-template-columns:repeat(2,1fr)}
-      .gallery-grid{grid-template-columns:repeat(3,1fr)}
-      .vids{flex-wrap:wrap}
+      --ring: 0 0 0 2px rgba(110,231,255,.35);
     }
 
-    @media (max-width:720px){
-      nav ul{gap:10px}
-      .hero{flex-direction:column-reverse;align-items:flex-start}
-      .hero-art{width:100%}
-      .about{grid-template-columns:1fr;gap:16px}
-      .services-grid{grid-template-columns:1fr}
-      .proj-grid{grid-template-columns:1fr}
-      .gallery-grid{grid-template-columns:repeat(2,1fr)}
-      .contacts{grid-template-columns:1fr}
-      .vids{flex-direction:column}
-      .nav{align-items:center}
-      nav ul{display:flex;gap:8px}
-      .logo{width:40px;height:40px}
-      .hero-title{font-size:22px}
-      .slide{flex-direction:column;align-items:flex-start}
+    * { box-sizing: border-box }
+    html, body {
+      height: 100%;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(110,231,255,.08), transparent 40%) ,
+                  radial-gradient(900px 500px at 10% 120%, rgba(154,107,255,.08), transparent 35%) ,
+                  var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      scroll-behavior: smooth;
+    }
+    body { margin: 0 }
+
+    a { color: inherit; text-decoration: none }
+    img, video { display: block; max-width: 100%; height: auto }
+    :focus-visible { outline: none; box-shadow: var(--ring) }
+
+    /* =========================
+       Header (Sticky)
+       ========================= */
+    .header {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: saturate(1.2) blur(10px);
+      background: color-mix(in srgb, var(--surface) 75%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px clamp(14px, 3vw, 28px);
+      gap: 12px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; letter-spacing: .2px;
+    }
+    .brand__logo {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 24px rgba(110,231,255,.25), inset 0 0 18px rgba(255,255,255,.08);
+    }
+    .menu {
+      display: flex; align-items: center; gap: clamp(14px, 4vw, 24px);
+    }
+    .menu a {
+      padding: 8px 12px; font-size: var(--small); color: var(--muted);
+      border-radius: 10px; transition: .25s ease;
+    }
+    .menu a:hover { color: var(--text); background: var(--surface-2) }
+    .menu a[aria-current="true"] {
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(110,231,255,.15), rgba(110,231,255,.06));
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+      box-shadow: 0 8px 20px rgba(110,231,255,.12);
     }
 
-    /* small polish */
-    h2{margin:0 0 10px;font-size:18px}
-    .section{padding:10px 0 14px}
-    .section + .section{margin-top:6px}
-    .muted{color:var(--muted);font-size:13px}
+    /* =========================
+       Sections Layout
+       ========================= */
+    .section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(28px, 6vw, 56px) clamp(16px, 4vw, 28px);
+    }
+    .section__header {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+      margin-bottom: clamp(16px, 2.5vw, 24px);
+    }
+    .section__title {
+      font-size: var(--h2); font-weight: 800;
+      letter-spacing: .2px;
+      background: linear-gradient(90deg, var(--text), var(--muted));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .section__desc { color: var(--muted); font-size: var(--small) }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: var(--gap);
+      align-items: center;
+    }
+    .hero__content h1 {
+      font-size: var(--h1); margin: 0 0 14px;
+    }
+    .hero__content p { color: var(--muted); font-size: var(--body) }
+    .hero__cta {
+      display: flex; gap: 12px; margin-top: 18px;
+    }
+    .btn {
+      padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); font-weight: 600;
+      transition: .25s ease; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--surface-2) 85%, var(--accent) 15%) }
+    .btn--primary {
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(154,107,255,.15));
+      border-color: color-mix(in srgb, var(--accent-2) 40%, var(--border));
+      box-shadow: 0 10px 28px rgba(154,107,255,.18);
+    }
+    .hero__visual {
+      position: relative; aspect-ratio: 4/3; border-radius: var(--radius);
+      background: radial-gradient(120% 100% at 20% 10%, rgba(110,231,255,.25), transparent 30%) ,
+                  radial-gradient(120% 100% at 80% 90%, rgba(154,107,255,.25), transparent 30%) ,
+                  var(--surface-2);
+      overflow: hidden; border: 1px solid var(--border);
+      box-shadow: var(--shadow-2);
+    }
+    .hero__visual::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 8px);
+      mix-blend-mode: overlay; pointer-events: none;
+    }
+
+    /* =========================
+       About (Side Photo)
+       ========================= */
+    .about {
+      display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--gap);
+      align-items: center;
+    }
+    .about__photo {
+      aspect-ratio: 3/4; border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(110,231,255,.18), rgba(110,231,255,.06));
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .about__photo img { width: 100%; height: 100%; object-fit: cover }
+    .about__text { color: var(--muted); font-size: var(--body) }
+
+    /* =========================
+       Services (7 cards)
+       ========================= */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(180px, 1fr));
+      gap: var(--gap);
+      overflow-x: auto; padding-bottom: 8px;
+      scroll-snap-type: x proximity;
+    }
+    .cards > article {
+      scroll-snap-align: start;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 16px; box-shadow: var(--shadow-1);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .cards > article:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(110,231,255,.12);
+      border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+    }
+    .card__icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      margin-bottom: 12px;
+    }
+    .card__title { font-size: var(--h3); margin: 0 0 6px }
+    .card__desc { color: var(--muted); font-size: var(--small) }
+
+    /* =========================
+       Portfolio videos (vertical)
+       ========================= */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--gap);
+    }
+    .video-wrap {
+      aspect-ratio: 9/16;
+      border-radius: var(--radius-sm);
+      overflow: hidden; border: 1px solid var(--border);
+      background: var(--surface-2);
+      box-shadow: var(--shadow-1);
+    }
+    .video-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+
+    /* =========================
+       Project cards (completed)
+       ========================= */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--gap);
+    }
+    .project {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-1);
+    }
+    .project__thumb { aspect-ratio: 16/9; background: var(--surface-2) }
+    .project__body { padding: 14px 16px }
+    .project__title { font-weight: 700; margin: 0 0 6px }
+    .project__meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px }
+    .chip {
+      font-size: var(--small); color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 4px 8px; border-radius: 999px;
+      background: color-mix(in srgb, var(--surface-2) 80%, var(--accent) 20%);
+    }
+
+    /* =========================
+       Gallery (images)
+       ========================= */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--gap);
+    }
+    .gallery__item {
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-xs);
+      overflow: hidden; border: 1px solid var(--border);
+      background: var(--surface-2);
+      box-shadow: var(--shadow-1);
+      transition: transform .25s ease;
+    }
+    .gallery__item:hover { transform: translateY(-3px) }
+
+    /* =========================
+       Testimonials (scroll-snap)
+       ========================= */
+    .testimonials {
+      display: grid; gap: var(--gap);
+    }
+    .testimonials__row {
+      display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, 36%);
+      gap: var(--gap);
+      overflow-x: auto; padding-bottom: 8px;
+      scroll-snap-type: x mandatory;
+    }
+    .testimonial {
+      scroll-snap-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+    .stars { color: #fbbf24; letter-spacing: 1px; font-variant-numeric: tabular-nums }
+
+    /* =========================
+       Contact cards (social)
+       ========================= */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--gap);
+    }
+    .contact {
+      display: grid; align-content: start; gap: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px;
+    }
+    .contact__icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+    .contact a {
+      color: var(--text);
+      font-weight: 600;
+      border-bottom: 1px dashed color-mix(in srgb, var(--accent) 35%, var(--border));
+      width: fit-content;
+    }
+
+    /* =========================
+       Footer
+       ========================= */
+    .footer {
+      text-align: center; color: var(--muted);
+      padding: 24px; border-top: 1px solid var(--border);
+    }
+
+    /* =========================
+       Utilities
+       ========================= */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap) }
+    .muted { color: var(--muted) }
+    .subtle-border { border: 1px solid var(--border); border-radius: var(--radius-sm) }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* =========================
+       Responsive
+       ========================= */
+    @media (max-width: 980px) {
+      .hero, .about { grid-template-columns: 1fr }
+      .brand { font-size: var(--small) }
+      .menu a { padding: 8px 10px }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+
+    /* =========================
+       Reveal on scroll
+       ========================= */
+    .reveal {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">VB</div>
-        <div>
-          <div style="font-weight:800">پورتفولیو</div>
-          <div class="muted" style="font-size:12px">طراحی و اجرا — دارک</div>
-        </div>
-      </div>
 
-      <nav aria-label="منو اصلی">
-        <ul>
-          <li><a href="#home" class="active">خانه</a></li>
-          <li><a href="#portfolio">نمونه کار</a></li>
-          <li><a href="#contact">تماس</a></li>
-        </ul>
-      </nav>
-    </div>
+  <!-- Header -->
+  <header class="header" id="home">
+    <nav class="nav" aria-label="ناوبری اصلی">
+      <div class="brand">
+        <span class="brand__logo" aria-hidden="true"></span>
+        <span>مصطفی — پورتفولیو</span>
+      </div>
+      <div class="menu" role="menubar">
+        <a role="menuitem" href="#home" aria-current="true">خانه</a>
+        <a role="menuitem" href="#portfolio">نمونه‌کار</a>
+        <a role="menuitem" href="#contact">تماس</a>
+      </div>
+    </nav>
   </header>
 
-  <main class="container" id="home">
-    <!-- HERO -->
-    <section class="hero section" aria-labelledby="hero-title">
-      <div class="hero-left">
-        <h1 id="hero-title" class="hero-title">سلام — من طراح و مجری فضاهای داخلی و بیرونی</h1>
-        <p class="hero-sub">ترکیب زیبایی، کارایی و سلامت. پروژه‌ها طبق سبک زندگی مشتری طراحی می‌شوند.</p>
-        <a class="cta" href="#contact">درخواست مشاوره</a>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect fill='%230b1220' width='100%' height='100%'/><g fill='%2322d3ee' font-size='46' font-family='Segoe UI, Helvetica, Arial'><text x='10' y='70'>نمونه تصویری</text></g></svg>" alt="تصویر ویژه طراحی">
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="about section" id="about" aria-labelledby="about-title">
-      <div class="card">
-        <h2 id="about-title">درباره من</h2>
-        <p class="muted">طراح فضای داخلی و خارجی با تجربه در اجرای پروژه‌های مسکونی و تجاری. تمرکز بر نیازهای کاربر، بهینه‌سازی فضا و رعایت اصول ارگونومی و سلامت.</p>
-        <ul style="margin:14px 0 0;color:var(--muted);padding-left:18px">
-          <li>بازدید و تحلیل نیاز مشتری</li>
-          <li>نقشه‌کشی و ارائه رندر</li>
-          <li>نظارت اجرا و تحویل پروژه</li>
-        </ul>
-      </div>
-      <div class="card" style="padding:0;overflow:hidden">
-        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="عکس درباره من">
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="services section" id="services" aria-labelledby="services-title">
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <h2 id="services-title">خدمات</h2>
-        <div class="muted">۷ سرویس اصلی — طراحی تا اجرا</div>
-      </div>
-
-      <div class="services-grid" style="margin-top:12px;">
-        <div class="service-card">
-          <div>
-            <div class="service-title">طراحی داخلی منزل</div>
-            <div class="service-meta">رندر، پلان و متریال نویسی</div>
-          </div>
-          <div class="muted">شروع از مشاوره تا نظارت اجرا</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">فضاهای تجاری</div>
-            <div class="service-meta">طراحی تجربه‌ی مشتری و چیدمان</div>
-          </div>
-          <div class="muted">افزایش کارایی و زیبایی فروشگاه</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">نمای بیرونی</div>
-            <div class="service-meta">طراحی نما و جزئیات اجرایی</div>
-          </div>
-          <div class="muted">هماهنگ با اقلیم و متریال</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">بازسازی و نوسازی</div>
-            <div class="service-meta">بهینه‌سازی فضا و ساختار</div>
-          </div>
-          <div class="muted">کم کردن هزینه و افزایش ارزش ملک</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">مشاوره ارگونومی</div>
-            <div class="service-meta">حل مشکلات مانند کمردرد</div>
-          </div>
-          <div class="muted">طراحی مطابق وضعیت سلامت کاربر</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">مدیریت پروژه</div>
-            <div class="service-meta">برنامه‌ریزی، زمان‌بندی و کنترل کیفیت</div>
-          </div>
-          <div class="muted">تحویل به‌موقع و بدون استرس</div>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-title">اکسسوری و نورپردازی</div>
-            <div class="service-meta">نورپردازی حرفه‌ای و انتخاب مبلمان</div>
-          </div>
-          <div class="muted">تکمیل تجربه‌ی بصری فضا</div>
+  <!-- Hero -->
+  <section class="section">
+    <div class="hero">
+      <div class="hero__content reveal">
+        <h1>طراحی و توسعه رابط‌های مدرن، سریع و چشم‌گیر</h1>
+        <p>
+          من مصطفی هستم؛ فرانت‌اند دولوپر و دیزاینر. تمرکز من روی تجربه کاربری حرفه‌ای،
+          کد تمیز و پرفورمنس در سطح تولید است. پروژه‌ات را به یک محصول شایسته ارائه تبدیل می‌کنم.
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#portfolio">مشاهده نمونه‌کار</a>
+          <a class="btn" href="#contact">شروع همکاری</a>
         </div>
       </div>
-    </section>
+      <div class="hero__visual reveal" aria-hidden="true"></div>
+    </div>
+  </section>
 
-    <!-- VERTICAL VIDEOS -->
-    <section class="section" aria-labelledby="vid-title">
-      <h2 id="vid-title">نمونه ویدیوهای عمودی</h2>
-      <div class="muted">پست‌های Reels / TikTok برای نمایش سریع پروژه‌ها</div>
-      <div class="vids" style="margin-top:12px;">
-        <div class="vert"><video controls muted playsinline poster="" preload="metadata">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-          مرورگر شما ویدیو را پشتیبانی نمی‌کند.
-        </video></div>
-
-        <div class="vert"><video controls muted playsinline preload="metadata">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video></div>
-
-        <div class="vert"><video controls muted playsinline preload="metadata">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video></div>
+  <!-- About -->
+  <section class="section" aria-labelledby="about-title">
+    <div class="section__header">
+      <h2 id="about-title" class="section__title">درباره من</h2>
+      <p class="section__desc">ترکیب وسواس بصری و معماری کد ماژولار</p>
+    </div>
+    <div class="about">
+      <figure class="about__photo reveal">
+        <!-- جایگزین با عکس واقعی -->
+        <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop" alt="پرتره حرفه‌ای" />
+      </figure>
+      <div class="about__text reveal">
+        <p>
+          با HTML، CSS و JavaScript مدرن، رابط‌هایی می‌سازم که هم زیبا باشند و هم مقیاس‌پذیر.
+          از تایپوگرافی سیال، گرید‌های انعطاف‌پذیر، انیمیشن‌های ظریف و دسترس‌پذیری غافل نمی‌شوم.
+        </p>
+        <p class="muted">
+          اولویت من تحویل کد تولیدی، پیاده‌سازی دقیق پیکسل‌پرفکت و همکاری مرحله‌به‌مرحله است.
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PROJECTS -->
-    <section class="projects section" id="portfolio" aria-labelledby="proj-title">
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <h2 id="proj-title">پروژه‌های انجام شده</h2>
-        <div class="muted">چند انتخاب برجسته</div>
+  <!-- Services (7 cards) -->
+  <section class="section" aria-labelledby="services-title">
+    <div class="section__header">
+      <h2 id="services-title" class="section__title">خدمات</h2>
+      <p class="section__desc">از طراحی تا تحویل محصول تولیدی</p>
+    </div>
+
+    <div class="cards">
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">طراحی UI مدرن</h3>
+        <p class="card__desc">سیستم طراحی، رنگ‌های هماهنگ، تایپوگرافی سیال.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">فرانت‌اند تولیدی</h3>
+        <p class="card__desc">کد ماژولار، بهینه‌سازی پرفورمنس، معماری مقیاس‌پذیر.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">انیمیشن و تعامل</h3>
+        <p class="card__desc">اسکرول اسموت، افکت‌های ظریف، حس حرفه‌ای.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">ریسپانسیو کامل</h3>
+        <p class="card__desc">طراحی موبایل‌فرست، گرید و فلکس پیشرفته.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">دسترس‌پذیری</h3>
+        <p class="card__desc">فوکوس‌ویزیبل، کنتراست مناسب، نقش‌ها و آریا.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">بهینه‌سازی مدیا</h3>
+        <p class="card__desc">ویدیو/تصویر کاور، لیزی‌لود، نسبت‌ها استاندارد.</p>
+      </article>
+      <article class="reveal">
+        <div class="card__icon" aria-hidden="true"></div>
+        <h3 class="card__title">دیپلوی و تحویل</h3>
+        <p class="card__desc">گیت‌هاب پیجز، مستندسازی، هندآف تمیز.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Portfolio (vertical videos) -->
+  <section class="section" id="portfolio" aria-labelledby="portfolio-title">
+    <div class="section__header">
+      <h2 id="portfolio-title" class="section__title">نمونه‌کارهای ویدیویی</h2>
+      <p class="section__desc">ویدیوهای عمودی با اسکرول روان</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-wrap reveal">
+        <video playsinline muted loop autoplay poster="" preload="metadata">
+          <source src="https://cdn.coverr.co/videos/coverr-person-using-a-phone-5461/1080p.mp4" type="video/mp4" />
+        </video>
       </div>
+      <div class="video-wrap reveal">
+        <video playsinline muted loop autoplay preload="metadata">
+          <source src="https://cdn.coverr.co/videos/coverr-coding-5474/1080p.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="video-wrap reveal">
+        <video playsinline muted loop autoplay preload="metadata">
+          <source src="https://cdn.coverr.co/videos/coverr-lights-5246/1080p.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="video-wrap reveal">
+        <video playsinline muted loop autoplay preload="metadata">
+          <source src="https://cdn.coverr.co/videos/coverr-smartwatch-5192/1080p.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
 
-      <div class="proj-grid" style="margin-top:12px;">
-        <article class="proj" role="article">
-          <img class="thumb" src="https://images.unsplash.com/photo-1505691723518-36a832d7b9b8?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="پروژه ۱">
-          <div class="meta">
-            <div style="font-weight:800">پروژه ۱ — بازسازی آپارتمان</div>
-            <div class="muted" style="margin-top:6px">۵۰ متر، طراحی مینیمال، اجرای کامل</div>
+  <!-- Projects (completed) -->
+  <section class="section" aria-labelledby="projects-title">
+    <div class="section__header">
+      <h2 id="projects-title" class="section__title">پروژه‌های انجام‌شده</h2>
+      <p class="section__desc">گزیده‌ای از کارهای تولیدی</p>
+    </div>
+
+    <div class="projects">
+      <article class="project reveal">
+        <div class="project__thumb">
+          <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1200&auto=format&fit=crop" alt="داشبورد تحلیلی" />
+        </div>
+        <div class="project__body">
+          <h3 class="project__title">داشبورد اینتراکتیو</h3>
+          <p class="muted">UI مبتنی بر گرید، انیمیشن ظریف و لود سریع.</p>
+          <div class="project__meta">
+            <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JS</span>
           </div>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="project__thumb">
+          <img src="https://images.unsplash.com/photo-1521737451534-7a63cf0ee0c7?q=80&w=1200&auto=format&fit=crop" alt="وب‌سایت شرکتی" />
+        </div>
+        <div class="project__body">
+          <h3 class="project__title">سایت شرکتی</h3>
+          <p class="muted">تایپوگرافی سیال، دسترس‌پذیری و پرفورمنس عالی.</p>
+          <div class="project__meta">
+            <span class="chip">Performance</span><span class="chip">A11y</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="project__thumb">
+          <img src="https://images.unsplash.com/photo-1506755594592-349d12a7c6b1?q=80&w=1200&auto=format&fit=crop" alt="لندینگ محصول" />
+        </div>
+        <div class="project__body">
+          <h3 class="project__title">لندینگ محصول</h3>
+          <p class="muted">CTA قوی، افکت‌های جذاب و نرخ تبدیل بالا.</p>
+          <div class="project__meta">
+            <span class="chip">Conversion</span><span class="chip">UX</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" aria-labelledby="gallery-title">
+    <div class="section__header">
+      <h2 id="gallery-title" class="section__title">گالری نمونه‌کار</h2>
+      <p class="section__desc">تصاویر منتخب با کیفیت بالا</p>
+    </div>
+    <div class="gallery">
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=900&auto=format&fit=crop" alt="کدنویسی تمیز" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop" alt="محیط توسعه" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=900&auto=format&fit=crop" alt="فضای کاری" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=900&auto=format&fit=crop" alt="تیم همکاری" /></figure>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" aria-labelledby="testimonials-title">
+    <div class="section__header">
+      <h2 id="testimonials-title" class="section__title">نظرات کارفرماها</h2>
+      <p class="section__desc">بازخوردهای واقعی درباره کیفیت و همکاری</p>
+    </div>
+    <div class="testimonials">
+      <div class="testimonials__row">
+        <article class="testimonial reveal">
+          <div class="stars" aria-label="۵ از ۵">★★★★★</div>
+          <p>«تحویل دقیق و حرفه‌ای. هر تغییر را سریع و تمیز اعمال کرد.»</p>
+          <p class="muted">— مدیر محصول</p>
         </article>
-
-        <article class="proj">
-          <img class="thumb" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="پروژه ۲">
-          <div class="meta">
-            <div style="font-weight:800">پروژه ۲ — کافه</div>
-            <div class="muted" style="margin-top:6px">طراحی فضا و چرخه مشتری</div>
-          </div>
+        <article class="testimonial reveal">
+          <div class="stars" aria-label="۵ از ۵">★★★★★</div>
+          <p>«تجربه کاربری عالی و پرفورمنس بی‌نقص. توصیه می‌کنم.»</p>
+          <p class="muted">— بنیان‌گذار استارتاپ</p>
         </article>
-
-        <article class="proj">
-          <img class="thumb" src="https://images.unsplash.com/photo-1505691723518-36a832d7b9b8?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="پروژه ۳">
-          <div class="meta">
-            <div style="font-weight:800">پروژه ۳ — نما</div>
-            <div class="muted" style="margin-top:6px">طراحی مطابق اقلیم</div>
-          </div>
+        <article class="testimonial reveal">
+          <div class="stars" aria-label="۵ از ۵">★★★★★</div>
+          <p>«طراحی زیبا، کد تمیز و همکاری مرحله‌به‌مرحله.»</p>
+          <p class="muted">— لید فرانت‌اند</p>
         </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- GALLERY -->
-    <section class="section" aria-labelledby="gallery-title">
-      <h2 id="gallery-title">گالری نمونه کار</h2>
-      <div class="gallery-grid" style="margin-top:12px;">
-        <img alt="نمونه ۱" src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=900&auto=format&fit=crop&s=placeholder">
-        <img alt="نمونه ۲" src="https://images.unsplash.com/photo-1505691723518-36a832d7b9b8?q=80&w=900&auto=format&fit=crop&s=placeholder">
-        <img alt="نمونه ۳" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=900&auto=format&fit=crop&s=placeholder">
-        <img alt="نمونه ۴" src="https://images.unsplash.com/photo-1496317899792-9d7dbcd928a1?q=80&w=900&auto=format&fit=crop&s=placeholder">
-      </div>
-    </section>
+  <!-- Contact (social cards) -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="section__header">
+      <h2 id="contact-title" class="section__title">تماس و شبکه‌های اجتماعی</h2>
+      <p class="section__desc">برای شروع همکاری از یکی از راه‌های زیر پیام بده</p>
+    </div>
 
-    <!-- TESTIMONIALS -->
-    <section class="testi section" aria-labelledby="test-title">
-      <h2 id="test-title">نظرات کارفرمایان</h2>
-      <div class="testi-wrap" style="margin-top:12px;">
-        <div class="slides" id="slides">
-          <div class="slide" aria-hidden="false">
-            <div class="avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="پروفایل ۱"></div>
-            <div>
-              <div class="slide-meta">دکتر امینی — مدیر پروژه</div>
-              <div class="quote">کار با ایشان سریع و سازمان‌دهی‌شده بود. نتیجه فراتر از انتظار بود.</div>
-            </div>
-          </div>
+    <div class="contact-grid">
+      <article class="contact reveal">
+        <div class="contact__icon" aria-hidden="true"></div>
+        <h3>ایمیل</h3>
+        <p class="muted">پاسخ‌گویی سریع و دقیق</p>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </article>
 
-          <div class="slide" aria-hidden="true">
-            <div class="avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="پروفایل ۲"></div>
-            <div>
-              <div class="slide-meta">سرکار خانم رضایی — مالک کافه</div>
-              <div class="quote">نورپردازی و چیدمان مشتریان را افزایش داد. دقیق و حرفه‌ای.</div>
-            </div>
-          </div>
+      <article class="contact reveal">
+        <div class="contact__icon" aria-hidden="true"></div>
+        <h3>گیت‌هاب</h3>
+        <p class="muted">ریپازیتوری‌ها و کدهای تولیدی</p>
+        <a href="https://github.com/yourusername" target="_blank" rel="noopener">github.com/yourusername</a>
+      </article>
 
-          <div class="slide" aria-hidden="true">
-            <div class="avatar"><img src="https://randomuser.me/api/portraits/men/76.jpg" alt="پروفایل ۳"></div>
-            <div>
-              <div class="slide-meta">آقای کریمی — مالک آپارتمان</div>
-              <div class="quote">همه چیز طبق برنامه و با کیفیت بالا تحویل شد.</div>
-            </div>
-          </div>
-        </div>
+      <article class="contact reveal">
+        <div class="contact__icon" aria-hidden="true"></div>
+        <h3>لینکدین</h3>
+        <p class="muted">سوابق و توصیه‌نامه‌ها</p>
+        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">linkedin.com/in/yourusername</a>
+      </article>
 
-        <div class="t-controls" aria-hidden="false">
-          <div style="display:flex;align-items:center;">
-            <button id="prevBtn" aria-label="اسلاید قبلی">‹</button>
-          </div>
-          <div style="display:flex;align-items:center;">
-            <button id="nextBtn" aria-label="اسلاید بعدی">›</button>
-          </div>
-        </div>
+      <article class="contact reveal">
+        <div class="contact__icon" aria-hidden="true"></div>
+        <h3>اینستاگرام</h3>
+        <p class="muted">هایلایت‌های پروژه و پشت‌صحنه</p>
+        <a href="https://instagram.com/yourusername" target="_blank" rel="noopener">@yourusername</a>
+      </article>
+    </div>
+  </section>
 
-        <div class="t-dots" id="tDots" role="tablist" aria-label="نقشه اسلایدها" style="margin-top:12px"></div>
-      </div>
-    </section>
-
-    <!-- CONTACTS -->
-    <section class="section" id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title">تماس</h2>
-      <div class="muted">راه‌های تماس و شبکه‌های اجتماعی</div>
-
-      <div class="contacts" style="margin-top:12px;">
-        <div class="contact-card">
-          <div style="font-weight:800">ایمیل</div>
-          <div class="muted" style="margin-top:8px">example@domain.com</div>
-          <div class="socials">
-            <a href="mailto:example@domain.com" title="ارسال ایمیل" aria-label="ارسال ایمیل">
-              <!-- mail svg -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 8.3v7.4A2.3 2.3 0 0 0 5.3 18h13.4A2.3 2.3 0 0 0 21 15.7V8.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <div style="font-weight:800">تلفن</div>
-          <div class="muted" style="margin-top:8px">+44 7700 900000</div>
-          <div class="socials">
-            <a href="tel:+447700900000" aria-label="تماس تلفنی">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.9v3a1 1 0 0 1-1.1 1A19 19 0 0 1 3 5.1 1 1 0 0 1 4 4h3a1 1 0 0 1 1 .75c.1.6.3 1.3.6 2 .2.4.1.8-.1 1.1L7 10.5a16 16 0 0 0 6.5 6.5l1.6-1.6c.3-.3.7-.4 1.1-.1.7.3 1.4.5 2 .6A1 1 0 0 1 22 16.9z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <div style="font-weight:800">شبکه‌های اجتماعی</div>
-          <div class="muted" style="margin-top:8px">اینستاگرام · لینکدین · واتساپ</div>
-          <div class="socials" style="margin-top:10px">
-            <a href="#" aria-label="صفحه اینستاگرام" title="اینستاگرام">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.2"/><path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </a>
-
-            <a href="#" aria-label="صفحه لینکدین" title="لینکدین">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.1"/><path d="M7.5 10.5v7M7.5 7.5v.01M17 17.5v-4.5c0-1.7-1.3-3-3-3s-3 1.3-3 3v4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      © کپی‌رایت — تمامی حقوق محفوظ است
-    </footer>
-  </main>
+  <!-- Footer -->
+  <footer class="footer">
+    <small>© 2025 — ساخته‌شده با عشق به جزئیات و استانداردهای حرفه‌ای.</small>
+  </footer>
 
   <script>
-    // ========= Smooth scroll for nav
-    document.querySelectorAll('nav a').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));
-        a.classList.add('active');
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if(el){
-          el.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      });
-    });
+    // Smooth active menu via IntersectionObserver
+    (function() {
+      const links = [...document.querySelectorAll('.menu a')];
+      const idFromHref = (a) => a.getAttribute('href').replace('#','') || 'home';
+      const sections = [...document.querySelectorAll('section, header')].map(s => ({ el: s, id: s.id || 'home' }));
+      const map = Object.fromEntries(links.map(a => [idFromHref(a), a]));
 
-    // ========= Testimonials manual slider (no autoplay) =========
-    (function(){
-      const slidesWrap = document.getElementById('slides');
-      const slides = Array.from(slidesWrap.children);
-      const prev = document.getElementById('prevBtn');
-      const next = document.getElementById('nextBtn');
-      const dotsWrap = document.getElementById('tDots');
-
-      let idx = 0;
-      function render(){
-        const w = slidesWrap.clientWidth;
-        slidesWrap.style.transform = 'translateX(' + (-idx * w) + 'px)';
-        slides.forEach((s,i)=>{
-          s.setAttribute('aria-hidden', i!==idx);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id || 'home';
+            Object.values(map).forEach(a => a.removeAttribute('aria-current'));
+            if (map[id]) map[id].setAttribute('aria-current', 'true');
+          }
         });
-        // dots
-        dotsWrap.querySelectorAll('.t-dot').forEach((d,i)=> d.classList.toggle('active', i===idx));
-      }
+      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0.1 });
 
-      // create dots
-      slides.forEach((s,i)=>{
-        const d = document.createElement('button');
-        d.className = 't-dot' + (i===0 ? ' active' : '');
-        d.title = 'پروفایل ' + (i+1);
-        d.addEventListener('click', ()=>{ idx = i; render(); });
-        dotsWrap.appendChild(d);
-      });
-
-      // navigation
-      prev.addEventListener('click', ()=>{ idx = (idx-1 + slides.length) % slides.length; render(); });
-      next.addEventListener('click', ()=>{ idx = (idx+1) % slides.length; render(); });
-
-      // responsive: recalc transform on resize
-      window.addEventListener('resize', render);
-      // initial render
-      setTimeout(render,50);
+      sections.forEach(({el}) => observer.observe(el));
     })();
 
-    // ========= Small accessibility: focus outlines for keyboard users =========
-    (function(){
-      const body = document.body;
-      function handleKey(e){
-        if(e.key === 'Tab'){ body.classList.add('show-focus'); window.removeEventListener('keydown', handleKey); }
-      }
-      window.addEventListener('keydown', handleKey);
+    // Reveal on scroll
+    (function() {
+      const els = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
+    })();
+
+    // Autoplay fix for iOS: ensure muted + playsinline
+    (function() {
+      document.querySelectorAll('video').forEach(v => {
+        v.muted = true; v.playsInline = true;
+        const play = v.play();
+        if (play && typeof play.catch === 'function') play.catch(()=>{ /* ignore */ });
+      });
     })();
   </script>
 </body>
